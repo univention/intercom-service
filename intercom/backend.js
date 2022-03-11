@@ -8,16 +8,20 @@ const express = require('express')
 var app = express();
 const axios = require('axios')
 const jose = require('jose')
-
-
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
+const qs = require("qs");
+
+// TODO: ADD XSRF Protextion
+
+const clientID = 'intercom'
+const clientSecret = '29125922-de3b-425e-9465-a2f711631f3a'
+
 app.use(
     auth({
         // move to environ
         issuerBaseURL: 'http://kc.p.test/auth/realms/CustomerA',
         baseURL: 'http://ic.p.test',
-        clientID: 'intercom',
-        clientSecret: '29125922-de3b-425e-9465-a2f711631f3a',
+        clientID, clientSecret,
         authRequired: false,
         secret: 'sdfgsdfhdsf',
         idpLogout: true,
@@ -28,31 +32,41 @@ app.use(
         afterCallback: async (req, res, session, decodedState) => {
 
 
-
-            const claims = jose.JWT.decode(session.id_token);
+            // const claims = jose.JWT.decode(session.id_token);
             var params = {
                 'grant_type': 'urn:ietf:params:oauth:grant-type:token-exchange',
-                'subject_token': claims.sub,
-                'client_id': 'intercom',
-                'requested_subject': currentUserAccessToken
+                'subject_token': session.access_token,
+                'client_id': clientID,
+                'client_secret': clientSecret,
+                'audience': "ox_fakeapp"
             }
-            console.log("BLA")
 
-            // axios.get('http://kc.p.test/auth/realms/CustomerA/protocol/openid-connect/userinfo').then( res => {
-            //     return {
-            //         ...session,
-            //         res // access using `req.appSession.userProfile`
-            //     };
-            // }).catch(err => {
-            //     console.log(err)
-            // })
-
+            axios.request({
+                url: 'http://kc.p.test/auth/realms/CustomerA/protocol/openid-connect/token',
+                method: 'POST',
+                data: qs.stringify(params),
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                }, proxy: {
+                    host: 'localhost',
+                    port: 8079
+                }
+            }).then(res => {
+                // TODO: Store token in Session
+                console.log("Here")
+                return {
+                    ...session,
+                    res // access using `req.appSession.userProfile`
+                };
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }))
 
 
 app.get('/', requiresAuth(), function (req, res) {
-    res.send('Hello ${req.oidc.user.sub}');
+    res.send(`Hello ${req.oidc.user.sub}`);
 })
 
 app.get("/createConference", claimEquals('canCreateConference', true), function (req, res) {
