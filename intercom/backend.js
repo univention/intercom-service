@@ -8,6 +8,7 @@ const express = require('express')
 var app = express();
 const axios = require('axios')
 const jose = require('jose')
+const {fetchOxToken} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const qs = require("qs");
 
@@ -18,7 +19,7 @@ const clientSecret = '29125922-de3b-425e-9465-a2f711631f3a'
 
 app.use(
     auth({
-        // move to environ
+        // TODO; move to environ
         issuerBaseURL: 'http://kc.p.test/auth/realms/CustomerA',
         baseURL: 'http://ic.p.test',
         clientID, clientSecret,
@@ -31,42 +32,21 @@ app.use(
         },
         afterCallback: async (req, res, session, decodedState) => {
 
-
-            // const claims = jose.JWT.decode(session.id_token);
-            var params = {
-                'grant_type': 'urn:ietf:params:oauth:grant-type:token-exchange',
-                'subject_token': session.access_token,
-                'client_id': clientID,
-                'client_secret': clientSecret,
-                'audience': "ox_fakeapp"
+            var ret = {}
+            // fetch token for ox
+            // TODO: check also if it's valid
+            if (!('ox_access_token' in session)) {
+                ret.ox_access_token = fetchOxToken(session.access_token)
             }
-
-            axios.request({
-                url: 'http://kc.p.test/auth/realms/CustomerA/protocol/openid-connect/token',
-                method: 'POST',
-                data: qs.stringify(params),
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                }, proxy: {
-                    host: 'localhost',
-                    port: 8079
-                }
-            }).then(res => {
-                // TODO: Store token in Session
-                console.log("Here")
-                return {
-                    ...session,
-                    res // access using `req.appSession.userProfile`
-                };
-            }).catch(err => {
-                console.log(err)
-            })
+            // fetch token for matrix
+            return {...session, ...ret}
         }
     }))
 
 
 app.get('/', requiresAuth(), function (req, res) {
-    res.send(`Hello ${req.oidc.user.sub}`);
+    //res.send(`Hello ${req.oidc.user.sub}`);
+    res.send("<p>Hello</p>")
 })
 
 app.get("/createConference", claimEquals('canCreateConference', true), function (req, res) {

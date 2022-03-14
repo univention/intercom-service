@@ -10,7 +10,7 @@ test('basic test', async ({ page }) => {
     await page.type('#username', "usera1")
     await page.type('#password', "univention")
     await page.click('#kc-login')
-    await expect(page.locator("text=Hello")).toBeVisible()
+    await expect(page.locator('text=Hello')).toBeVisible()
 
     await page.goto('http://ic.p.test/createConference');
     await expect(page.locator("text=yup")).toBeVisible()
