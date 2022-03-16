@@ -6,12 +6,9 @@
 
 const express = require('express')
 var app = express();
-const axios = require('axios')
-const jose = require('jose')
-const {fetchOxToken} = require('./helpers')
+const {fetchOxToken, fetchMatrixToken, createRoom} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
-const qs = require("qs");
-
+const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
 
 const clientID = 'intercom'
@@ -36,9 +33,13 @@ app.use(
             // fetch token for ox
             // TODO: check also if it's valid
             if (!('ox_access_token' in session)) {
-                ret.ox_access_token = fetchOxToken(session.access_token)
+                ret.ox_access_token = await fetchOxToken(session.access_token)
             }
             // fetch token for matrix
+            if (!('fetchMatrixToken' in session)) {
+                let username = jwt_decode(session.id_token)['ucs-username']
+                ret.matrix_access_token = await fetchMatrixToken(username)
+            }
             return {...session, ...ret}
         }
     }))
@@ -49,9 +50,20 @@ app.get('/', requiresAuth(), function (req, res) {
     res.send("<p>Hello</p>")
 })
 
-app.get("/createConference", claimEquals('canCreateConference', true), function (req, res) {
-    // use magic password to get matrix session for user and dump into session
-    let access_token = req.appSession.access_token
+app.get("/createConference", claimEquals('canCreateConference', true), async (req, res) => {
+    // create a room as an example
+
+    let access_token = req.appSession.matrix_access_token
+
+    let roomname = new Date().toISOString().replaceAll(":",";")
+    let room_id = await createRoom(roomname, access_token)
+
+    res.send("Room "+room_id)
+})
+
+
+app.get("/createAppointment", claimEquals('canCreateAppointment', true), function (req, res) {
+    // Dump access token for sake of example
     res.send("yup")
 })
 
