@@ -1,15 +1,12 @@
 const axios = require("axios");
 const qs = require("qs");
 
-const clientID = 'intercom'
-const clientSecret = '29125922-de3b-425e-9465-a2f711631f3a'
-
 const fetchOxToken = async (access_token) => {
     var params = {
         'grant_type': 'urn:ietf:params:oauth:grant-type:token-exchange',
         'subject_token': access_token,
-        'client_id': clientID,
-        'client_secret': clientSecret,
+        'client_id': process.env.CLIENT_ID,
+        'client_secret': process.env.CLIENT_SECRET,
         'audience': "ox_fakeapp"
     }
 
@@ -19,15 +16,13 @@ const fetchOxToken = async (access_token) => {
         data: qs.stringify(params),
         headers: {
             'content-type': 'application/x-www-form-urlencoded'
-        }, proxy: {
+        },
+        proxy: {
             host: 'localhost',
             port: 8079
         }
     }).then(res => {
-        // TODO: Store token in Session
-        console.log("Here")
         return res.data.access_token
-        //res // access using `req.appSession.userProfile`
     }).catch(err => {
         console.log(err)
     })
@@ -44,12 +39,12 @@ const fetchMatrixToken = async (user_id) => {
     }
 
     const headers = {
-        Authorization: "Bearer wfghWEGh3wgWHEf3478sHFWE",
+        Authorization: "Bearer "+ process.env.MATRIX_AS_SECRET,
         "Content-Type": "application/json"
     }
 
     return axios.request({
-        url: 'http://matrix.p.test/_matrix/client/r0/login',
+        url: process.env.MATRIX_URL,
         headers,
         method: "POST",
         data: params,

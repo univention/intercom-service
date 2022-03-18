@@ -3,7 +3,7 @@
  */
 
 // Ask providers if there's any ouath in the stack. Oauth as in "I have an access token provided by keycloak and can do stuff via REST, ..."
-
+require('dotenv').config();
 const express = require('express')
 var app = express();
 const {fetchOxToken, fetchMatrixToken, createRoom} = require('./helpers')
@@ -11,32 +11,31 @@ const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-o
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
 
-const clientID = 'intercom'
-const clientSecret = '29125922-de3b-425e-9465-a2f711631f3a'
-
 app.use(
     auth({
         // TODO; move to environ
-        issuerBaseURL: 'http://kc.p.test/auth/realms/CustomerA',
-        baseURL: 'http://ic.p.test',
-        clientID, clientSecret,
+        issuerBaseURL: process.env.ISSUER_BASE_URL,
+        baseURL: process.env.BASE_URL,
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
         authRequired: false,
-        secret: 'sdfgsdfhdsf',
+        secret: process.env.SECRET,
         idpLogout: true,
         authorizationParams: {
             response_type: 'code',
-            scope: 'openid conference:all'
+            scope: 'openid'
         },
         afterCallback: async (req, res, session, decodedState) => {
 
             var ret = {}
             // fetch token for ox
             // TODO: check also if it's valid
-            if (!('ox_access_token' in session)) {
-                ret.ox_access_token = await fetchOxToken(session.access_token)
-            }
+            // if (!('ox_access_token' in session)) {
+            //     ret.ox_access_token = await fetchOxToken(session.access_token)
+            // }
             // fetch token for matrix
-            if (!('fetchMatrixToken' in session)) {
+            if (!('matrix_access_token' in session)) {
+                console.log("fetching matric token")
                 let username = jwt_decode(session.id_token)['ucs-username']
                 ret.matrix_access_token = await fetchMatrixToken(username)
             }
@@ -50,16 +49,17 @@ app.get('/', requiresAuth(), function (req, res) {
     res.send("<p>Hello</p>")
 })
 
-app.get("/createConference", claimEquals('canCreateConference', true), async (req, res) => {
-    // create a room as an example
-
-    let access_token = req.appSession.matrix_access_token
-
-    let roomname = new Date().toISOString().replaceAll(":",";")
-    let room_id = await createRoom(roomname, access_token)
-
-    res.send("Room "+room_id)
-})
+// app.get("/createConference", requiresAuth(), async (req, res) => {
+// // app.get("/createConference", claimEquals('canCreateConference', true), async (req, res) => {
+//     // create a room as an example
+//
+//     let access_token = req.appSession.matrix_access_token
+//
+//     let roomname = new Date().toISOString().replaceAll(":",";")
+//     let room_id = await createRoom(roomname, access_token)
+//
+//     res.send("Room "+room_id)
+// })
 
 
 app.get("/createAppointment", claimEquals('canCreateAppointment', true), function (req, res) {
