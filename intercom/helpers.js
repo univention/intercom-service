@@ -1,5 +1,7 @@
 const axios = require("axios");
 const qs = require("qs");
+const https = require('https');
+require('dotenv').config();
 
 const fetchOxToken = async (access_token) => {
     var params = {
@@ -30,14 +32,17 @@ const fetchOxToken = async (access_token) => {
 
 const fetchMatrixToken = async (user_id) => {
     const params = {
-        type: "m.login.application_service",
-        //"type": "uk.half-shot.msc2778.login.application_service",
+        //type: "m.login.application_service",
+        "type": "uk.half-shot.msc2778.login.application_service",
         identifier: {
             type: "m.id.user",
             user: user_id
         }
     }
+    // https://matrix.dpx-sso1.at-univention.de/_matrix/client/r0/user/%40test2%3Amatrix.dpx-sso1.at-univention.de/openid/request_token
 
+// To    Bearer syt_dGVzdDI_ZQCJyPRZRdmXnexGwRKe_1RyDyp
+// //pnneEmBRyiFwmHKtuwscejXn
     const headers = {
         Authorization: "Bearer "+ process.env.MATRIX_AS_SECRET,
         "Content-Type": "application/json"
@@ -51,7 +56,8 @@ const fetchMatrixToken = async (user_id) => {
         proxy: {
             host: 'localhost',
             port: 8079
-        }
+        },
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
     }).then(res => {
         return res.data.access_token
     }).catch(err => {
@@ -70,7 +76,7 @@ const createRoom = async(roomname, btoken) => {
 
     let roomid = axios.request({
         method: "POST",
-        url: "http://matrix.p.test/_matrix/client/api/v1/createRoom",
+        url: "https://matrix.dpx-sso1.at-univention.de/_matrix/client/api/v1/createRoom",
         headers:{"Authorization": "Bearer "+btoken},
         data: params,
         proxy: {
