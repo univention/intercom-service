@@ -6,10 +6,9 @@
 require('dotenv').config();
 const express = require('express')
 var app = express();
-var proxy = require('express-http-proxy');
-
+const {createProxyMiddleware} = require('http-proxy-middleware');
 // or use https://github.com/chimurai/http-proxy-middleware !!!
-const {fetchOxToken, fetchMatrixToken, createRoom} = require('./helpers')
+const {fetchOxToken, fetchMatrixToken, createRoom, fet, fetchOpenID1Token} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -38,16 +37,23 @@ app.use(
             //     ret.ox_access_token = await fetchOxToken(session.access_token)
             // }
             // fetch token for matrix
+            // TODO: put in session as well
+            let email = jwt_decode(session.id_token)['email']
+            let username = email.substring(0, email.indexOf('@'))
+            if (!username) {
+                res.status(404).send("Sorry can't find the user, maybe the mapping is missing?")
+            }
             if (!('matrix_access_token' in session)) {
-                console.log("fetching matric token")
-                let email = jwt_decode(session.id_token)['email']
-                let username = email.substring(0,email.indexOf('@'))
+                console.log("fetching matrix token")
                 // TODO: Get correct Token
                 // let username = jwt_decode(session.id_token)['preferred_username']
-                if (!username) {
-                    res.status(404).send("Sorry can't find the user, maybe the mapping is missing?")
-                }
                 ret.matrix_access_token = await fetchMatrixToken(username)
+            }
+
+            if (!('nordeck_access_token' in session)) {
+                console.log("fetching nordeck token")
+                // TODO: Refactor
+                ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
             }
             return {...session, ...ret}
         }
@@ -81,8 +87,8 @@ app.get("/createConference", requiresAuth(), async (req, res) => {
 
 
     //let access_token = req.appSession.matrix_access_token
-    let access_token =r1.data.access_token
-    let roomname = new Date().toISOString().replaceAll(":",";")
+    let access_token = r1.data.access_token
+    let roomname = new Date().toISOString().replaceAll(":", ";")
     // let room_id = await createRoom(roomname, access_token)
     const r = await axios.request('https://meetings-widget-api.dpx-sso1.at-univention.de/v1/meeting/create', {
         method: "POST",
@@ -107,7 +113,7 @@ app.get("/createConference", requiresAuth(), async (req, res) => {
         })
     })
 
-    res.send("Room "+r.data)
+    res.send("Room " + r.data)
 })
 
 
@@ -117,7 +123,15 @@ app.get("/createAppointment", claimEquals('canCreateAppointment', true), functio
 })
 
 
-app.use('/nob', requiresAuth(), proxy('https://meetings-widget-api.dpx-sso1.at-univention.de'));
+app.use('/nob', requiresAuth(), createProxyMiddleware({
+    target: 'https://meetings-widget-api.dpx-sso1.at-univention.de', logLevel: 'debug', changeOrigin: true,
+    pathRewrite: {'^/nob': ''},
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+
+        proxyReq.setHeader('X-Matrix-User-Token', `{"access_token":"${req.appSession.nordeck_access_token}","matrix_server_name":"matrix.dpx-sso1.at-univention.de"}`);
+
+    }
+}))
 
 
 // get file list. use the users access token to get list from nextcloud
