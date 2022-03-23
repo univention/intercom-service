@@ -7,8 +7,7 @@ require('dotenv').config();
 const express = require('express')
 var app = express();
 const {createProxyMiddleware} = require('http-proxy-middleware');
-// or use https://github.com/chimurai/http-proxy-middleware !!!
-const {fetchOxToken, fetchMatrixToken, createRoom, fet, fetchOpenID1Token} = require('./helpers')
+const {fetchMatrixToken, fetchOpenID1Token} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -61,85 +60,24 @@ app.use(
 
 
 app.get('/', requiresAuth(), function (req, res) {
-    //res.send(`Hello ${req.oidc.user.sub}`);
     res.send("<p>Hello</p>")
 })
-
-app.get("/createConference", requiresAuth(), async (req, res) => {
-    // app.get("/createConference", claimEquals('canCreateConference', true), async (req, res) => {
-    // create a room as an example
-
-    // get other token
-    // todo get username from sessoin
-    const r1 = await axios.request({
-        method: 'POST',
-        url: "https://matrix.dpx-sso1.at-univention.de/_matrix/client/r0/user/%40test2%3Amatrix.dpx-sso1.at-univention.de/openid/request_token",
-        headers: {
-            "Authorization": `Bearer ${req.appSession.matrix_access_token}`,
-            "Content-Type": "application/json"
-        },
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        },
-        data: {}
-    })
-
-
-    //let access_token = req.appSession.matrix_access_token
-    let access_token = r1.data.access_token
-    let roomname = new Date().toISOString().replaceAll(":", ";")
-    // let room_id = await createRoom(roomname, access_token)
-    const r = await axios.request('https://meetings-widget-api.dpx-sso1.at-univention.de/v1/meeting/create', {
-        method: "POST",
-        headers: {
-            "X-Matrix-User-Token": `{"access_token":"${access_token}","matrix_server_name":"matrix.dpx-sso1.at-univention.de"}`,
-            "Content-Type": "application/json"
-        },
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        },
-        data: JSON.stringify({
-            "access_type": "ANYONE",
-            "allow_widget_manipulation": false,
-            "description": "fgdhdfghdfh",
-            "end_time": "2022-03-18T11:15:00.000Z",
-            "messaging_role": "NONE",
-            "participants": [],
-            "start_time": "2022-03-18T10:15:00.000Z",
-            "title": "THIS IS PLAYWRIGHT",
-            "widgets": ["jitsi", "etherpad", "whiteboard"]
-        })
-    })
-
-    res.send("Room " + r.data)
-})
-
 
 app.get("/createAppointment", claimEquals('canCreateAppointment', true), function (req, res) {
     // Dump access token for sake of example
     res.send("yup")
 })
 
-
 app.use('/nob', requiresAuth(), createProxyMiddleware({
-    target: 'https://meetings-widget-api.dpx-sso1.at-univention.de', logLevel: 'debug', changeOrigin: true,
+    target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/nob': ''},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
-
-        proxyReq.setHeader('X-Matrix-User-Token', `{"access_token":"${req.appSession.nordeck_access_token}","matrix_server_name":"matrix.dpx-sso1.at-univention.de"}`);
-
+        proxyReq.setHeader('X-Matrix-User-Token', `{"access_token":"${req.appSession.nordeck_access_token}","matrix_server_name":"${process.env.MATRIX_SERVER_NAME}"}`);
     }
 }))
 
-
-// get file list. use the users access token to get list from nextcloud
-
-
-// get file. same.
-
 // session status / login page with silent login
+// TODO: Do proper postMessage reporting
 app.get('/silent', attemptSilentLogin(), (req, res) => {
     if ('access_token' in req.appSession) {
         // propably check if still valid, get username, ...

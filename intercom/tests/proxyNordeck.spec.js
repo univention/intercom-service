@@ -1,7 +1,8 @@
 const {test, expect} = require('@playwright/test')
 test('basic test', async ({page}) => {
+
     // login into ics (local, but with remote keycloak)
-    await page.goto('http://ic.p.test');
+    await page.goto('https://ics.dpx-sso1.at-univention.de/');
     // Click text=Accept
     await page.locator('text=●Accept').click();
     // Click [placeholder="Username"]
@@ -18,11 +19,11 @@ test('basic test', async ({page}) => {
 
     await expect(page.locator('text=Hello')).toBeVisible()
 
-    await page.goto('http://ic.p.test/nob/health')
+    await page.goto('https://ics.dpx-sso1.at-univention.de/nob/health')
 
-    const res = await page.evaluate(async () => {
+    const res = await page.evaluate((async () => {
         // This is run inside the browser
-        const r = await fetch('http://ic.p.test/nob/v1/meeting/create', {
+        const r = await fetch('https://ics.dpx-sso1.at-univention.de/nob/v1/meeting/create', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -30,19 +31,18 @@ test('basic test', async ({page}) => {
             body: JSON.stringify({
                 "access_type": "ANYONE",
                 "allow_widget_manipulation": false,
-                "description": "fgdhdfghdfh",
-                "end_time": "2022-03-18T11:15:00.000Z",
+                "description": "fgdhdfghdfh2",
+                "end_time": "2022-03-24T11:15:00.000Z",
                 "messaging_role": "NONE",
                 "participants": [],
-                "start_time": "2022-03-18T10:15:00.000Z",
+                "start_time": "2022-03-24T10:15:00.000Z",
                 "title": "THIS IS PLAYWRIGHT",
                 "widgets": ["jitsi", "etherpad", "whiteboard"]
             })
         })
-        return r.json()
-    })
-
+        const result = await r.json()
+        console.log(result)
+        return result
+    }))
     console.log(res)
-    await page.pause()
-    // access local
 })

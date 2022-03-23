@@ -13,16 +13,13 @@ const fetchOxToken = async (access_token) => {
     }
 
     return axios.request({
-        url: 'http://kc.p.test/auth/realms/CustomerA/protocol/openid-connect/token',
+        url: process.env.ISSUER_BASE_URL + '/protocol/openid-connect/token',
         method: 'POST',
         data: qs.stringify(params),
         headers: {
             'content-type': 'application/x-www-form-urlencoded'
         },
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        }
+        proxy: JSON.parse(process.env.PROXY),
     }).then(res => {
         return res.data.access_token
     }).catch(err => {
@@ -33,30 +30,24 @@ const fetchOxToken = async (access_token) => {
 const fetchMatrixToken = async (user_id) => {
     const params = {
         //type: "m.login.application_service",
-        "type": "uk.half-shot.msc2778.login.application_service",
+        "type": process.env.MATRIX_LOGIN_TYPE,
         identifier: {
             type: "m.id.user",
             user: user_id
         }
     }
-    // https://matrix.dpx-sso1.at-univention.de/_matrix/client/r0/user/%40test2%3Amatrix.dpx-sso1.at-univention.de/openid/request_token
 
-// To    Bearer syt_dGVzdDI_ZQCJyPRZRdmXnexGwRKe_1RyDyp
-// //pnneEmBRyiFwmHKtuwscejXn
     const headers = {
         Authorization: "Bearer " + process.env.MATRIX_AS_SECRET,
         "Content-Type": "application/json"
     }
 
     return axios.request({
-        url: process.env.MATRIX_URL,
+        url: process.env.MATRIX_URL + "/_matrix/client/r0/login",
         headers,
         method: "POST",
         data: params,
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        },
+        proxy: JSON.parse(process.env.PROXY),
         httpsAgent: new https.Agent({rejectUnauthorized: false})
     }).then(res => {
         return res.data.access_token
@@ -67,54 +58,25 @@ const fetchMatrixToken = async (user_id) => {
 
 const fetchOpenID1Token = async(username, access_token) =>
 {
-    const r1 = await axios.request({
-        method: 'POST',
-        url: "https://matrix.dpx-sso1.at-univention.de/_matrix/client/r0/user/%40test2%3Amatrix.dpx-sso1.at-univention.de/openid/request_token",
-        headers: {
-            "Authorization": `Bearer ${access_token}`,
-            "Content-Type": "application/json"
-        },
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        },
-        data: {}
-    })
-    //let access_token = req.appSession.matrix_access_token
-    let openid1_token = r1.data.access_token
-    return openid1_token
-}
-
-
-
-const createRoom = async (roomname, btoken) => {
-    const params = {
-        "initial_state": [],
-        "name": "testraum",
-        "preset": "public_chat",
-        "room_alias_name": "conf_my-test_" + roomname,
-        "visibility": "public"
+    try {
+        const r1 = await axios.request({
+            method: 'POST',
+            url: process.env.MATRIX_URL + `/_matrix/client/r0/user/%40${username}%3Amatrix.dpx-sso1.at-univention.de/openid/request_token`,
+            headers: {
+                "Authorization": `Bearer ${access_token}`,
+                "Content-Type": "application/json"
+            },
+            proxy: JSON.parse(process.env.PROXY),
+            data: {}
+        })
+        const openid1_token = r1.data.access_token
+        return openid1_token
+    } catch (e) {
+        console.log(e)
     }
-
-    let roomid = axios.request({
-        method: "POST",
-        url: "https://matrix.dpx-sso1.at-univention.de/_matrix/client/api/v1/createRoom",
-        headers: {"Authorization": "Bearer " + btoken},
-        data: params,
-        proxy: {
-            host: 'localhost',
-            port: 8079
-        }
-
-    }).then(res => {
-        return res.data.room_id
-    })
-
-    return roomid
 }
 
 
 module.exports.fetchOxToken = fetchOxToken
 module.exports.fetchMatrixToken = fetchMatrixToken
-module.exports.createRoom = createRoom
 module.exports.fetchOpenID1Token =  fetchOpenID1Token
