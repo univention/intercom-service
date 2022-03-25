@@ -6,6 +6,7 @@
 require('dotenv').config();
 const express = require('express')
 var app = express();
+app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
 const {fetchMatrixToken, fetchOpenID1Token} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
@@ -49,11 +50,11 @@ app.use(
                 ret.matrix_access_token = await fetchMatrixToken(username)
             }
 
-            if (!('nordeck_access_token' in session)) {
-                console.log("fetching nordeck token")
-                // TODO: Refactor
-                ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
-            }
+            // if (!('nordeck_access_token' in session)) {
+            //     console.log("fetching nordeck token")
+            //     // TODO: Refactor
+            //     ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
+            // }
             return {...session, ...ret}
         }
     }))
@@ -76,17 +77,16 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
     }
 }))
 
-// session status / login page with silent login
 // TODO: Do proper postMessage reporting
 app.get('/silent', attemptSilentLogin(), (req, res) => {
-    if ('access_token' in req.appSession) {
-        // propably check if still valid, get username, ...
-        res.send("logged in as xy")
-    } else {
-        res.send("lost keycloak session, we're doomed")
-        // this sets a cookie to only do this once, we probably want that to not hammer keycloak?
-    }
+    const sessionStatus = ('access_token' in req.appSession)
+    res.render("pages/silent", {sessionStatus})
 });
+
+app.get("/uuid", requiresAuth(), (req, res) => {
+    let entryUUID = jwt_decode(req.appSession.id_token)['preferred_username']
+    res.send(entryUUID)
+})
 
 var server = app.listen(8008, function () {
     var host = server.address().address

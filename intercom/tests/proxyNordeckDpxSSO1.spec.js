@@ -1,5 +1,9 @@
+
+
 const {test, expect} = require('@playwright/test')
-test('basic test', async ({page}) => {
+test('basic test', async ({browser}) => {
+    const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
+    const page = await context.newPage();
 
     // login into ics (local, but with remote keycloak)
     await page.goto('https://ics.dpx-sso1.at-univention.de/');
@@ -8,11 +12,12 @@ test('basic test', async ({page}) => {
     // Click [placeholder="Username"]
     await page.locator('[placeholder="Username"]').click();
     // Fill [placeholder="Username"]
-    await page.locator('[placeholder="Username"]').fill('test2');
+    await page.locator('[placeholder="Username"]').fill('test4');
     // Click [placeholder="Password"]
     await page.locator('[placeholder="Password"]').click();
     // Fill [placeholder="Password"]
-    await page.locator('[placeholder="Password"]').fill('UDXEaVYDCZyC6Yv');
+    // await page.locator('[placeholder="Password"]').fill('UDXEaVYDCZyC6Yv');
+    await page.locator('[placeholder="Password"]').fill('7LvKNaQaC2yLsRT2222');
     // Click input:has-text("Login")
     await page.locator('input:has-text("Login")').click();
     await page.pause()
