@@ -7,6 +7,13 @@ test('basic test', async ({browser}) => {
 
     const page = await context.newPage();
 
+    await page.goto("http://ic.p.test/silent");
+
+    await expect(page.locator('text=Loggend in status: false')).toBeVisible()
+
+    // delete skipSilentLogin Cookie
+    await context.clearCookies()
+
     // login into ox(fake)
     await page.goto("http://oxfake.p.test/conference");
 
@@ -17,9 +24,9 @@ test('basic test', async ({browser}) => {
     await page.locator('input:has-text("Sign In")').click();
 
     await expect(page.locator('text=Imagine Creating a Videoconference')).toBeVisible()
-
-    await expect(page.locator('text=ICS Session Status: true')).toBeVisible()
-
     await page.pause()
+
+    await expect(page.locator('text={"sessionStatus": true}')).toBeVisible()
+
 
 })

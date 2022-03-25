@@ -2,12 +2,12 @@
 <html lang="en">
 <head/>
 <body>
-<p> This is for the Frame for clients to load</p>
+<p> This is for the Frame for clients to load. Loggend in status: <%= sessionStatus%></p>
 
 <script type="text/javascript">
     // TODO: This might be used to communicate status and/or anti xsrf tokens
     // TODO: Proper Session Handling: https://openid.net/specs/openid-connect-session-1_0.html
-    parent.postMessage("ICS Session Status: <%= sessionStatus%>", "*")
+    parent.postMessage('{"sessionStatus": <%= sessionStatus%>}', "*")
 </script>
 </body>
 </html>
