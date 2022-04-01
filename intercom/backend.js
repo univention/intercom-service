@@ -8,7 +8,7 @@ const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchOpenID1Token} = require('./helpers')
+const {fetchMatrixToken, fetchOpenID1Token, fetchOxToken} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -33,9 +33,9 @@ app.use(
             var ret = {}
             // fetch token for ox
             // TODO: check also if it's valid
-            // if (!('ox_access_token' in session)) {
-            //     ret.ox_access_token = await fetchOxToken(session.access_token)
-            // }
+            if (!('ox_access_token' in session)) {
+                ret.ox_access_token = await fetchOxToken(session.access_token)
+            }
             // fetch token for matrix
             // TODO: put in session as well
             let email = jwt_decode(session.id_token)['email']
@@ -74,6 +74,32 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
     pathRewrite: {'^/nob': ''},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         proxyReq.setHeader('X-Matrix-User-Token', `{"access_token":"${req.appSession.nordeck_access_token}","matrix_server_name":"${process.env.MATRIX_SERVER_NAME}"}`);
+    }
+}))
+
+
+app.use('/remote.php', requiresAuth(), createProxyMiddleware({
+        target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
+        onProxyReq: function onProxyReq(proxyReq, req, res) {
+            // TODO: Service takes pretty much any token which is not good
+            proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
+            console.log("BLA")
+        },
+        // onProxyRes: function onProxyRes(proxyRes, req, res) {
+        //     proxyRes.on('data', function (data) {
+        //        console.log(data)
+        //
+        //     });
+        // }
+    }
+))
+
+
+app.use('/portal.json', requiresAuth(), createProxyMiddleware({
+    target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
+    pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+        console.log("BLA")
     }
 }))
 

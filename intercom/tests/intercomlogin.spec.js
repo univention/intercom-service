@@ -7,6 +7,7 @@ test('basic test', async ({browser}) => {
 
     const page = await context.newPage();
 
+    // ensure we're not logged in
     await page.goto("http://ic.p.test/silent");
 
     await expect(page.locator('text=Loggend in status: false')).toBeVisible()
@@ -14,7 +15,7 @@ test('basic test', async ({browser}) => {
     // delete skipSilentLogin Cookie
     await context.clearCookies()
 
-    // login into ox(fake)
+    // login into ox(fake), get "silent login'ed" to ics
     await page.goto("http://oxfake.p.test/conference");
 
     await page.locator('input[name="username"]').fill(process.env.TESTUSER);
@@ -24,9 +25,26 @@ test('basic test', async ({browser}) => {
     await page.locator('input:has-text("Sign In")').click();
 
     await expect(page.locator('text=Imagine Creating a Videoconference')).toBeVisible()
-    await page.pause()
 
     await expect(page.locator('text={"sessionStatus": true}')).toBeVisible()
+
+    // check portal navigation
+    // await page.goto("http://ic.p.test/portal.json");
+    //
+    // await expect(page.locator('text=cn=Datenschutz,cn=entry,cn=portals')).toBeVisible()
+    //
+    // const res = await page.evaluate((async () => {
+    //     const r =await fetch('http://ic.p.test/remote.php/dav/files/usera1/Photos', {
+    //                 method: "PROPFIND",
+    //             })
+    //     const text = await r.text()
+    //     console.log(text)
+    //     return text
+    // }))
+    //
+    // const b = await res
+    await page.pause()
+
 
 
 })
