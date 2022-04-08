@@ -8,7 +8,7 @@ const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchOpenID1Token, fetchOxToken} = require('./helpers')
+const {fetchMatrixToken, fetchOpenID1Token, fetchToken} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -34,7 +34,7 @@ app.use(
             // fetch token for ox
             // TODO: check also if it's valid
             if (!('ox_access_token' in session)) {
-                ret.ox_access_token = await fetchOxToken(session.access_token)
+                ret.ox_access_token = await fetchToken(session.access_token, "ox_fakeapp")
             }
             // fetch token for matrix
             // TODO: put in session as well
@@ -48,6 +48,11 @@ app.use(
                 // TODO: Get correct Token
                 // let username = jwt_decode(session.id_token)['preferred_username']
                 ret.matrix_access_token = await fetchMatrixToken(username)
+            }
+
+            if (!('portal_token' in session)) {
+                console.log("fetching portal token")
+                ret.portal_token = await fetchToken(session.access_token, "portal")
             }
 
             // if (!('nordeck_access_token' in session)) {
@@ -83,14 +88,12 @@ app.use('/remote.php', requiresAuth(), createProxyMiddleware({
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
             proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
-            console.log("BLA")
         },
-        // onProxyRes: function onProxyRes(proxyRes, req, res) {
-        //     proxyRes.on('data', function (data) {
-        //        console.log(data)
-        //
-        //     });
-        // }
+        onProxyRes: function onProxyRes(proxyRes, req, res) {
+            proxyRes.on('data', function (data) {
+               // console.log(data.toString())
+            });
+        }
     }
 ))
 
@@ -99,9 +102,14 @@ app.use('/portal.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
-        console.log("BLA")
+        //proxyReq.setHeader('Authorization', `Bearer ${req.appSession.portal_token}`);
+        console.log(req.appSession.portal_token)
     }
 }))
+
+app.get("/leakportaltoken", requiresAuth(), (req, res) => {
+    res.send(req.appSession.portal_token)
+})
 
 // TODO: Do proper postMessage reporting
 app.get('/silent', attemptSilentLogin(), (req, res) => {

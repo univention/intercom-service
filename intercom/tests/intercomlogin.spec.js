@@ -29,20 +29,28 @@ test('basic test', async ({browser}) => {
     await expect(page.locator('text={"sessionStatus": true}')).toBeVisible()
 
     // check portal navigation
-    // await page.goto("http://ic.p.test/portal.json");
-    //
-    // await expect(page.locator('text=cn=Datenschutz,cn=entry,cn=portals')).toBeVisible()
-    //
+    await page.goto("http://ic.p.test/portal.json");
+
+    await expect(page.locator('text=cn=Datenschutz,cn=entry,cn=portals')).toBeVisible()
+
+    // Reminder: If this fails bc of CORS, the session is not recognized (the user is forwarded to keycloak)
+    // TODO: Fix, Token auth with nc seems broken
+
     // const res = await page.evaluate((async () => {
     //     const r =await fetch('http://ic.p.test/remote.php/dav/files/usera1/Photos', {
     //                 method: "PROPFIND",
-    //             })
+    //         credentials: 'include'
+
+// })
     //     const text = await r.text()
     //     console.log(text)
-    //     return text
+    //     //return text
     // }))
     //
     // const b = await res
+
+
+
     await page.pause()
 
 

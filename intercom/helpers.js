@@ -3,13 +3,13 @@ const qs = require("qs");
 const https = require('https');
 require('dotenv').config();
 
-const fetchOxToken = async (access_token) => {
+const fetchToken = async (access_token, audience) => {
     var params = {
         'grant_type': 'urn:ietf:params:oauth:grant-type:token-exchange',
         'subject_token': access_token,
         'client_id': process.env.CLIENT_ID,
         'client_secret': process.env.CLIENT_SECRET,
-        'audience': "ox_fakeapp"
+        'audience': audience
     }
 
     return axios.request({
@@ -77,6 +77,6 @@ const fetchOpenID1Token = async(username, access_token) =>
 }
 
 
-module.exports.fetchOxToken = fetchOxToken
+module.exports.fetchToken = fetchToken
 module.exports.fetchMatrixToken = fetchMatrixToken
 module.exports.fetchOpenID1Token =  fetchOpenID1Token
