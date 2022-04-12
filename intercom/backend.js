@@ -49,11 +49,11 @@ app.use(
                 // let username = jwt_decode(session.id_token)['preferred_username']
                 ret.matrix_access_token = await fetchMatrixToken(username)
             }
-
-            if (!('portal_token' in session)) {
-                console.log("fetching portal token")
-                ret.portal_token = await fetchToken(session.access_token, "portal")
-            }
+            // Thorsten changed the Requirements, we're going API-Key
+            // if (!('portal_token' in session)) {
+            //     console.log("fetching portal token")
+            //     ret.portal_token = await fetchToken(session.access_token, "portal")
+            // }
 
             // if (!('nordeck_access_token' in session)) {
             //     console.log("fetching nordeck token")
@@ -102,14 +102,10 @@ app.use('/portal.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
-        //proxyReq.setHeader('Authorization', `Bearer ${req.appSession.portal_token}`);
-        console.log(req.appSession.portal_token)
+        proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
+        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['preferred_username'])
     }
 }))
-
-app.get("/leakportaltoken", requiresAuth(), (req, res) => {
-    res.send(req.appSession.portal_token)
-})
 
 // TODO: Do proper postMessage reporting
 app.get('/silent', attemptSilentLogin(), (req, res) => {
