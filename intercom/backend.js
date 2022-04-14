@@ -87,11 +87,12 @@ app.use('/remote.php', requiresAuth(), createProxyMiddleware({
         target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
-            proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
+            proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
+            console.log(req.appSession.access_token)
         },
         onProxyRes: function onProxyRes(proxyRes, req, res) {
             proxyRes.on('data', function (data) {
-               // console.log(data.toString())
+                // console.log(data.toString())
             });
         }
     }
