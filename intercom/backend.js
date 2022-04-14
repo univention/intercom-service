@@ -91,6 +91,9 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
             proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
+            const cookies = proxyReq.getHeader("cookie").split(";")
+            var keep = cookies.filter(c => ! String(c).trim().startsWith("appSession"))
+            proxyReq.setHeader('cookie', keep.join(';') )
             console.log(req.appSession.access_token)
         },
         onProxyRes: function onProxyRes(proxyRes, req, res) {
@@ -106,6 +109,7 @@ app.use('/portal.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
+        // TODO: filter our cookies
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
         proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['preferred_username'])
     }
