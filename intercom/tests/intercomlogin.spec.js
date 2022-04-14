@@ -37,7 +37,7 @@ test('basic test', async ({browser}) => {
     // Reminder: If this fails bc of CORS, the session is not recognized (the user is forwarded to keycloak)
 
     const res = await page.evaluate(async () => {
-        const r = await fetch('http://ic.p.test/remote.php/dav/files/usera1/Photos', {
+        const r = await fetch('http://ic.p.test/fs/remote.php/dav/files/usera1/Photos', {
                     method: "PROPFIND",
             credentials: 'include'
 

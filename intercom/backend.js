@@ -83,8 +83,11 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
 }))
 
 
-app.use('/remote.php', requiresAuth(), createProxyMiddleware({
+app.use('/fs', requiresAuth(), createProxyMiddleware({
         target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
+        pathRewrite: {
+            '^/fs': ''
+        },
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
             proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
