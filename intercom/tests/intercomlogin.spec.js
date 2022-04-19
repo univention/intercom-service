@@ -27,7 +27,7 @@ test('basic test', async ({browser}) => {
 
     await expect(page.locator('text=Imagine Creating a Videoconference')).toBeVisible()
 
-    await expect(page.locator('text={"sessionStatus": true}')).toBeVisible()
+    await expect(page.locator('text={"sessionStatus":true}')).toBeVisible()
 
     // check portal navigation
     await page.goto("http://ic.p.test/portal.json");
