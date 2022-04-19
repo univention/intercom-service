@@ -50,5 +50,4 @@ test('basic test', async ({browser}) => {
     const b = await res
     assert(b.includes('/Photos/Birdie.jpg'))
 
-    await page.pause()
 })

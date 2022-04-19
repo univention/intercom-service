@@ -56,8 +56,6 @@ test('test nextcloud actions', async ({browser}) => {
     const res2 = await page.evaluate(f)
     assert(res2 === 200)
 
-    await page.pause()
-
     // Test webdav access
     const res3 = await page.evaluate(async () => {
         const r = await fetch('http://ic.p.test/fs/remote.php/dav/files/usera1/Photos', {
