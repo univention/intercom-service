@@ -8,7 +8,7 @@ const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchOpenID1Token, fetchToken} = require('./helpers')
+const {fetchMatrixToken, fetchOpenID1Token, fetchToken, stripIntercomCookies} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -44,18 +44,19 @@ app.use(
                 if (!username) {
                     res.status(404).send("Sorry can't find the user, maybe the mapping is missing?")
                 }
+                let user_uuid = jwt_decode(session.id_token)['preferred_username']
+
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
                     // TODO: Get correct Token
-                    // let username = jwt_decode(session.id_token)['preferred_username']
                     ret.matrix_access_token = await fetchMatrixToken(username)
                 }
 
-                // if (!('nordeck_access_token' in session)) {
-                //     console.log("fetching nordeck token")
-                //     // TODO: Refactor
-                //     ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
-                // }
+                if (!('nordeck_access_token' in session)) {
+                    console.log("fetching nordeck token")
+                    // TODO: Refactor
+                    ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
+                }
             } catch (error) {
                 console.log("Error fetching Tokens: "+ error)
                 // TODO: Remove if this is ever put into production
@@ -75,13 +76,16 @@ app.get('/', requiresAuth(), function (req, res) {
 //     res.send("yup")
 // })
 
-// app.use('/nob', requiresAuth(), createProxyMiddleware({
-//     target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
-//     pathRewrite: {'^/nob': ''},
-//     onProxyReq: function onProxyReq(proxyReq, req, res) {
-//         proxyReq.setHeader('X-Matrix-User-Token', `{"access_token":"${req.appSession.nordeck_access_token}","matrix_server_name":"${process.env.MATRIX_SERVER_NAME}"}`);
-//     }
-// }))
+app.use('/nob', requiresAuth(), createProxyMiddleware({
+    target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
+    pathRewrite: {'^/nob': '', },
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+        stripIntercomCookies(proxyReq)
+        // TODO: Build Switch for Nordeck Live Mode
+        // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
+        proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
+    }
+}))
 
 
 app.use('/fs', requiresAuth(), createProxyMiddleware({
