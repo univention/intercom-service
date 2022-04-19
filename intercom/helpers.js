@@ -22,8 +22,6 @@ const fetchToken = async (access_token, audience) => {
         proxy: JSON.parse(process.env.PROXY),
     }).then(res => {
         return res.data.access_token
-    }).catch(err => {
-        console.log(err)
     })
 }
 
@@ -51,14 +49,12 @@ const fetchMatrixToken = async (user_id) => {
         httpsAgent: new https.Agent({rejectUnauthorized: false})
     }).then(res => {
         return res.data.access_token
-    }).catch(err => {
-        console.log(err)
     })
 }
 
 const fetchOpenID1Token = async(username, access_token) =>
 {
-    try {
+
         const r1 = await axios.request({
             method: 'POST',
             url: process.env.MATRIX_URL + `/_matrix/client/r0/user/%40${username}%3Amatrix.dpx-sso1.at-univention.de/openid/request_token`,
@@ -71,9 +67,7 @@ const fetchOpenID1Token = async(username, access_token) =>
         })
         const openid1_token = r1.data.access_token
         return openid1_token
-    } catch (e) {
-        console.log(e)
-    }
+
 }
 
 
