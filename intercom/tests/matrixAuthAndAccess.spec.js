@@ -19,7 +19,7 @@ test('matrix auth for nordeck', async ({browser}) => {
 
     await expect(page.locator('text=Imagine Creating a Videoconference')).toBeVisible()
 
-    await expect(page.locator('text={"sessionStatus":true}')).toBeVisible()
+    await expect(page.locator('text={"loggedIn":true}')).toBeVisible()
 
     /*
         The following is JS executed in the browser by playwright. A shortcut to not having to implement

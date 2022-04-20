@@ -63,7 +63,9 @@ app.use(
         }
     }))
 
-
+/**
+ * Just a simple Endpoint to check if the service is there and the user is logged in
+ */
 app.get('/', requiresAuth(), function (req, res) {
     res.send("<p>Hello</p>")
 })
@@ -73,6 +75,12 @@ app.get('/', requiresAuth(), function (req, res) {
 //     res.send("yup")
 // })
 
+/**
+ * @name /nob/
+ * @desc
+ * Proxy for the Nordeck Bot (or just the plain Matrix UserInfo Service in testing).
+ * Adds the proper Authorization Header
+ */
 app.use('/nob', requiresAuth(), createProxyMiddleware({
     target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/nob': '', },
@@ -85,6 +93,12 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
 }))
 
 
+/**
+ * @name /fs/
+ * @desc
+ * Proxy for Nextcloud.
+ * Adds the proper Authorization Header
+ */
 app.use('/fs', requiresAuth(), createProxyMiddleware({
         target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
         pathRewrite: {
@@ -98,7 +112,12 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
     }
 ))
 
-
+/**
+ * @name /portal.json
+ * @desc
+ * Proxy to the portal for global Navigation Data.
+ * Adds the proper Authorization Header
+ */
 app.use('/portal.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
@@ -109,12 +128,25 @@ app.use('/portal.json', requiresAuth(), createProxyMiddleware({
     }
 }))
 
-// TODO: Do proper postMessage reporting
+
+/**
+ * @name /silent
+ * @desc
+ * Performs a "silent login", eg logs the user into the intercom service without interaction
+ * if the user is already logged in to keycloak.
+ *
+ * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
+ */
 app.get('/silent', attemptSilentLogin(), (req, res) => {
+    // TODO: Do proper postMessage reporting
     const sessionStatus = ('access_token' in req.appSession)
     res.render("pages/silent", {sessionStatus})
 });
 
+/**
+ * @name /uuid
+ * @desc returns the uuid of the logged in user
+ */
 app.get("/uuid", requiresAuth(), (req, res) => {
     let entryUUID = jwt_decode(req.appSession.id_token)['preferred_username']
     res.send(entryUUID)
