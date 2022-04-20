@@ -38,13 +38,11 @@ app.use(
                     ret.ox_access_token = await fetchToken(session.access_token, "ox_fakeapp")
                 }
                 // fetch token for matrix
-                // TODO: put in session as well
                 let email = jwt_decode(session.id_token)['email']
                 let username = email.substring(0, email.indexOf('@'))
                 if (!username) {
                     res.status(404).send("Sorry can't find the user, maybe the mapping is missing?")
                 }
-                let user_uuid = jwt_decode(session.id_token)['preferred_username']
 
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
@@ -54,7 +52,6 @@ app.use(
 
                 if (!('nordeck_access_token' in session)) {
                     console.log("fetching nordeck token")
-                    // TODO: Refactor
                     ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
                 }
             } catch (error) {
@@ -95,13 +92,8 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
         },
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
-            proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
             stripIntercomCookies(proxyReq)
-        },
-        onProxyRes: function onProxyRes(proxyRes, req, res) {
-            proxyRes.on('data', function (data) {
-                // console.log(data.toString())
-            });
+            proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
         }
     }
 ))
