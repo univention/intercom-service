@@ -1,5 +1,6 @@
 require('dotenv').config();
 const assert = require('assert');
+const {logintoOxFake} = require('./helpers')
 
 const {test, expect} = require('@playwright/test')
 test('matrix auth for nordeck', async ({browser}) => {
@@ -8,19 +9,7 @@ test('matrix auth for nordeck', async ({browser}) => {
 
     const page = await context.newPage();
 
-    // login into ox(fake), get "silent login'ed" to ics
-    await page.goto("http://oxfake.p.test/conference");
-
-    await page.locator('input[name="username"]').fill(process.env.TESTUSER);
-
-    await page.locator('input[name="password"]').fill(process.env.TESTPASSWORD);
-
-    await page.locator('input:has-text("Sign In")').click();
-
-    await expect(page.locator('text=Imagine Creating a Videoconference')).toBeVisible()
-
-    await expect(page.locator('text={"loggedIn":true}')).toBeVisible()
-
+    await logintoOxFake(page)
     /*
         The following is JS executed in the browser by playwright. A shortcut to not having to implement
         a fake/test app doing all the stuff
