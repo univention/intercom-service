@@ -30,9 +30,9 @@ test('basic test', async ({browser}) => {
     await expect(page.locator('text={"loggedIn":true}')).toBeVisible()
 
     // check portal navigation
-    await page.goto("http://ic.p.test/portal.json");
+    await page.goto("http://ic.p.test/navigation.json");
 
-    await expect(page.locator('text=cn=Datenschutz,cn=entry,cn=portals')).toBeVisible()
+    await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
 
     // Reminder: If this fails bc of CORS, the session is not recognized (the user is forwarded to keycloak)
 

@@ -98,6 +98,8 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
  * @desc
  * Proxy for Nextcloud.
  * Adds the proper Authorization Header
+ * @example PROPFIND http://ic.p.test/fs/remote.php/dav/files/usera1/Photos
+ *
  */
 app.use('/fs', requiresAuth(), createProxyMiddleware({
         target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
@@ -113,14 +115,15 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
 ))
 
 /**
- * @name /portal.json
+ * @name "/portal.json (without silly quotes for jsdoc)"
  * @desc
  * Proxy to the portal for global Navigation Data.
  * Adds the proper Authorization Header
  */
-app.use('/portal.json', requiresAuth(), createProxyMiddleware({
+app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
-    pathRewrite: {'^/portal.json': '/univention/portal/portal.json'},
+    // TODO: Final version will probably be under this path, atm it's a static mock
+    //pathRewrite: {'^/navigation.json': '/univention/portal/portal.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
