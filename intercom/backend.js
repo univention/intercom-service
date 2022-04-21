@@ -12,7 +12,17 @@ const {fetchMatrixToken, fetchOpenID1Token, fetchToken, stripIntercomCookies} = 
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
-const axios = require("axios");
+var cors = require('cors')
+
+
+var corsOptions = {
+    methods: "GET,POST,PUT,DELETE,PROPFIND,MKCOL",
+    credentials: true,
+    // TODO: can we drop Authorization?
+    exposedHeaders: ["etag", "dav", "Content-Security-Policy", "Location", "Authorization" ,"depth","content-type","ocs-apirequest"],
+    origin: /p\.test$/,
+}
+
 
 app.use(
     auth({
@@ -55,7 +65,7 @@ app.use(
                     ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
                 }
             } catch (error) {
-                console.log("Error fetching Tokens: "+ error)
+                console.log("Error fetching Tokens: " + error)
                 // TODO: Remove if this is ever put into production
                 res.status(500).send("Server Error " + error);
             }
@@ -63,10 +73,12 @@ app.use(
         }
     }))
 
+app.use(cors(corsOptions))
+
 /**
- * Just a simple Endpoint to check if the service is there and the user is logged in
+ * Just a simple Endpoint to check if the service is there and for CORS testing
  */
-app.get('/', requiresAuth(), function (req, res) {
+app.get('/', function (req, res) {
     res.send("<p>Hello</p>")
 })
 
@@ -83,12 +95,21 @@ app.get('/', requiresAuth(), function (req, res) {
  */
 app.use('/nob', requiresAuth(), createProxyMiddleware({
     target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
-    pathRewrite: {'^/nob': '', },
+    pathRewrite: {'^/nob': '',},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         // TODO: Build Switch for Nordeck Live Mode
         // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
         proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
+    },
+    onProxyRes: function (proxyRes, req, res) {
+        // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
+        var origin = req.get("origin")
+        if (origin.match(corsOptions.origin)) {
+            proxyRes.headers['access-control-allow-origin'] = origin
+        }
+        // original headers
+        //res.getHeaders()
     }
 }))
 
@@ -154,6 +175,7 @@ app.get("/uuid", requiresAuth(), (req, res) => {
     let entryUUID = jwt_decode(req.appSession.id_token)['preferred_username']
     res.send(entryUUID)
 })
+
 
 var server = app.listen(8008, function () {
     var host = server.address().address

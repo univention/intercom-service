@@ -14,7 +14,6 @@ test('matrix auth for nordeck', async ({browser}) => {
         The following is JS executed in the browser by playwright. A shortcut to not having to implement
         a fake/test app doing all the stuff
      */
-
     const res = await page.evaluate(async () => {
         const r = await fetch('http://ic.p.test/nob/_matrix/federation/v1/openid/userinfo', {
             method: "GET",
@@ -23,8 +22,5 @@ test('matrix auth for nordeck', async ({browser}) => {
         })
         return r.status
     })
-
     assert(res === 200)
-
-
 })
