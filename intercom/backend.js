@@ -19,8 +19,8 @@ var corsOptions = {
     methods: "GET,POST,PUT,DELETE,PROPFIND,MKCOL",
     credentials: true,
     // TODO: can we drop Authorization?
-    exposedHeaders: ["etag", "dav", "Content-Security-Policy", "Location", "Authorization" ,"depth","content-type","ocs-apirequest"],
-    origin: /p\.test$/,
+    exposedHeaders: ["etag", "dav", "Content-Security-Policy", "Location", "Authorization", "depth", "content-type", "ocs-apirequest"],
+    origin: /(dpx-u5intercom\.at-univention\.de|localhost:8000)$/,
 }
 
 
@@ -45,29 +45,33 @@ app.use(
                 // fetch token for ox
                 // TODO: check also if it's valid
                 if (!('ox_access_token' in session)) {
-                    ret.ox_access_token = await fetchToken(session.access_token, "ox_fakeapp")
+                    ret.ox_access_token = await fetchToken(session.access_token, `${process.env.OX_AUDIENCE}`)
                 }
                 // fetch token for matrix
                 let email = jwt_decode(session.id_token)['email']
                 let username = email.substring(0, email.indexOf('@'))
                 if (!username) {
-                    res.status(404).send("Sorry can't find the user, maybe the mapping is missing?")
+                    console.log("Sorry can't find the user, maybe the mapping is missing?")
+                }
+                let uid = jwt_decode(session.id_token)['preferred_username']
+
+                if (!uid) {
+                    console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
                 }
 
+                // TODO: remote matrix uses uuid as username, locally this will not work
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
                     // TODO: Get correct Token
-                    ret.matrix_access_token = await fetchMatrixToken(username)
+                    ret.matrix_access_token = await fetchMatrixToken(uid)
                 }
 
                 if (!('nordeck_access_token' in session)) {
                     console.log("fetching nordeck token")
-                    ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
+                    ret.nordeck_access_token = await fetchOpenID1Token(uid, ret.matrix_access_token)
                 }
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
-                // TODO: Remove if this is ever put into production
-                res.status(500).send("Server Error " + error);
             }
             return {...session, ...ret}
         }
@@ -100,7 +104,9 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
         stripIntercomCookies(proxyReq)
         // TODO: Build Switch for Nordeck Live Mode
         // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
-        proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
+        //proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
+        let t = new Buffer.from(JSON.stringify(req.appSession.nordeck_access_token)).toString('base64')
+        proxyReq.setHeader('authorization', `MX-Identity ${t}`);
     },
     onProxyRes: function (proxyRes, req, res) {
         // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
@@ -131,6 +137,10 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
             // TODO: Service takes pretty much any token which is not good
             stripIntercomCookies(proxyReq)
             proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
+            console.log(proxyReq)
+        },
+        onProxyRes: function (proxyRes, req, res) {
+            console.log(proxyRes)
         }
     }
 ))

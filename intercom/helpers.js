@@ -65,8 +65,8 @@ const fetchOpenID1Token = async(username, access_token) =>
             proxy: JSON.parse(process.env.PROXY),
             data: {}
         })
-        const openid1_token = r1.data.access_token
-        return openid1_token
+
+        return r1.data
 
 }
 
@@ -74,7 +74,9 @@ const fetchOpenID1Token = async(username, access_token) =>
 const stripIntercomCookies = async (proxyReq) => {
     const cookies = proxyReq.getHeader("cookie").split(";")
     var keep = cookies.filter(c => ! String(c).trim().startsWith("appSession"))
-    proxyReq.setHeader('cookie', keep.join(';') )
+    if (keep) {
+        proxyReq.setHeader('cookie', keep.join(';') )
+    }
 }
 
 
