@@ -39,8 +39,6 @@ test('basic test', async ({browser}) => {
     }, {url: process.env.INTERCOM_URL, user:process.env.TESTUSER})
 
     const b = await res
-    await page.pause()
-
-    assert(b.includes('/Photos/Birdie.jpg'))
+    assert(b.includes('<d:href>/remote.php/dav/files/'))
 
 })

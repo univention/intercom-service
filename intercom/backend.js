@@ -136,10 +136,14 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
         onProxyReq: function onProxyReq(proxyReq, req, res) {
             // TODO: Service takes pretty much any token which is not good
             stripIntercomCookies(proxyReq)
-            proxyReq.setHeader('authorization', `Bearer ${req.appSession.access_token}`);
+            proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
             console.log(proxyReq)
         },
         onProxyRes: function (proxyRes, req, res) {
+            var origin = req.get("origin")
+            if (origin.match(corsOptions.origin)) {
+                proxyRes.headers['access-control-allow-origin'] = origin
+            }
             console.log(proxyRes)
         }
     }
