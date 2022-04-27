@@ -29,7 +29,7 @@ test('matrix auth for nordeck', async ({browser, request}) => {
 
 
     const res2 = await page.evaluate(async (url) => {
-        const r = await fetch(`${url}/nob//v1/meeting/create`, {
+        const r = await fetch(`${url}/nob/v1/meeting/create`, {
             method: "POST",
             credentials: 'include',
             mode: 'cors',

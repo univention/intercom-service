@@ -20,7 +20,7 @@ var corsOptions = {
     credentials: true,
     // TODO: can we drop Authorization?
     exposedHeaders: ["etag", "dav", "Content-Security-Policy", "Location", "Authorization", "depth", "content-type", "ocs-apirequest"],
-    origin: /(dpx-u5intercom\.at-univention\.de|localhost:8000)$/,
+    origin: new RegExp(process.env.ORIGIN_REGEX),
 }
 
 
@@ -48,6 +48,7 @@ app.use(
                     ret.ox_access_token = await fetchToken(session.access_token, `${process.env.OX_AUDIENCE}`)
                 }
                 // fetch token for matrix
+                // TODO: use preferred_username which should be the first part of the email
                 let email = jwt_decode(session.id_token)['email']
                 let username = email.substring(0, email.indexOf('@'))
                 if (!username) {
@@ -182,9 +183,13 @@ app.get('/silent', attemptSilentLogin(), (req, res) => {
  * @desc returns the uuid of the logged in user
  */
 app.get("/uuid", requiresAuth(), (req, res) => {
+    // TODO: wrong field, use username?
     let entryUUID = jwt_decode(req.appSession.id_token)['preferred_username']
     res.send(entryUUID)
 })
+
+
+// Server to Server Endpoint with user granularity: accept access token issued for userinfo endpoint
 
 
 var server = app.listen(8008, function () {
