@@ -3,9 +3,12 @@ const assert = require('assert');
 const {logintoOxFake} = require('./helpers')
 
 const {test, expect} = require('@playwright/test')
-test('matrix auth for nordeck', async ({browser}) => {
+test('matrix auth for nordeck', async ({browser, request}) => {
     const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
     //const context = await browser.newContext();
+
+    const noCorsReq = await request.get(`${process.env.INTERCOM_URL}/nob/v1/health`);
+    expect(noCorsReq.ok()).toBeTruthy();
 
     const page = await context.newPage();
 

@@ -1,12 +1,16 @@
 require('dotenv').config();
 const assert = require('assert');
 
-const {test} = require('@playwright/test')
+const {test, expect} = require('@playwright/test')
 const axios = require("axios");
 const https = require("https");
 
 
 test('ICS CORS Headers', async ({request}) => {
+
+
+    const noCorsReq = await request.get(process.env.INTERCOM_URL);
+    expect(noCorsReq.ok()).toBeTruthy();
 
     // check CORS headers from oxfake
     const req = await request.get(process.env.INTERCOM_URL, {

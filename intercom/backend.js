@@ -8,7 +8,7 @@ const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchOpenID1Token, fetchToken, stripIntercomCookies} = require('./helpers')
+const {fetchMatrixToken, fetchOpenID1Token, fetchToken, stripIntercomCookies, massageCors} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -110,10 +110,7 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
     },
     onProxyRes: function (proxyRes, req, res) {
         // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
-        var origin = req.get("origin")
-        if (origin.match(corsOptions.origin)) {
-            proxyRes.headers['access-control-allow-origin'] = origin
-        }
+        massageCors(req, proxyRes, corsOptions.origin)
         // original headers
         //res.getHeaders()
     }
@@ -140,11 +137,7 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
             console.log(proxyReq)
         },
         onProxyRes: function (proxyRes, req, res) {
-            var origin = req.get("origin")
-            if (origin.match(corsOptions.origin)) {
-                proxyRes.headers['access-control-allow-origin'] = origin
-            }
-            console.log(proxyRes)
+            massageCors(req, proxyRes, corsOptions.origin)
         }
     }
 ))
@@ -163,6 +156,8 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
         proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['preferred_username'])
+    }, onProxyRes: function (proxyRes, req, res) {
+        massageCors(req, proxyRes, corsOptions.origin)
     }
 }))
 
@@ -178,6 +173,7 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
 app.get('/silent', attemptSilentLogin(), (req, res) => {
     // TODO: Do proper postMessage reporting
     const sessionStatus = ('access_token' in req.appSession)
+    console.log(`Silent login, logged in ${sessionStatus}`)
     res.render("pages/silent", {sessionStatus})
 });
 
@@ -194,5 +190,5 @@ app.get("/uuid", requiresAuth(), (req, res) => {
 var server = app.listen(8008, function () {
     var host = server.address().address
     var port = server.address().port
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Intercom app listening at http://%s:%s", host, port)
 })
