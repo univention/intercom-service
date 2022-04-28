@@ -18,17 +18,23 @@ test('basic test', async ({browser}) => {
     await page.locator('button:has-text("Login")').click();
 
     await page.locator('[aria-label="Navigieren\\ zu\\:"]').click();
-    // Click a[role="menuitem"]:has-text("Kalender")
     await Promise.all([
-        page.waitForNavigation(/*{ url: 'https://webmail.dpx-u5intercom.at-univention.de/appsuite/#!!&app=io.ox/calendar&folder=cal://0/331&perspective=week:workweek' }*/),
+        page.waitForNavigation(),
         page.locator('a[role="menuitem"]:has-text("Kalender")').click()
     ]);
     // Click text=Neuer Termin
     await page.locator('text=Neuer Termin').click();
     // Select element
     await page.locator('select[name="conference-type"]').selectOption('element');
-    // Click text=KonferenzKeineVideo-MeetingErzeuge Konferenzraum...
-    await page.locator('text=KonferenzKeineVideo-MeetingErzeuge Konferenzraum...').click();
 
-    await page.pause()
+    // get meeting link
+    const linklocator = await page.locator('[href*="room"]')
+    const conferenceLink = await linklocator.getAttribute("href")
+
+    const [page1] = await Promise.all([
+        page.waitForEvent('popup'),
+        page.locator(`text=${conferenceLink}`).click()
+    ]);
+    await page1.goto(conferenceLink);
+    await expect(page1.locator('text=Do you want to join Terminplaner Bot?')).toBeVisible({ timeout: 30000 })
 })

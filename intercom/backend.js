@@ -39,7 +39,7 @@ app.use(
             scope: 'openid'
         },
         afterCallback: async (req, res, session, decodedState) => {
-
+            // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort
             try {
                 var ret = {}
                 // fetch token for ox
@@ -106,8 +106,11 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
         // TODO: Build Switch for Nordeck Live Mode
         // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
         //proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
-        let t = new Buffer.from(JSON.stringify(req.appSession.nordeck_access_token)).toString('base64')
-        proxyReq.setHeader('authorization', `MX-Identity ${t}`);
+        // TODO: what to do if the token isn't there or not valid anymore?
+        if (req.appSession.nordeck_access_token) {
+            let t = new Buffer.from(JSON.stringify(req.appSession.nordeck_access_token)).toString('base64')
+            proxyReq.setHeader('authorization', `MX-Identity ${t}`);
+        }
     },
     onProxyRes: function (proxyRes, req, res) {
         // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
