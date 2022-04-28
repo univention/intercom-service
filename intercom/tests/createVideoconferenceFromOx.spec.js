@@ -4,7 +4,8 @@ const assert = require('assert');
 const {test, expect} = require('@playwright/test')
 
 test('basic test', async ({browser}) => {
-    const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
+     const context = await browser.newContext();
+    //const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
     const page = await context.newPage();
 
     // ensure we're not logged in

@@ -54,7 +54,8 @@ app.use(
                 if (!username) {
                     console.log("Sorry can't find the user, maybe the mapping is missing?")
                 }
-                let uid = jwt_decode(session.id_token)['preferred_username']
+                const token = jwt_decode(session.id_token)
+                let uid = token['username']
 
                 if (!uid) {
                     console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
@@ -64,12 +65,12 @@ app.use(
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
                     // TODO: Get correct Token
-                    ret.matrix_access_token = await fetchMatrixToken(uid)
+                    ret.matrix_access_token = await fetchMatrixToken(username)
                 }
 
                 if (!('nordeck_access_token' in session)) {
                     console.log("fetching nordeck token")
-                    ret.nordeck_access_token = await fetchOpenID1Token(uid, ret.matrix_access_token)
+                    ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
                 }
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
