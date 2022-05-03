@@ -19,7 +19,7 @@ test('test nextcloud actions', async ({browser}) => {
 
     const res = await page.evaluate(async (url) => {
         // TODO: Get valid fileId somehow beforehand
-        const r = await fetch(`${url}/fs/index.php/core/preview?fileId=877&x=128&y=128&forceIcon=0&a=0`, {
+        const r = await fetch(`${url}/fs/index.php/core/preview?fileId=701&x=128&y=128&forceIcon=0&a=0`, {
             method: "GET",
             credentials: 'include'
 
@@ -47,7 +47,7 @@ test('test nextcloud actions', async ({browser}) => {
 
     // Test webdav access
     const res3 = await page.evaluate(async (url) => {
-        const r = await fetch(`${url}/fs/remote.php/dav/files/581aed746e1d923e3372f9fb487daab7736b24b78c76426179ef77b7c63f7eaa`, {
+        const r = await fetch(`${url}/fs/remote.php/dav/files/dc13de80-5dc1-103c-89fd-9d4aedc8640d`, {
             method: "PROPFIND",
             credentials: 'include'
 

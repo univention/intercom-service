@@ -3,7 +3,7 @@ const {expect} = require("@playwright/test");
 
 const logintoOxFake = async (page) => {
     // TODO: Configurable...
-    await page.goto("http://localhost:8000/conference");
+    await page.goto("https://localhost:8000/conference");
 
     // ucs login or kc login
     if (process.env.MODE === "remote") {

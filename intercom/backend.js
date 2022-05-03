@@ -75,6 +75,9 @@ app.use(
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
             }
+            console.log(`id token ${JSON.stringify(jwt_decode(session.id_token))}`)
+            console.log(`access token ${JSON.stringify(jwt_decode(session.access_token))}`)
+            console.log(`ox token ${JSON.stringify(jwt_decode(ret.ox_access_token))}`)
             return {...session, ...ret}
         }
     }))
@@ -160,7 +163,7 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
-        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['preferred_username'])
+        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['username'])
     }, onProxyRes: function (proxyRes, req, res) {
         massageCors(req, proxyRes, corsOptions.origin)
     }

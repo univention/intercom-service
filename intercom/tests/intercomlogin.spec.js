@@ -21,14 +21,14 @@ test('basic test', async ({browser}) => {
     await (logintoOxFake(page))
 
     // check portal navigation
-    await page.goto(`${process.env.INTERCOM_URL}/navigation.json`);
+    // await page.goto(`${process.env.INTERCOM_URL}/navigation.json`);
 
-    await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
+    // await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
 
     // Reminder: If this fails bc of CORS, the session is not recognized (the user is forwarded to keycloak)
 
     const res = await page.evaluate(async ({url, user}) => {
-        const r = await fetch(`${url}/fs/remote.php/dav/files/581aed746e1d923e3372f9fb487daab7736b24b78c76426179ef77b7c63f7eaa/`, {
+        const r = await fetch(`${url}/fs/remote.php/dav/files/dc13de80-5dc1-103c-89fd-9d4aedc8640d/`, {
             method: "PROPFIND",
             credentials: 'include'
 
