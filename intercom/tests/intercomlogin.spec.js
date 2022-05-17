@@ -21,9 +21,9 @@ test('basic test', async ({browser}) => {
     await (logintoOxFake(page))
 
     // check portal navigation
-    // await page.goto(`${process.env.INTERCOM_URL}/navigation.json`);
+    await page.goto(`${process.env.INTERCOM_URL}/navigation.json`);
 
-    // await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
+    await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
 
     // Reminder: If this fails bc of CORS, the session is not recognized (the user is forwarded to keycloak)
 

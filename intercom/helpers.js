@@ -52,24 +52,6 @@ const fetchMatrixToken = async (user_id) => {
     })
 }
 
-const fetchOpenID1Token = async (username, access_token) => {
-
-    const r1 = await axios.request({
-        method: 'POST',
-        url: process.env.MATRIX_URL + `/_matrix/client/r0/user/%40${username}%3A${process.env.MATRIX_SERVER_NAME}/openid/request_token`,
-        headers: {
-            "Authorization": `Bearer ${access_token}`,
-            "Content-Type": "application/json"
-        },
-        proxy: JSON.parse(process.env.PROXY),
-        data: {}
-    })
-
-    return r1.data
-
-}
-
-
 const stripIntercomCookies = async (proxyReq) => {
     const cookies = proxyReq.getHeader("cookie").split(";")
     var keep = cookies.filter(c => !String(c).trim().startsWith("appSession"))
@@ -88,7 +70,6 @@ const massageCors = async (req, proxyRes, allowedRegEx) => {
 
 module.exports.fetchToken = fetchToken
 module.exports.fetchMatrixToken = fetchMatrixToken
-module.exports.fetchOpenID1Token = fetchOpenID1Token
 module.exports.stripIntercomCookies = stripIntercomCookies
 module.exports.massageCors = massageCors
 

@@ -8,7 +8,7 @@ const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchOpenID1Token, fetchToken, stripIntercomCookies, massageCors} = require('./helpers')
+const {fetchMatrixToken, fetchToken, stripIntercomCookies, massageCors} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
 const jwt_decode = require("jwt-decode")
 // TODO: ADD XSRF Protextion
@@ -61,16 +61,10 @@ app.use(
                     console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
                 }
 
-                // TODO: remote matrix uses uuid as username, locally this will not work
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
                     // TODO: Get correct Token
                     ret.matrix_access_token = await fetchMatrixToken(username)
-                }
-
-                if (!('nordeck_access_token' in session)) {
-                    console.log("fetching nordeck token")
-                    ret.nordeck_access_token = await fetchOpenID1Token(username, ret.matrix_access_token)
                 }
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
@@ -109,18 +103,15 @@ app.use('/nob', requiresAuth(), createProxyMiddleware({
         stripIntercomCookies(proxyReq)
         // TODO: Build Switch for Nordeck Live Mode
         // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
-        //proxyReq.path += `?access_token=${req.appSession.nordeck_access_token}`;
-        // TODO: what to do if the token isn't there or not valid anymore?
-        if (req.appSession.nordeck_access_token) {
-            let t = new Buffer.from(JSON.stringify(req.appSession.nordeck_access_token)).toString('base64')
-            proxyReq.setHeader('authorization', `MX-Identity ${t}`);
+        // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
+
+        if (req.appSession.matrix_access_token) {
+            proxyReq.setHeader('authorization', `Bearer ${req.appSession.matrix_access_token}`);
         }
     },
     onProxyRes: function (proxyRes, req, res) {
         // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
         massageCors(req, proxyRes, corsOptions.origin)
-        // original headers
-        //res.getHeaders()
     }
 }))
 
@@ -197,7 +188,9 @@ app.get("/uuid", requiresAuth(), (req, res) => {
 
 
 // Server to Server Endpoint with user granularity: accept access token issued for userinfo endpoint
+// Secure with service account or similar
 
+// leaktoken endpoint for testing? Token fields, expiration, ...
 
 var server = app.listen(8008, function () {
     var host = server.address().address
