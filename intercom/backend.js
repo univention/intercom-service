@@ -47,15 +47,9 @@ app.use(
                 if (!('ox_access_token' in session)) {
                     ret.ox_access_token = await fetchToken(session.access_token, `${process.env.OX_AUDIENCE}`)
                 }
-                // fetch token for matrix
-                // TODO: use preferred_username which should be the first part of the email
-                let email = jwt_decode(session.id_token)['email']
-                let username = email.substring(0, email.indexOf('@'))
-                if (!username) {
-                    console.log("Sorry can't find the user, maybe the mapping is missing?")
-                }
+
                 const token = jwt_decode(session.id_token)
-                let uid = token['username']
+                let uid = token['phoenix_username']
 
                 if (!uid) {
                     console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
@@ -64,7 +58,7 @@ app.use(
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
                     // TODO: Get correct Token
-                    ret.matrix_access_token = await fetchMatrixToken(username)
+                    ret.matrix_access_token = await fetchMatrixToken(uid.toLowerCase())
                 }
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
@@ -154,7 +148,7 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
-        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['username'])
+        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['phoenix_username'])
     }, onProxyRes: function (proxyRes, req, res) {
         massageCors(req, proxyRes, corsOptions.origin)
     }
@@ -186,6 +180,18 @@ app.get("/uuid", requiresAuth(), (req, res) => {
     res.send(entryUUID)
 })
 
+
+/**
+ * Never deploy this to production, it's for testing tokens and a security flaw by design
+ */
+app.get("/tokenleak", requiresAuth(), (req, res) => {
+    res.render("pages/tokenleak", {
+        id_token: JSON.stringify(jwt_decode(req.appSession.id_token)),
+        access_token: JSON.stringify(jwt_decode(req.appSession.access_token)),
+        ox_access_token: JSON.stringify(jwt_decode(req.appSession.ox_access_token)),
+        matrix_access_token: JSON.stringify(req.appSession.matrix_access_token)
+    })
+})
 
 // Server to Server Endpoint with user granularity: accept access token issued for userinfo endpoint
 // Secure with service account or similar

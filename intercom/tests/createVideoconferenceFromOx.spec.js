@@ -37,5 +37,5 @@ test('basic test', async ({browser}) => {
         page.locator(`text=${conferenceLink}`).click()
     ]);
     await page1.goto(conferenceLink);
-    await expect(page1.locator('text=Do you want to join Terminplaner Bot?')).toBeVisible({ timeout: 30000 })
+    await expect(page1.locator('text=Join the discussion')).toBeVisible({ timeout: 30000 })
 })
