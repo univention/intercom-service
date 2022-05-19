@@ -59,6 +59,8 @@ test('Test all Tokens', async ({browser}) => {
 
     await page.pause()
 
+    // TODO: request phoenix token as non phoenix user
+
     // const j = await res.json()
 
     // const id_token = jwt_decode(j['id_token'])

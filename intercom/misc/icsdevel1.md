@@ -7,7 +7,7 @@ Da es eingeschaltet sind nehme ich ROPG
 
 # Keycloak Config aufräumen
 
-vorweg: preferred_username fliegt raus da lt standard teil vom profile scope den bisher kein client braucht.
+Vorweg: preferred_username fliegt raus da lt standard teil vom profile scope den bisher kein client braucht.
 Wg Datensparsamkeit also keinen profile scope anfragen, ein mapper mit dem selben namen außerhalb des scopes
 führt zu verwirrung und ggfs mapper races. Ergo: aus preferred_username wird username.
 
@@ -23,3 +23,41 @@ führt zu verwirrung und ggfs mapper races. Ergo: aus preferred_username wird us
   * ggfs mappen um user in keycloak besser greifen zu können?
 
 * TODO profile bei matrix aus den angefragten scopes werfen
+
+
+Stand jetzt: 
+
+Token Mapper
+
+* intercom
+  * Audience
+* matrix
+  * none
+* ncoidc
+  * context (deprecated, delete when intercom is used for ox access)
+* oxoidc
+  * context
+
+scopes & mappers:
+* phoenix
+  * phoenix_username
+  * entryUUID
+* phoenix_legacy (deprecated, delete when preferred_username is renamed to phoenix_username throughout the stack)
+  * preferred_username
+
+
+Benefits / solved Problems:
+* preferred_username is defined in the spec as part of the profile scope. The profile scope provides a bunch 
+of other unused claims. 
+  * GPDR Problem. 
+  * Mapper Race if we map it outside of the scope (two mappers mapping the same thing with the same priority)
+  * confusion / ignoring the spec if we remove it from the profile scope
+* username is an attribute used by keycloak as the username. Keycloak converts it to lowercase.
+  * massive confusion avoided bc of sneaky conversion
+* Mappers deduplicated
+  * deleted 25 mappers without loosing functionality
+* We now can bind scopes to roles. If a non-phoenix user requests the phoenix scope, they are rejected
+  * Possibility to use the IdP for non phoenix related auth
+  * Possibility to restrict access to certain services to certain groups / roles (for example admins for
+monitoring services or teachers for grading / recording grades))
+* shrunk token size significantly
