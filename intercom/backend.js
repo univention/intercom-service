@@ -141,6 +141,7 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
  * Proxy to the portal for global Navigation Data.
  * Adds the proper Authorization Header
  */
+// TODO: https://127.0.0.1/univention/portal/apps.json?lang=de_DE -H "Authorization: Bearer MyPortalSecretFromBMIUXAnsibleHostINI"
 app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     // TODO: Final version will probably be under this path, atm it's a static mock
