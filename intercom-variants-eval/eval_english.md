@@ -15,39 +15,40 @@ https://geekflare.com/api-gateway/#geekflare-toc-express-gateway
 * OIDC SLO
   * welcher?
 * silent login
-* CORS Header setzen und ggfs Cookie Flags
-* HTTP Client um die Keycloak Token Exchange zu bedienen
-* Credential Storage (Vault, ... zum Speichern der Zugangsdaten zu Keycloak, Synapse, ...)
-* BFF? Was ist eigentlich mit Mobile?
-* Dev Prozess? Blue/Green, Canary, ... ?
+* CORS Header and Cookie Flag manipulation
+* HTTP Client to access the Keycloak Token Exchange
+* Credential Storage (Vault, ... for saving credentials for Keycloak, Synapse, ...)
+* BFF? Mobile?  
+* Dev Process? Blue/Green, Canary, ... ?
 
-## 2. Anforderungen von Phoenix (Produktvision und -ziele)
-Die Cross Service Kommunikation soll für die einzelnen Dienste möglichst Transparent laufen. 
-Credentials sollen weder im Browser landen noch bei den einzelnen Diensten (soweit möglich).
-Das expondentielle Wachstum von "jeder Dienst spricht mit jedem soll" soll entschärft werden, 
-jeder Dienst spricht nicht mit jedem anderen sondern lediglich mit dem Intercom.
-## 3. Sicht der Hersteller
-Intercom vs API Gateway Integration, also API Gateway Mode für die Backends als zusätzliche Auth
+## 2. Phoenix Requirements (Product Vision und -goals)
+The Cross-Service Communication should be transparant for the Apps. Credentials must not be stored
+in the browser (except for encrypted cookies) and should not be stored in the Apps (with the exception
+of backend to backend communication)
+
+The exponential growth of effort when "every service is talking to every other service" should be liearized;
+every service is now talking to the intercom.
+
+## 3. Vendor Perspective
+Intercom vs API Gateway Integration, is an API Gateway Mode for the Backends an Alternative?
+
 https://medium.com/api-integration-essentials/api-gateway-vs-microgateway-microservices-gateway-e8fbbd8ba9c0
-Letztlich prüfen die Anwendungen ja auch nur ein Header Feld (Cookie), dann wird halt ein anderes geprüft 
-und das auch nur bei login.
-## 4. Sicht der Architektur
+## 4. Architectural Perspective
 
 
-## 5. Nichtfunktionale Anforderungen
+## 5. Non functional Requirements
 * Performance
-* Sicherheit 
-* Open Source Lizenz
-* Skalierbarkeit
+* Security 
+* Open Source License / OSI Approved
+* Scalability
 
-## 6. Produktauswahl für die Analyse erstellen
+## 6. Possible Candidates for the Analysis
 * Kong
 * Tyk
 * Lura
 * KrakenD Open Source (ggfs in Verbindung mit eigenen Lura Modulen)
-* 
-## 7. Abwägung und Empfehlung
-## 8. Definition der Umsetzungsschritte für die empfohlene Variante
+## 7. Assessment and Recommendation
+## 8. Definition of Implementation Steps for the recommended Solution
 
 # Candidates
 ## Lura (KrakenD)
