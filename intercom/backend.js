@@ -49,7 +49,7 @@ app.use(
                 }
 
                 const token = jwt_decode(session.id_token)
-                let uid = token['phoenix_username']
+                let uid = token['phoenixusername']
 
                 if (!uid) {
                     console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
@@ -149,7 +149,7 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
-        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['phoenix_username'])
+        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['phoenixusername'])
     }, onProxyRes: function (proxyRes, req, res) {
         massageCors(req, proxyRes, corsOptions.origin)
     }
@@ -177,7 +177,7 @@ app.get('/silent', attemptSilentLogin(), (req, res) => {
  */
 app.get("/uuid", requiresAuth(), (req, res) => {
     // TODO: wrong field, use username?
-    let entryUUID = jwt_decode(req.appSession.id_token)['preferred_username']
+    let entryUUID = jwt_decode(req.appSession.id_token)['entryuuid']
     res.send(entryUUID)
 })
 

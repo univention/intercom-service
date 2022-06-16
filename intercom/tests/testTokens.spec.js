@@ -14,8 +14,8 @@ const checkToken = (token) => {
 
     // check username
     // check entryUUID
-    assert(token.entryUUID)
-    assert(token.phoenix_username)
+    assert(token.entryuuid)
+    assert(token.phoenixusername)
 }
 
 
