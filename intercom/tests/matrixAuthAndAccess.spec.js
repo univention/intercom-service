@@ -37,5 +37,6 @@ test('matrix auth for nordeck', async ({browser, request}) => {
         return r.text()
     }, process.env.INTERCOM_URL)
     // we're just checking auth, so this error message is a success
+    await page.pause()
     assert(res2 === '{"statusCode":400,"message":["title must be a string","description must be a string","start_time must be a valid ISO 8601 date string","end_time must be a valid ISO 8601 date string"],"error":"Bad Request"}')
 })

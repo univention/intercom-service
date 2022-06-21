@@ -54,6 +54,7 @@ test('Test all Tokens', async ({browser}) => {
     checkToken(ox_access_token)
 
     assert(ox_access_token.aud == "oxoidc")
+
     assert(ox_access_token.exp == id_token.iat + 60 * 60 * 8)
 
 
