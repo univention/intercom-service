@@ -3,7 +3,7 @@ const assert = require('assert');
 const {logintoOxFake} = require('./helpers')
 
 const {test, expect} = require('@playwright/test')
-test('test nextcloud actions', async ({browser}) => {
+test('test ox actions', async ({browser}) => {
     const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
     //const context = await browser.newContext();
 

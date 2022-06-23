@@ -49,7 +49,7 @@ app.use(
                 }
 
                 const token = jwt_decode(session.id_token)
-                let uid = token['phoenixusername']
+                let uid = token['entryuuid']
 
                 if (!uid) {
                     console.log("Sorry can't find the preferred username/uuid, maybe the mapping is missing?")
@@ -57,8 +57,7 @@ app.use(
 
                 if (!('matrix_access_token' in session)) {
                     console.log("fetching matrix token")
-                    // TODO: Get correct Token
-                    ret.matrix_access_token = await fetchMatrixToken(uid.toLowerCase())
+                    ret.matrix_access_token = await fetchMatrixToken(uid)
                 }
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
