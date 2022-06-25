@@ -1,7 +1,7 @@
 # Misc
-https://www.moesif.com/blog/api-engineering/api-gateways/Open-Source-API-Gateway-Roundup/
-https://www.express-gateway.io/
-https://geekflare.com/api-gateway/#geekflare-toc-express-gateway
+* https://www.moesif.com/blog/api-engineering/api-gateways/Open-Source-API-Gateway-Roundup/
+* https://www.express-gateway.io/
+* https://geekflare.com/api-gateway/#geekflare-toc-express-gateway
 
 ## 1. Requirements of the intercom service
 * Extendability (either in code or plugin interface)
