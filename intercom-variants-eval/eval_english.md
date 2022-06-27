@@ -60,11 +60,28 @@ The main challenge is to manage the changes required to combine these existing A
 ## 8. Definition of Implementation Steps for the recommended Solution
 
 # Candidates
-## Lura (KrakenD)
+## Lura (or KrakenD)
 Similar Concept as our Intercom Service but in Go. Makes heavy use of the Gin Framework (as we do of Express) 
 but seems to implement it's own proxy (the docs are not very precise on this, the future will tell) 
 
 A major difference seems to be that Lura can combine multiple Backend Request into one with sophisticated 
 error handling. Atm, I don't see any use for that in phoenix but it's nice to know/have.
 
+Lura itself does not provide OAuth/OIDC Functionality, so we'd look at KrakenD CE (Community Edition)
 
+https://www.krakend.io/assets/KrakenD-EE-vs-CE--feature-matrix.pdf
+
+There is a a ton of convenience features missing in CE. Notable other missing features:
+* support
+* OpenAPI Importer (do we need this if we proxy whole APIs?)
+* End to End Testing Tool (probably not needed)
+* "Let clients follow redirects" (what does this mean?)
+* Basic Auth & API Key (luckily we don't need this.)
+* Multiple IdPs per Endpoint (we don't need this)
+* Token revocation client (might be an issue)
+* Websockets, gRPC, SOAP (this might be a major issue)
+* limited rate limiting (out of scope for the intercom)
+* IP Filtering (out of scope for the intercom)
+* URL rewrite (to be investigated, currently used for central nav)
+* Virtual Hosts (probably not needed)
+* some logging implementations (not needed, the important ones are there)
