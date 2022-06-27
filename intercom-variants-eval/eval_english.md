@@ -85,3 +85,7 @@ There is a a ton of convenience features missing in CE. Notable other missing fe
 * URL rewrite (to be investigated, currently used for central nav)
 * Virtual Hosts (probably not needed)
 * some logging implementations (not needed, the important ones are there)
+
+## KrakenD Problems
+No Wildcards really means we have to config every single request. Also, there is no OpenAPI Config generated.
+
