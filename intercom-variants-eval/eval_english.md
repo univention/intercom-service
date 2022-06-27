@@ -87,5 +87,8 @@ There is a a ton of convenience features missing in CE. Notable other missing fe
 * some logging implementations (not needed, the important ones are there)
 
 ## KrakenD Problems
-No Wildcards really means we have to config every single request. Also, there is no OpenAPI Config generated.
-
+* No Wildcards really means we have to config every single request. 
+* Also, there is no OpenAPI Config generated.
+* OAuth is only client credentials for a service account (i.e. krakend logs into keycloak and tells 
+the upstream apps that it is krakend)
+* TODO: Find out if krakenD even supports hiding credentials from the client.
