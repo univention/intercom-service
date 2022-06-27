@@ -9,11 +9,11 @@ const https = require("https");
 test('ICS CORS Headers', async ({request}) => {
 
 
-    const noCorsReq = await request.get(process.env.INTERCOM_URL);
+    const noCorsReq = await request.get(process.env.BASE_URL);
     expect(noCorsReq.ok()).toBeTruthy();
 
     // check CORS headers from oxfake
-    const req = await request.get(process.env.INTERCOM_URL, {
+    const req = await request.get(process.env.BASE_URL, {
         headers: {"origin": process.env.OX_ORIGIN}
     });
 
@@ -22,7 +22,7 @@ test('ICS CORS Headers', async ({request}) => {
     assert(req.headers()["access-control-allow-origin"] === process.env.OX_ORIGIN)
 
     // check CORS headers from nextcloud (bc they are dynamic)
-    const req2 = await request.get(process.env.INTERCOM_URL, {
+    const req2 = await request.get(process.env.BASE_URL, {
         headers: {"origin": process.env.NC_ORIGIN}
     });
 
@@ -35,7 +35,7 @@ test('ICS CORS Headers', async ({request}) => {
     // // allow methods are only in the preflight request which seems fine
 
     const req3 = await axios.request({
-        url: process.env.INTERCOM_URL,
+        url: process.env.BASE_URL,
         method: "OPTIONS",
     })
 

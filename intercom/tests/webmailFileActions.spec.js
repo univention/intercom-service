@@ -26,7 +26,7 @@ test('test ox actions', async ({browser}) => {
 
         })
         return r.status
-    }, process.env.INTERCOM_URL)
+    }, process.env.BASE_URL)
     await page.pause()
     assert(res === 200)
 
@@ -46,7 +46,7 @@ test('test ox actions', async ({browser}) => {
         return r.status
     }
 
-    const res2 = await page.evaluate(f, process.env.INTERCOM_URL)
+    const res2 = await page.evaluate(f, process.env.BASE_URL)
     assert(res2 === 200)
 
     // Test webdav access
@@ -60,7 +60,7 @@ test('test ox actions', async ({browser}) => {
         const text = await r.text()
         console.log(text)
         return text
-    }, process.env.INTERCOM_URL)
+    }, process.env.BASE_URL)
 
     assert(res3.includes('<d:href>/remote.php/dav/files/'))
 })

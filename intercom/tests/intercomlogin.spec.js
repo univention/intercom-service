@@ -11,7 +11,7 @@ test('basic test', async ({browser}) => {
     const page = await context.newPage();
 
     // ensure we're not logged in
-    await page.goto(`${process.env.INTERCOM_URL}/silent`);
+    await page.goto(`${process.env.BASE_URL}/silent`);
 
     await expect(page.locator('text=Loggend in status: false')).toBeVisible()
 
@@ -21,7 +21,7 @@ test('basic test', async ({browser}) => {
     await (logintoOxFake(page))
 
     // check portal navigation
-    await page.goto(`${process.env.INTERCOM_URL}/navigation.json`);
+    await page.goto(`${process.env.BASE_URL}/navigation.json`);
 
     await expect(page.locator('text="identifier": "ux_fileshare",')).toBeVisible()
 
@@ -37,7 +37,7 @@ test('basic test', async ({browser}) => {
         const text = await r.text()
         console.log(text)
         return text
-    }, {url: process.env.INTERCOM_URL, user:process.env.TESTUSER})
+    }, {url: process.env.BASE_URL, user:process.env.TESTUSER})
 
     const b = await res
     assert(b.includes('<d:href>/remote.php/dav/files/'))

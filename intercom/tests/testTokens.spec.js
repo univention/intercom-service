@@ -26,7 +26,7 @@ test('Test all Tokens', async ({browser}) => {
     const page = await context.newPage();
 
     // ensure we're not logged in
-    await page.goto(`${process.env.INTERCOM_URL}/silent`);
+    await page.goto(`${process.env.BASE_URL}/silent`);
 
     await expect(page.locator('text=Loggend in status: false')).toBeVisible()
 
@@ -35,7 +35,7 @@ test('Test all Tokens', async ({browser}) => {
 
     await (logintoOxFake(page))
 
-    await page.goto(`${process.env.INTERCOM_URL}/tokenleak`)
+    await page.goto(`${process.env.BASE_URL}/tokenleak`)
 
     const id_token = JSON.parse(await page.locator('[data-id=id_token]').innerText())
 

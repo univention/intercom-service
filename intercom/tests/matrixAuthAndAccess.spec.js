@@ -7,7 +7,7 @@ test('matrix auth for nordeck', async ({browser, request}) => {
     const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
     //const context = await browser.newContext();
 
-    const noCorsReq = await request.get(`${process.env.INTERCOM_URL}/nob/v1/health`);
+    const noCorsReq = await request.get(`${process.env.BASE_URL}/nob/v1/health`);
     expect(noCorsReq.ok()).toBeTruthy();
 
     const page = await context.newPage();
@@ -24,7 +24,7 @@ test('matrix auth for nordeck', async ({browser, request}) => {
             mode: 'cors',
         })
         return r.status
-    }, process.env.INTERCOM_URL)
+    }, process.env.BASE_URL)
     assert(res === 200)
 
 
@@ -35,7 +35,7 @@ test('matrix auth for nordeck', async ({browser, request}) => {
             mode: 'cors',
         })
         return r.text()
-    }, process.env.INTERCOM_URL)
+    }, process.env.BASE_URL)
     // we're just checking auth, so this error message is a success
     await page.pause()
     assert(res2 === '{"statusCode":400,"message":["title must be a string","description must be a string","start_time must be a valid ISO 8601 date string","end_time must be a valid ISO 8601 date string"],"error":"Bad Request"}')
