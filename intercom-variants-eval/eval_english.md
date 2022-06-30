@@ -20,6 +20,8 @@
 * Credential Storage (Vault, ... for saving credentials for Keycloak, Synapse, ...)
 * BFF? Mobile?  
 * Dev Process? Blue/Green, Canary, ... ?
+* What about Vendor Lock-in? If we build the ics as a plugin for an API-Gateway, it might prove
+difficult to switch to an alternative API Gateway implementation later.
 
 ## 2. Phoenix Requirements (Product Vision und -goals)
 The Cross-Service Communication should be transparant for the Apps. Credentials must not be stored
@@ -60,7 +62,12 @@ The main challenge is to manage the changes required to combine these existing A
 ## 8. Definition of Implementation Steps for the recommended Solution
 
 # Candidates
-## Lura (or KrakenD)
+There is basically two different Groups of Candidates. API Gateways and Frameworks mostly centered around proxying and OIDC.
+
+Since it is quite clear from the beginning that the restrictions of the FOSS Versions will be a major factor, this is done
+as an exploratory evaluation, i.e. I stop evaluating if I hit a major snag. 
+## API Gateways
+### KrakenD
 Similar Concept as our Intercom Service but in Go. Makes heavy use of the Gin Framework (as we do of Express) 
 but seems to implement it's own proxy (the docs are not very precise on this, the future will tell) 
 
@@ -86,9 +93,67 @@ There is a a ton of convenience features missing in CE. Notable other missing fe
 * Virtual Hosts (probably not needed)
 * some logging implementations (not needed, the important ones are there)
 
-## KrakenD Problems
+#### KrakenD Problems
 * No Wildcards really means we have to config every single request. 
 * Also, there is no OpenAPI Config generated.
 * OAuth is only client credentials for a service account (i.e. krakend logs into keycloak and tells 
 the upstream apps that it is krakend)
-* TODO: Find out if krakenD even supports hiding credentials from the client.
+* KrakenD seems not to support hiding credentials from the client.
+* Transportation of a jwt in cookies is possible https://github.com/krakendio/krakend-ce/issues/515
+
+#### KrakenD Conclusion
+KrakenD (or lua for this matter) could be used in addition to an ics or every bit of the current ics
+has to be implemented in KrakenD (silent login, oidc, proxying whole APIs, ...). 
+I will stop the evaluation at this point. 
+
+### Kong
+The Kong Community Edition is also missing quite some features, some noteworthy ones:
+
+* Admin GUI
+* GraphQL
+* Advanced Caching 
+* Advanced Rate Limiting
+* Enterprise Grade Auth (Full OAuth 2.0, OpenID Connect, Vault, Mutual TLS, JWT Signing/Resigning, full LDAP)
+* RBAC
+* OPA
+* Web Hooks
+* Support (obviously)
+
+#### Kong Problems
+* The integrated OAuth Module seems useless since it acts as an IdP instead of connecting to one?
+* The Kong Inc OIDC Module is only available in the commercial version
+* The free and formerly abandoned Community OIDC Module seems to have been picked up by the 
+bulgarian company "revomatico": https://github.com/revomatico/kong-oidc
+
+#### Kong Conclusion
+Even with the free oidc module, there is still plenty to develop. As KrakenD, this is can either be used in addition 
+to an ics or all the ics functionality has to be implemented as lua plugins
+
+### Tyk
+Tyk has a plugin interface for different languages like python and go. Tyk uses redis as a session store and auth plugins
+can access / change the store. So it seems possible to write two plugins, one post-auth to 
+
+
+## API Gateways Conclusion
+API Gateways seem to have two major problems: Critically limited functionality in the FOSS Versions and vendor lock-in.
+If we implement the intercom as a plugin for any API Gateway, we are bound to that Gateway und it's Interface. If
+we implement features which are missing in the FOSS Version this lock-in gets more severe. Since API Gateways are a rather
+new trend and there are still new concepts coming up (like BFF, Token Handler, OAuth 3, FIDO2, ...). 
+
+Also, most API Gateways are either build for piggybacking on an existing oidc/oauth implementation 
+(just check bearer tokens are there) or to replace the auth in an app (inject username, ... via header parameter)
+
+So it seems possible to use any API Gateway in conjuncture with an intercom with virtually no added complexity. The intercom
+is just a service like all other services behind the API gateway. Or it is used without an API Gateway. Thusly, it seems
+much more sensible to seperate the functionalities and not commit on a vendor/product as (comparatively) early adopters. 
+Depending on how Policies around API Gateways develop, it might be possible that certain customers are bound to a product
+(like pay for Apigee and use it for everything) and are not able/willing to run different API Gateways.
+## Frameworks
+### Current Implementation: nodejs, http-proxy-middleware, express, express-openid-connect
+NodeJS was made for parallel request performance, so it is not surprising that there is a powerful proxying library available.
+Since it's also a staple in web development there is also an oidc library maintained by the experts at auth0.
+
+### Lura (the KrakenD Core)
+A go based "API Gateway builder". 
+
+### 
