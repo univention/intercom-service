@@ -133,6 +133,12 @@ to an ics or all the ics functionality has to be implemented as lua plugins
 Tyk has a plugin interface for different languages like python and go. Tyk uses redis as a session store and auth plugins
 can access / change the store. So it seems possible to write two plugins, one post-auth to 
 
+#### Instlal python plugin
+```docker-compose exec tyk-gateway /bin/bash```
+
+```apt install python3 python3-dev python3-pip build-essential```
+
+Seems python plugins from filesystem are broken for a long time, so let's try bundle
 
 ## API Gateways Conclusion
 API Gateways seem to have two major problems: Critically limited functionality in the FOSS Versions and vendor lock-in.
