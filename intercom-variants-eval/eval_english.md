@@ -31,6 +31,60 @@ of backend to backend communication)
 The exponential growth of effort when "every service is talking to every other service" should be liearized;
 every service is now talking to the intercom.
 
+### Requirements for a Production Release
+#### Organisational
+* Security review by a third party for concept and final deliverable (for Example Dataport Security Operations Center) 
+  * Schutzbedarf Feststellen und entsprechend Sicherheitskonzept, Grobkonzept, Feinkonzept, ...
+  * Decision whether to use refresh tokens
+  * Token Lifecycle: TTL, ...
+  * Decision whether we stick with stateless sessions or switch to stateful sessions
+  * CORS Options (are these complete / do they pose any risks)
+  * X-FRAME / Anti Clickjacking Options?
+  * Define a minimal set of Cookie Flags
+  * Token Exchange Permissions
+  * Token checks on ics client side / how and what does ics validate in the id token
+  * Audience / further restrictions for the exchanged tokens
+  * Review Keycloak config (at least for the intercom client config, the token cleanup is another review?)
+  * Do we have to take special measures against Session Riding?
+  * Analyse potential "Cookie Apocalypse" Impact (changing support of 3rd Party Cookies in Browsers)
+* GPDR / DSGVO Compliance / Review / Documents (this processes and distributes a bunch of personal data)
+* Architecture Review
+* Code Review
+* Quality Assurance (QA)
+* Performance Tests / Requirements
+
+#### Implementation
+* Session Management (currently we're just running the express default)
+  * Implement XSRF / CSRF Protection
+  * "Sperrliste" Implications (how to deny a user access in a timely manner)?
+  * "Stateless logout" Problem, we need a centralised list of invalidated sessions. Or we have to change the session handling.
+  * Implement Single Logout Implementation (since there is no logout button for the intercom, the user has no possibility
+    to end their session)
+* Concept for HA
+  * how to deploy multiple ics
+  * test that it actually works
+  * how is failover achieved, what happens if one instance dies?
+  * how is a session ended on all nodes?
+  * ...
+* Usual Chores
+  * Implement Secure Storage for secrets (vault, ...)
+  * Implement thorough checks for input data 
+  * Implement (more) error Handling
+  * Implement General Logging
+  * Implement Audit Logging for Auth
+  * Implement Monitoring
+  * Remove debug / test helpers (like the token leak by design, logging tokens, ...)
+  * Refine Header Massaging for Matrix (seems to work fine but we never talked about it with element/nordeck)
+  * Protection against DoS?
+  * Enforce TLS. How / where is what terminated (atm we're ignoring certificate errors at some points)
+  * Documentation for Admins
+  * Packaging
+  * Creation / Hardening of a Container / Host / ... (atm this is running on the "everything else" host)
+  * EOL Documentation / What to do to remove the service from the stack after it is not needed anymore.
+
+
+
+
 ## 3. Vendor Perspective
 Intercom vs API Gateway Integration, is an API Gateway Mode for the Backends an Alternative?
 
@@ -54,6 +108,8 @@ The main challenge is to manage the changes required to combine these existing A
 ## 6. Possible Candidates for the Analysis
 * Kong
 * Tyk
+* Fusio: https://www.fusio-project.org
+* Traefik API Gateway (sadly Enterprise only)
 * Lura
 * KrakenD Open Source (ggfs in Verbindung mit eigenen Lura Modulen)
 * https://github.com/ExpressGateway/express-gateway (deprecated / looking for Maintainer https://www.express-gateway.io)
@@ -133,6 +189,14 @@ to an ics or all the ics functionality has to be implemented as lua plugins
 Tyk has a plugin interface for different languages like python and go. Tyk uses redis as a session store and auth plugins
 can access / change the store. So it seems possible to write two plugins, one post-auth to 
 
+Tyk claims to really commit to open source and not open core. This seems to be the case. The benefit of
+the paid version is a frontend to set stuff up and support. The free docs are extensive but sometimes 
+misleading or spread all over the place. See the python plugin for example, if you know there's a bug
+and it only runs as a bundle it makes sort sense to just cut the non bundle part from the docs. But you
+still find plenty of tutorials describing the broken way and all you get is a weird error message. Stuff 
+like costs a lot of time to figure out.
+
+https://tyk.io/open-source/
 #### Install python plugin
 ```docker-compose exec tyk-gateway /bin/bash```
 
@@ -144,6 +208,15 @@ The (python) bundle process is convoluted af, create a bundle with the cli tool,
 delete the local cached copy of the bundle in tyk and restart tyk. This is not conducive to fast development at all.
 
 Alternative: Go plugin. The native language of tyk.
+
+#### Tyk go plugin
+The plugin process has a bunch of stuff to consider but seems feasible. The plugin has to be compiles
+with a special docker image for the exact Version of tyk. If tyk and the plugin use the same libs, the 
+version tyk is using must be used. Changes in the plugin at least require a compile and restart.
+
+At first glance, the plugin API seems to provide all features we need. This has to be investigated further.
+### Fusio
+Written in PHP.
 
 ## API Gateways Conclusion
 API Gateways seem to have two major problems: Critically limited functionality in the FOSS Versions and vendor lock-in.
@@ -167,4 +240,4 @@ Since it's also a staple in web development there is also an oidc library mainta
 ### Lura (the KrakenD Core)
 A go based "API Gateway builder". 
 
-### 
+## Service Mesh?
