@@ -47,7 +47,7 @@ every service is now talking to the intercom.
   * Review Keycloak config (at least for the intercom client config, the token cleanup is another review?)
   * Do we have to take special measures against Session Riding?
   * Analyse potential "Cookie Apocalypse" Impact (changing support of 3rd Party Cookies in Browsers)
-* GPDR / DSGVO Compliance / Review / Documents (this processes and distributes a bunch of personal data)
+* GDPR / DSGVO Compliance / Review / Documents (this processes and distributes a bunch of personal data)
 * Architecture Review
 * Code Review
 * Quality Assurance (QA)
@@ -215,8 +215,25 @@ with a special docker image for the exact Version of tyk. If tyk and the plugin 
 version tyk is using must be used. Changes in the plugin at least require a compile and restart.
 
 At first glance, the plugin API seems to provide all features we need. This has to be investigated further.
+#### Tyk OIDC
+Can tyk only do bearer tokens with oidc/oauth and not generate a session with an authorization code flow.
+The community might be inclined to implement a sort of Token Handler/BFF Pattern
+https://community.tyk.io/t/tyk-as-a-backend-for-frontend-bff-token-handler-for-single-page-apps-spa/5513
+
+#### Tyk Conclusion
+Strong contender, sadly missing needed features like OIDC & Sessions.
+
+
 ### Fusio
-Written in PHP.
+Written in PHP. More of an API Management Plattform i.e. providing monetization. 
+Plenty of unused features (possible attack vectors). Also Fusio seems to be centered around the "per request"
+pragma, there is no indication in the manual that wildcards are supported.
+
+
+It seems does not support OIDC and OAuth support is very rudimentary, only the client credentials
+flow is supported. 
+
+https://docs.fusio-project.org/docs/use_cases/invoke_protected_route/
 
 ## API Gateways Conclusion
 API Gateways seem to have two major problems: Critically limited functionality in the FOSS Versions and vendor lock-in.
@@ -241,3 +258,19 @@ Since it's also a staple in web development there is also an oidc library mainta
 A go based "API Gateway builder". 
 
 ## Service Mesh?
+Univention is planning to integrate a Service Mesh into UCS (currently looking at Kuma) to make the configuration
+of distributed systems more convenient. This has no direct impact for the current intercom implementation 
+(basically the URLs in the config change from some FQDN to localhost:someport). But it might save some efford with
+certificate checks and such. Also Kuma is a Standalone Open Source Project, it seems that Kong Enterprise combines
+Kong and Kuma.
+
+# Learnings
+# API Gateway / Management Different Approaches
+There are Gateways which offload the Auth from the Application. For example Kong allows 
+the user to login via OIDC, get a session managed by kong. Other Gateways, like Tyk for example,
+take a more proxy orientated approach: The OIDC/OAuth login and session management is managed outside of
+tyk but you can configure tyk to inspect requests and to deny requests which do not contain
+the proper Bearer Token.
+
+Also most API Management Solutions seem not to be aimed at SPAs without a backend. The rather expect a classic 
+frontend/backend combo which then uses a third party application via the backend.

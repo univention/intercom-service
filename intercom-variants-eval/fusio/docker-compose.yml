@@ -1,0 +1,74 @@
+version: '3'
+services:
+  # Fusio container
+  fusio:
+    image: fusio/fusio
+    restart: always
+    environment:
+      FUSIO_PROJECT_KEY: "42eec18ffdbffc9fda6110dcc705d6ce"
+      FUSIO_DOMAIN: "api.fusio.cloud"
+      FUSIO_HOST: "api.fusio.cloud:8080"
+      FUSIO_URL: "http://api.fusio.cloud:8080"
+      FUSIO_APPS_URL: "http://api.fusio.cloud:8080/apps"
+      FUSIO_ENV: "prod"
+      FUSIO_DB_NAME: "fusio"
+      FUSIO_DB_USER: "fusio"
+      FUSIO_DB_PW: "61ad6c605975"
+      FUSIO_DB_HOST: "mysql_fusio"
+      FUSIO_BACKEND_USER: "demo"
+      FUSIO_BACKEND_EMAIL: "demo@fusio-project.org"
+      FUSIO_BACKEND_PW: "75dafcb12c4f"
+      FUSIO_MAILER: "native://default"
+      FUSIO_MAIL_SENDER: "info@api.fusio.cloud"
+      FUSIO_PHP_SANDBOX: "off"
+      FUSIO_MARKETPLACE: "off"
+      FUSIO_PAYMENT_CURRENCY: "EUR"
+      FUSIO_CERTBOT: "0"
+      FUSIO_WORKER_JAVA: "worker_java:9090"
+      FUSIO_WORKER_JAVASCRIPT: "worker_javascript:9091"
+      FUSIO_WORKER_PHP: "worker_php:9092"
+      FUSIO_WORKER_PYTHON: "worker_python:9093"
+    links:
+      - mysql_fusio
+      - worker_java
+      - worker_javascript
+      - worker_php
+      - worker_python
+    ports:
+      - "8080:80"
+      - "8443:443"
+
+  # Fusio system database
+  mysql_fusio:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: "61ad6c605975"
+      MYSQL_USER: "fusio"
+      MYSQL_PASSWORD: "61ad6c605975"
+      MYSQL_DATABASE: "fusio"
+    volumes:
+      - ./db:/var/lib/mysql
+
+  # Worker
+  worker_java:
+    image: fusio/worker-java:0.1
+    restart: always
+    volumes:
+      - ./worker/java:/worker/actions
+  worker_javascript:
+    image: fusio/worker-javascript:0.1
+    restart: always
+    volumes:
+      - ./worker/javascript:/worker/actions
+  worker_php:
+    image: fusio/worker-php:0.1
+    restart: always
+    volumes:
+      - ./worker/php:/worker/actions
+  worker_python:
+    image: fusio/worker-python:0.1
+    restart: always
+    volumes:
+      - ./worker/python:/worker/actions
