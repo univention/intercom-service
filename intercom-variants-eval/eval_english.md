@@ -7,7 +7,7 @@
 * Extendability (either in code or plugin interface)
 * Proxy 
   * with Path rewrite and Request/Response manipulation
-  * for complete backends, not per request
+  * for complete backends, not per request (nneds implementation on Vendor side)
 * CSRF Protection for cross-service requests
 * OIDC SSO with FOSS OIDC module or own implementation
   * we don't need dynamic Client Registration, ... It's just a confidential client.
@@ -37,6 +37,7 @@ every service is now talking to the intercom.
   * Schutzbedarf Feststellen und entsprechend Sicherheitskonzept, Grobkonzept, Feinkonzept, ...
   * Decision whether to use refresh tokens
   * Token Lifecycle: TTL, ...
+  * Analyse Silent Login / window.postMessage Origin Checks
   * Decision whether we stick with stateless sessions or switch to stateful sessions
   * CORS Options (are these complete / do they pose any risks)
   * X-FRAME / Anti Clickjacking Options?
@@ -81,9 +82,12 @@ every service is now talking to the intercom.
   * Packaging
   * Creation / Hardening of a Container / Host / ... (atm this is running on the "everything else" host)
   * EOL Documentation / What to do to remove the service from the stack after it is not needed anymore.
-
-
-
+* Testing
+  * There are extensive, automated e2e tests for the intercom. The original Plan was to use the nodejs implementation for developing 
+said test cases and then use the test cases for developing/testing the final intercom implementation (as an api gateway)
+plugin or whatever)
+  * The tests require a full phoenix stack and thusly integration into an automated test chain
+might proof difficult (bc the stack needs a bunch of VMs and takes hours to delopy)
 
 ## 3. Vendor Perspective
 Intercom vs API Gateway Integration, is an API Gateway Mode for the Backends an Alternative?
@@ -265,7 +269,7 @@ certificate checks and such. Also Kuma is a Standalone Open Source Project, it s
 Kong and Kuma.
 
 # Learnings
-# API Gateway / Management Different Approaches
+## API Gateway / Management Different Approaches
 There are Gateways which offload the Auth from the Application. For example Kong allows 
 the user to login via OIDC, get a session managed by kong. Other Gateways, like Tyk for example,
 take a more proxy orientated approach: The OIDC/OAuth login and session management is managed outside of
@@ -274,3 +278,42 @@ the proper Bearer Token.
 
 Also most API Management Solutions seem not to be aimed at SPAs without a backend. The rather expect a classic 
 frontend/backend combo which then uses a third party application via the backend.
+
+# CSRF / XSRF Protection
+## Abstract
+The intercom backend is accessed by another frontend. This is technically the same strategy used in
+Cross-Site Request Forgeries: A potential malicious site embeds calls to a backend and the browser unknowingly
+attaches the session credentials to the request. To mitigate this risk, there are different possibilities.
+
+Do we need XSRF Protection at all / which endpoints do need protection? Mostly the Apps should cover their own
+XSRF because there is no real difference between the ics and a proxy. Or is XSRF Protection some feature which we
+can offload.
+
+## XSRF Protection Strategies
+We need an unpredictable secret for at least the session or ideally every single request. These are normally 
+incorporated in hidden fields.
+
+https://www.allianz-fuer-cybersicherheit.de/SharedDocs/Downloads/Webs/ACS/DE/BSI-CS/BSI-CS_022.pdf
+https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+
+The silent login could be used to either incorporate a hidden field or use the postMessage System to deliver
+rotating keys. Storing the secret serverside might be difficult, maybe we could use something like a MAC or some
+signing.
+
+Is a protection possible without vendor interaction? Probably not...
+
+PoC ToDo: 
+* get ics, ox fake and keycloak env running locally (since no test env is available atm)
+* protect oxfake against csrf
+* list all ics endpoints and decide whether they need protection / document how the are protected.
+** / (main route), GET: "Hello World", not needed
+** /nob (nordeck bot), All Methods: No XSRF Protection on Nordeck Side bc auf Bearer Auth.
+** /fs (nextcloud):All Methods, TBD
+** /navigation.json, GET or All Methods?: Probably not needed
+** /silent: Keycloak silent login, XSRF handled by keycloak?
+** /uuid, GET: no sideeffects, not needed
+** /tokenleak debug only, to be removed
+
+
+## Risks
+Silent login XSRF
