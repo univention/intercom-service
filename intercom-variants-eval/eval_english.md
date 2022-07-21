@@ -91,8 +91,21 @@ might proof difficult (bc the stack needs a bunch of VMs and takes hours to delo
 
 ## 3. Vendor Perspective
 Intercom vs API Gateway Integration, is an API Gateway Mode for the Backends an Alternative?
-
 https://medium.com/api-integration-essentials/api-gateway-vs-microgateway-microservices-gateway-e8fbbd8ba9c0
+
+### CSRF Requirements
+If we use Bearer Token Style Endpoints where the ICS injects the Token, we need CSRF Protection.
+So even if the ICS is just proxying Requests, we now need a list of requests going through the ICS.
+#### CSRF current status
+##### Central Navigation
+No Sideeffects, no action needed
+#### Filepicker / Attach Files to Emails
+Nextcloud has its own CSRF Protection
+#### MAV / Create Video Conference in OX
+This probably needs protection, will talk to Nordeck next week
+#### Central Address Book
+Currently no service talks to OX via UCS. So I'll remove the endpoint.
+
 ## 4. Architectural Perspective
 The main goal of Phoenix is to combine existing Software in a way that the user experiences it as one piece of software.
 The user logs in once, is logged-in in every App and can for example attach files from nextcloud to ox emails.
