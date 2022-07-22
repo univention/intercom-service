@@ -180,24 +180,6 @@ app.get("/uuid", requiresAuth(), (req, res) => {
     res.send(entryUUID)
 })
 
-
-/**
- * Never deploy this to production, it's for testing tokens and a security flaw by design
- */
-app.get("/tokenleak", requiresAuth(), (req, res) => {
-    res.render("pages/tokenleak", {
-        id_token: JSON.stringify(jwt_decode(req.appSession.id_token)),
-        access_token: JSON.stringify(jwt_decode(req.appSession.access_token)),
-        ox_access_token: JSON.stringify(jwt_decode(req.appSession.ox_access_token)),
-        matrix_access_token: JSON.stringify(req.appSession.matrix_access_token)
-    })
-})
-
-// Server to Server Endpoint with user granularity: accept access token issued for userinfo endpoint
-// Secure with service account or similar
-
-// leaktoken endpoint for testing? Token fields, expiration, ...
-
 var server = app.listen(8008, function () {
     var host = server.address().address
     var port = server.address().port
