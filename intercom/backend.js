@@ -75,11 +75,6 @@ app.get('/', function (req, res) {
     res.send("<p>Hello</p>")
 })
 
-// app.get("/createAppointment", claimEquals('canCreateAppointment', true), function (req, res) {
-//     // Dump access token for sake of example
-//     res.send("yup")
-// })
-
 /**
  * @name /nob/
  * @desc
