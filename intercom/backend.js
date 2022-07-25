@@ -62,9 +62,6 @@ app.use(
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
             }
-            console.log(`id token ${JSON.stringify(jwt_decode(session.id_token))}`)
-            console.log(`access token ${JSON.stringify(jwt_decode(session.access_token))}`)
-            console.log(`ox token ${JSON.stringify(jwt_decode(ret.ox_access_token))}`)
             return {...session, ...ret}
         }
     }))
