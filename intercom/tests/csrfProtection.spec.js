@@ -7,8 +7,8 @@ const {test, expect} = require('@playwright/test')
 This is running against the local ox fake bc we do not have a test system
  */
 test('test the csrf protection', async ({browser}) => {
-    const context = await browser.newContext();
-    //const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
+    //const context = await browser.newContext();
+    const context = await browser.newContext({"proxy": {"server": "localhost:8079"}});
     const page = await context.newPage();
 
     // ensure we're not logged in
