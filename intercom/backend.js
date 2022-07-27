@@ -10,8 +10,9 @@ app.set('view engine', 'ejs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
 const {fetchMatrixToken, fetchToken, stripIntercomCookies, massageCors} = require('./helpers')
 const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
+const csrfDSC = require('express-csrf-double-submit-cookie')
 const jwt_decode = require("jwt-decode")
-// TODO: ADD XSRF Protextion
+const cookieParser = require('cookie-parser')
 var cors = require('cors')
 
 
@@ -23,6 +24,7 @@ var corsOptions = {
     origin: new RegExp(process.env.ORIGIN_REGEX),
 }
 
+const csrfProtection = csrfDSC();
 
 app.use(
     auth({
@@ -70,6 +72,8 @@ app.use(
     }))
 
 app.use(cors(corsOptions))
+app.use(cookieParser());
+app.use(csrfProtection)
 
 /**
  * Just a simple Endpoint to check if the service is there and for CORS testing
@@ -89,9 +93,9 @@ app.get('/', function (req, res) {
  * Proxy for the Nordeck Bot (or just the plain Matrix UserInfo Service in testing).
  * Adds the proper Authorization Header
  */
-app.use('/nob', requiresAuth(), createProxyMiddleware({
+app.use('/nob', requiresAuth(), csrfProtection.validate, createProxyMiddleware({
     target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
-    pathRewrite: {'^/nob': '',},
+    pathRewrite: {'^/nob': '',}, secure:false,
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         // TODO: Build Switch for Nordeck Live Mode
@@ -167,7 +171,7 @@ app.get('/silent', attemptSilentLogin(), (req, res) => {
     // TODO: Do proper postMessage reporting
     const sessionStatus = ('access_token' in req.appSession)
     console.log(`Silent login, logged in ${sessionStatus}`)
-    res.render("pages/silent", {sessionStatus})
+    res.render("pages/silent", {sessionStatus, csrftoken: req.cookies['_csrf_token']})
 });
 
 /**

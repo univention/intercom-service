@@ -31,11 +31,29 @@ test('test the csrf protection', async ({browser}) => {
     await page.goto(`${process.env.OX_ORIGIN}/conference`)
 
     // access csrf protected endpoint without protection
+    const res = await page.evaluate(async (url) => {
+        const r = await fetch(`${url}/nob/nordeckfake`, {
+            method: "GET",
+            credentials: 'include',
+            mode: 'cors',
+        })
+        return r.status
+    }, process.env.BASE_URL)
+    assert(res === 403)
+
+
 
     // access csrf protected endpoint with protection
-
-
-
+    const res2 = await page.evaluate(async (url) => {
+        const r = await fetch(`${url}/nob/nordeckfake`, {
+            method: "GET",
+            credentials: 'include',
+            mode: 'cors',
+            headers: new Headers({'x-csrf-token': window.sessionStorage.getItem("csrftoken")}),
+        })
+        return r.status
+    }, process.env.BASE_URL)
+    assert(res2 === 200)
 
     await page.pause()
 })

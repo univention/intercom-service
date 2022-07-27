@@ -10,10 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "express-csrf-double-submit-cookie": "^1.1.0",
     "express-openid-connect": "^2.7.1",
     "http-proxy-middleware": "^2.0.4",
     "jwt-decode": "^3.1.2"

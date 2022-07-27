@@ -5,9 +5,9 @@
 <p> This is for the Frame for clients to load. Loggend in status: <%= sessionStatus%></p>
 
 <script type="text/javascript">
-    // TODO: This might be used to communicate status and/or anti xsrf tokens
     // TODO: Proper Session Handling: https://openid.net/specs/openid-connect-session-1_0.html
-    parent.postMessage({"loggedIn": <%= sessionStatus %>}, "*")
+    // TODO: Proper security assessment / restrict postmessage target origin as much as possible
+    parent.postMessage({"loggedIn": <%= sessionStatus %>, "csrftoken": "<%= csrftoken %>"}, "*")
 </script>
 </body>
 </html>
