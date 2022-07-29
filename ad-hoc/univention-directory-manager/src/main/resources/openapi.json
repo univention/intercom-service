@@ -1,0 +1,1641 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/users/user/": {
+      "get": {
+        "summary": "Search for Users",
+        "description": "Information about the object type and links to search for objects. The found objects are either referenced as HAL links or embedded via HAL embedded resources.",
+        "operationId": "udm:users/user/object/search",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/search.filter"
+          },
+          {
+            "$ref": "#/components/parameters/search.position"
+          },
+          {
+            "$ref": "#/components/parameters/search.scope"
+          },
+          {
+            "$ref": "#/components/parameters/search.query"
+          },
+          {
+            "$ref": "#/components/parameters/search.hidden"
+          },
+          {
+            "$ref": "#/components/parameters/user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/if-none-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-modified-since"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user-list"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user-list"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user-list"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "links": {
+              "search": {
+                "description": "Search for objects of this object type",
+                "operationId": "udm:users/user/object/search"
+              },
+              "create-form": {
+                "description": "get a template for creating an object",
+                "operationId": "udm:users/user/object/template"
+              }
+            }
+          }
+        },
+        "tags": [
+          "users/user"
+        ]
+      },
+      "post": {
+        "operationId": "udm:users/user/object/create",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/users-user"
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          }
+        },
+        "summary": "Create a new User object",
+        "tags": [
+          "users/user"
+        ]
+      }
+    },
+    "/users/user/add": {
+      "get": {
+        "operationId": "udm:users/user/object/template",
+        "summary": "Get a template for creating an object. Contains all properties and their default values.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/if-none-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-modified-since"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          }
+        },
+        "tags": [
+          "users/user"
+        ]
+      }
+    },
+    "/users/user/{dn}": {
+      "parameters": [
+        {
+          "description": "The objects DN (urlencoded)",
+          "in": "path",
+          "name": "dn",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "dn"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "udm:users/user/object",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              },
+              "E-Tag": {
+                "$ref": "#/components/headers/E-Tag"
+              },
+              "Last-Modified": {
+                "$ref": "#/components/headers/Last-Modified"
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found"
+          }
+        },
+        "summary": "Get a representation of the User object",
+        "tags": [
+          "users/user"
+        ]
+      },
+      "delete": {
+        "operationId": "udm:users/user/object/remove",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/remove.cleanup"
+          },
+          {
+            "$ref": "#/components/parameters/remove.recursive"
+          },
+          {
+            "$ref": "#/components/parameters/user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/if-none-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-modified-since"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Object deleted",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          }
+        },
+        "summary": "Remove a Users object",
+        "tags": [
+          "users/user"
+        ]
+      },
+      "put": {
+        "operationId": "udm:users/user/object/modify",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/users-user"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/if-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-unmodified-since"
+          },
+          {
+            "$ref": "#/components/parameters/user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/if-none-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-modified-since"
+          }
+        ],
+        "callbacks": {
+          "move-progress": {
+            "$ref": "#/components/callbacks/moveProgress"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          },
+          "201": {
+            "description": "Success (on move and rename)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          }
+        },
+        "summary": "Modify or move an User object",
+        "tags": [
+          "users/user"
+        ]
+      },
+      "patch": {
+        "operationId": "udm:users/user/object/update",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/users-user"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/if-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-unmodified-since"
+          },
+          {
+            "$ref": "#/components/parameters/user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/accept-language"
+          },
+          {
+            "$ref": "#/components/parameters/if-none-match"
+          },
+          {
+            "$ref": "#/components/parameters/if-modified-since"
+          }
+        ],
+        "callbacks": {
+          "move-progress": {
+            "$ref": "#/components/callbacks/moveProgress"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          },
+          "201": {
+            "description": "Success (on move and rename)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "application/hal+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          },
+          "404": {
+            "description": "Object not found",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Expires": {
+                "$ref": "#/components/headers/Expires"
+              },
+              "Vary": {
+                "$ref": "#/components/headers/Vary"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            }
+          }
+        },
+        "summary": "Modify or move an User object",
+        "tags": [
+          "users/user"
+        ]
+      }
+    }
+  },
+  "info": {
+    "description": "Schema definition for the objects in the Univention Directory Manager REST interface",
+    "title": "Univention Directory Manager REST interface",
+    "version": "1.0.0"
+  },
+  "security": [
+    {
+      "basic": []
+    }
+  ],
+  "tags": [
+    {
+      "description": "User objects",
+      "name": "users/user"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "users-user": {
+        "type": "object",
+        "properties": {
+          "dn": {
+            "description": "LDAP DN (Distinguished Name)",
+            "type": "string",
+            "format": "dn",
+            "example": "dc=example,dc=net",
+            "readOnly": true
+          },
+          "uuid": {
+            "description": "LDAP Entry-UUID",
+            "type": "string",
+            "format": "uuid"
+          },
+          "objectType": {
+            "description": "UDM Object-Type",
+            "type": "string",
+            "example": "users/user",
+            "readOnly": true
+          },
+          "_links": {
+            "description": "Hypertext Application Language (HAL) links",
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "description": "The URL"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "readOnly": true,
+            "additionalProperties": true
+          },
+          "_embedded": {
+            "description": "Hypertext Application Language (HAL) embedded resources",
+            "type": "object",
+            "properties": {},
+            "readOnly": true,
+            "additionalProperties": true
+          },
+          "position": {
+            "description": "DN of LDAP node below which the object is located. Changing this causes a move of the object. When chaning no other changes are applied.",
+            "type": "string",
+            "format": "dn",
+            "example": "cn=position,dc=example,dc=net"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "nullable": true
+              },
+              "uidNumber": {
+                "type": "integer",
+                "nullable": true
+              },
+              "gidNumber": {
+                "type": "integer",
+                "nullable": true
+              },
+              "firstname": {
+                "type": "string",
+                "nullable": true
+              },
+              "lastname": {
+                "type": "string",
+                "nullable": true
+              },
+              "gecos": {
+                "type": "string",
+                "nullable": true
+              },
+              "displayName": {
+                "type": "string",
+                "nullable": true
+              },
+              "title": {
+                "type": "string",
+                "nullable": true
+              },
+              "initials": {
+                "type": "string",
+                "nullable": true
+              },
+              "preferredDeliveryMethod": {
+                "type": "string",
+                "nullable": true
+              },
+              "sambaPrivileges": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "nullable": true
+              },
+              "organisation": {
+                "type": "string",
+                "nullable": true
+              },
+              "userexpiry": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              },
+              "passwordexpiry": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              },
+              "pwdChangeNextLogin": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "preferredLanguage": {
+                "type": "string",
+                "nullable": true
+              },
+              "disabled": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "locked": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "lockedTime": {
+                "type": "string",
+                "nullable": true
+              },
+              "unlock": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "unlockTime": {
+                "type": "string",
+                "nullable": true
+              },
+              "password": {
+                "type": "string",
+                "format": "password",
+                "example": "univention",
+                "readOnly": true,
+                "nullable": true
+              },
+              "street": {
+                "type": "string",
+                "nullable": true
+              },
+              "e-mail": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "email",
+                  "minLength": 3,
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "postcode": {
+                "type": "string",
+                "nullable": true
+              },
+              "postOfficeBox": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "city": {
+                "type": "string",
+                "nullable": true
+              },
+              "country": {
+                "type": "string",
+                "nullable": true
+              },
+              "phone": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "employeeNumber": {
+                "type": "string",
+                "nullable": true
+              },
+              "roomNumber": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "secretary": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "ldap-dn",
+                  "example": "dc=example,dc=net",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "departmentNumber": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "employeeType": {
+                "type": "string",
+                "nullable": true
+              },
+              "homePostalAddress": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "object",
+                  "nullable": true,
+                  "additionalProperties": true
+                },
+                "uniqueItems": true
+              },
+              "physicalDeliveryOfficeName": {
+                "type": "string",
+                "nullable": true
+              },
+              "homeTelephoneNumber": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "mobileTelephoneNumber": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "pagerTelephoneNumber": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "birthday": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              },
+              "unixhome": {
+                "type": "string",
+                "nullable": true
+              },
+              "shell": {
+                "type": "string",
+                "nullable": true
+              },
+              "sambahome": {
+                "type": "string",
+                "nullable": true
+              },
+              "scriptpath": {
+                "type": "string",
+                "nullable": true
+              },
+              "profilepath": {
+                "type": "string",
+                "nullable": true
+              },
+              "homedrive": {
+                "type": "string",
+                "nullable": true
+              },
+              "sambaRID": {
+                "type": "integer",
+                "nullable": true
+              },
+              "groups": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "ldap-dn",
+                  "example": "dc=example,dc=net",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "primaryGroup": {
+                "type": "string",
+                "format": "ldap-dn",
+                "example": "dc=example,dc=net",
+                "nullable": true
+              },
+              "mailHomeServer": {
+                "type": "string",
+                "nullable": true
+              },
+              "mailPrimaryAddress": {
+                "type": "string",
+                "format": "email",
+                "minLength": 3,
+                "nullable": true
+              },
+              "mailAlternativeAddress": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "email",
+                  "minLength": 3,
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "mailForwardAddress": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "email",
+                  "minLength": 3,
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "mailForwardCopyToSelf": {
+                "type": "string",
+                "nullable": true
+              },
+              "overridePWHistory": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "overridePWLength": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "homeShare": {
+                "type": "string",
+                "format": "ldap-dn",
+                "example": "dc=example,dc=net",
+                "nullable": true
+              },
+              "homeSharePath": {
+                "type": "string",
+                "nullable": true
+              },
+              "sambaUserWorkstations": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "sambaLogonHours": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": false
+              },
+              "jpegPhoto": {
+                "type": "string",
+                "format": "byte",
+                "nullable": true
+              },
+              "userCertificate": {
+                "type": "string",
+                "format": "byte",
+                "nullable": true
+              },
+              "certificateIssuerCountry": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerState": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerLocation": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerOrganisation": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerOrganisationalUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerCommonName": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateIssuerMail": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectCountry": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectState": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectLocation": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectOrganisation": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectOrganisationalUnit": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectCommonName": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSubjectMail": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateDateNotBefore": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              },
+              "certificateDateNotAfter": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              },
+              "certificateVersion": {
+                "type": "string",
+                "nullable": true
+              },
+              "certificateSerial": {
+                "type": "string",
+                "nullable": true
+              },
+              "umcProperty": {
+                "type": "object",
+                "nullable": true,
+                "additionalProperties": true
+              },
+              "objectFlag": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              },
+              "lastbind": {
+                "type": "string",
+                "nullable": true
+              },
+              "serviceprovider": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "format": "ldap-dn",
+                  "example": "dc=example,dc=net",
+                  "nullable": true
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": true
+          },
+          "uri": {
+            "type": "string",
+            "format": "uri",
+            "example": "http://10.200.69.10/univention/udm/users/user/uid=foo,dc=example,dc=net"
+          },
+          "options": {
+            "description": "Object type specific options.",
+            "properties": {
+              "pki": {
+                "description": "Public key infrastructure account",
+                "type": "boolean",
+                "default": false,
+                "example": false
+              }
+            },
+            "type": "object"
+          },
+          "policies": {
+            "description": "Policies which apply for this object.",
+            "properties": {
+              "policies/umc": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "dn",
+                  "example": "dc=univention-organization,dc=intranet"
+                },
+                "description": "Policy: UMC"
+              },
+              "policies/pwhistory": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "dn",
+                  "example": "dc=univention-organization,dc=intranet"
+                },
+                "description": "Policy: Passwords"
+              },
+              "policies/desktop": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "dn",
+                  "example": "dc=univention-organization,dc=intranet"
+                },
+                "description": "Policy: Desktop"
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "users-user-list": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "udm:object": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/users-user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "users-user": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/users-user"
+            }
+          },
+          "application/hal+json": {
+            "schema": {
+              "$ref": "#/components/schemas/users-user"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "$ref": "#/components/schemas/users-user"
+            }
+          }
+        },
+        "required": true
+      }
+    },
+    "securitySchemes": {
+      "basic": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    },
+    "parameters": {
+      "search.position": {
+        "in": "query",
+        "name": "position",
+        "schema": {
+          "type": "string",
+          "format": "dn",
+          "nullable": true,
+          "default": null
+        },
+        "description": "Position which is used as search base."
+      },
+      "search.scope": {
+        "in": "query",
+        "name": "scope",
+        "schema": {
+          "type": "string",
+          "default": "sub"
+        },
+        "description": "The `LDAP` search scope (sub, base, one).",
+        "examples": {
+          "sub": {
+            "value": "sub",
+            "summary": "sub-scope"
+          },
+          "base": {
+            "value": "base",
+            "summary": "base-scope"
+          },
+          "one": {
+            "value": "one",
+            "summary": "one-scope"
+          }
+        }
+      },
+      "search.filter": {
+        "in": "query",
+        "name": "filter",
+        "schema": {
+          "type": "string",
+          "default": ""
+        },
+        "description": "A ldap filter which may contain `UDM` property names instead of `LDAP` attribute names.",
+        "examples": {
+          "any-object": {
+            "value": "(objectClass=*)"
+          },
+          "admin-user": {
+            "value": "(|(username=Administrator)(username=Admin*))"
+          }
+        }
+      },
+      "search.query": {
+        "in": "query",
+        "name": "query",
+        "style": "deepObject",
+        "schema": {
+          "type": "object"
+        },
+        "description": "The values to search for (propertyname and search filter value). Alternatively with `filter` a raw ldap filter can be given.",
+        "example": {
+          "": "*"
+        }
+      },
+      "search.hidden": {
+        "in": "query",
+        "name": "hidden",
+        "schema": {
+          "type": "boolean",
+          "default": true
+        },
+        "description": "Include hidden/system objects in the response.",
+        "example": true
+      },
+      "search.superordinate": {
+        "in": "query",
+        "name": "superordinate",
+        "schema": {
+          "type": "string",
+          "format": "dn",
+          "nullable": true,
+          "default": null
+        },
+        "description": "The superordinate DN of the objects to find. `position` is sufficient."
+      },
+      "search.limit": {
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "type": "integer",
+          "nullable": true,
+          "default": null
+        },
+        "description": "How many results should be shown per page.",
+        "example": 50
+      },
+      "search.page": {
+        "in": "query",
+        "name": "page",
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "The search page, starting at one.",
+        "example": 1
+      },
+      "search.dir": {
+        "in": "query",
+        "name": "dir",
+        "schema": {
+          "type": "string",
+          "default": "ASC"
+        },
+        "description": "The Sort direction (ASC or DESC).",
+        "example": "ASC"
+      },
+      "search.by": {
+        "in": "query",
+        "name": "by",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sort the search result by the specified property."
+      },
+      "remove.cleanup": {
+        "in": "query",
+        "name": "cleanup",
+        "schema": {
+          "type": "boolean",
+          "default": true
+        },
+        "description": "Whether to perform a cleanup (e.g. of temporary objects, locks, etc).",
+        "example": true
+      },
+      "remove.recursive": {
+        "in": "query",
+        "name": "recursive",
+        "schema": {
+          "type": "boolean",
+          "default": true
+        },
+        "description": "Whether to remove referring objects (e.g. DNS or DHCP references).",
+        "example": true
+      },
+      "user-agent": {
+        "in": "header",
+        "name": "User-Agent",
+        "schema": {
+          "type": "string"
+        },
+        "description": "The user agent",
+        "example": "UCS 4.4-1-errata241"
+      },
+      "accept-language": {
+        "in": "header",
+        "name": "Accept-Language",
+        "schema": {
+          "type": "string"
+        },
+        "description": "The accepted response languages",
+        "example": "de-DE; q=1.0, en-US; q=0.9"
+      },
+      "if-match": {
+        "in": "header",
+        "name": "If-Match",
+        "schema": {
+          "type": "string"
+        },
+        "description": "provide entity tag to make a condition request to not overwrite any values in a race condition",
+        "example": ""
+      },
+      "if-none-match": {
+        "in": "header",
+        "name": "If-None-Match",
+        "schema": {
+          "type": "string",
+          "format": "etag"
+        },
+        "description": "",
+        "example": ""
+      },
+      "if-unmodified-since": {
+        "in": "header",
+        "name": "If-Unmodified-Since",
+        "schema": {
+          "type": "string",
+          "format": "last-modified-date"
+        },
+        "description": "provide last modified time to make a condition request to not overwrite any values in a race condition"
+      },
+      "if-modified-since": {
+        "in": "header",
+        "name": "If-Modified-Since",
+        "schema": {
+          "type": "string"
+        },
+        "description": "",
+        "example": ""
+      }
+    },
+    "responses": {
+      "Errors": {
+        "description": "Error format"
+      },
+      "MoveProgress": {
+        "description": "Gives information about the progress of a move operation",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/Cache-Control"
+          },
+          "Expires": {
+            "$ref": "#/components/headers/Expires"
+          },
+          "Vary": {
+            "$ref": "#/components/headers/Vary"
+          },
+          "Content-Language": {
+            "$ref": "#/components/headers/Content-Language"
+          },
+          "Link": {
+            "$ref": "#/components/headers/Link"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
+          },
+          "Location": {
+            "$ref": "#/components/headers/Location"
+          }
+        },
+        "content": {}
+      },
+      "MoveSuccess": {
+        "description": "Redirects to the result of the move operation, i.e. the new object",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/Cache-Control"
+          },
+          "Expires": {
+            "$ref": "#/components/headers/Expires"
+          },
+          "Vary": {
+            "$ref": "#/components/headers/Vary"
+          },
+          "Content-Language": {
+            "$ref": "#/components/headers/Content-Language"
+          },
+          "Link": {
+            "$ref": "#/components/headers/Link"
+          },
+          "Location": {
+            "$ref": "#/components/headers/Location"
+          }
+        },
+        "content": {}
+      },
+      "BadRequest": {
+        "description": "Bad request syntax"
+      },
+      "ObjectNotFound": {
+        "description": "Object not found."
+      },
+      "ObjectGone": {
+        "description": "Object has recently been removed."
+      },
+      "Unauthorized": {
+        "description": "Unauthorized. No Authorization provided or wrong credentials"
+      },
+      "UnprocessableEntity": {
+        "description": "Validation of input parameters failed"
+      },
+      "ServerError": {
+        "description": "Internal server errror"
+      },
+      "ServiceUnavailable": {
+        "description": "(LDAP) Server not available",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/Cache-Control"
+          },
+          "Expires": {
+            "$ref": "#/components/headers/Expires"
+          },
+          "Vary": {
+            "$ref": "#/components/headers/Vary"
+          },
+          "Content-Language": {
+            "$ref": "#/components/headers/Content-Language"
+          },
+          "Link": {
+            "$ref": "#/components/headers/Link"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
+          }
+        }
+      }
+    },
+    "headers": {
+      "Cache-Control": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "Controling directives for caching."
+      },
+      "Expires": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "An expiration time, when the response is stale and should not be used from cache anymore."
+      },
+      "Vary": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The response headers which need to be considered when caching the response."
+      },
+      "E-Tag": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "An entity tag of the resource, which should be used for conditional PUT requests."
+      },
+      "Last-Modified": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The time the resource was modified the last time, which should be used for conditional PUT requests."
+      },
+      "Allow": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The allowed HTTP request methods for this resource"
+      },
+      "Content-Language": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The language of the response"
+      },
+      "Retry-After": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The time which should be waited before requesting the resource from the Location header"
+      },
+      "Accept-Patch": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The accepted Content-Types for a PATCH request"
+      },
+      "Location": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "The location which should be followed."
+      },
+      "Link": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "A hypermedia link."
+      }
+    },
+    "examples": {},
+    "links": {},
+    "callbacks": {
+      "moveProgress": {
+        "{$response.header.Location}": {
+          "get": {
+            "requestBody": {
+              "content": {}
+            },
+            "responses": {
+              "301": {
+                "$ref": "#/components/responses/MoveProgress"
+              },
+              "303": {
+                "$ref": "#/components/responses/MoveSuccess"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ucs501.jtorres.org/univention/udm/"
+    },
+    {
+      "url": "http://ucs501.jtorres.org/univention/udm/"
+    },
+    {
+      "url": "https://10.200.92.100/univention/udm/"
+    },
+    {
+      "url": "http://10.200.92.100/univention/udm/"
+    }
+  ]
+}
