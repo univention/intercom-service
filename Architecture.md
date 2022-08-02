@@ -46,14 +46,14 @@ The intercom injects the needed Credentials on the Server Side and they are neve
 ## Silent Login
 ## Required Headers, Cookie Flags, ...
 
-[^1] https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
+[^1]: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 
-[^2] There is an access Token provided but this is only intended for the client to access to IdPs Userinfo endpoint.
+[^2]: There is an access Token provided but this is only intended for the client to access to IdPs Userinfo endpoint.
 Since this token is for accessing the users private data, it must not be passed around to other services.
 https://openid.net/specs/openid-connect-basic-1_0.html#ObtainingTokens
 
-[^3] "Browser-based applications MUST use the OAuth 2.0 Authorization Code flow with the PKCE extension when obtaining an access token" https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps
+[^3]: "Browser-based applications MUST use the OAuth 2.0 Authorization Code flow with the PKCE extension when obtaining an access token" https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps
 
-[^4] https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps 6.3
+[^4]: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps 6.3
 
-[^5] https://curity.io/resources/learn/the-token-handler-pattern/
+[^5]: https://curity.io/resources/learn/the-token-handler-pattern/
