@@ -64,9 +64,6 @@ app.use(
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
             }
-            console.log(`id token ${JSON.stringify(jwt_decode(session.id_token))}`)
-            console.log(`access token ${JSON.stringify(jwt_decode(session.access_token))}`)
-            console.log(`ox token ${JSON.stringify(jwt_decode(ret.ox_access_token))}`)
             return {...session, ...ret}
         }
     }))
@@ -81,11 +78,6 @@ app.use(csrfProtection)
 app.get('/', function (req, res) {
     res.send("<p>Hello</p>")
 })
-
-// app.get("/createAppointment", claimEquals('canCreateAppointment', true), function (req, res) {
-//     // Dump access token for sake of example
-//     res.send("yup")
-// })
 
 /**
  * @name /nob/
@@ -183,24 +175,6 @@ app.get("/uuid", requiresAuth(), (req, res) => {
     let entryUUID = jwt_decode(req.appSession.id_token)['entryuuid']
     res.send(entryUUID)
 })
-
-
-/**
- * Never deploy this to production, it's for testing tokens and a security flaw by design
- */
-app.get("/tokenleak", requiresAuth(), (req, res) => {
-    res.render("pages/tokenleak", {
-        id_token: JSON.stringify(jwt_decode(req.appSession.id_token)),
-        access_token: JSON.stringify(jwt_decode(req.appSession.access_token)),
-        ox_access_token: JSON.stringify(jwt_decode(req.appSession.ox_access_token)),
-        matrix_access_token: JSON.stringify(req.appSession.matrix_access_token)
-    })
-})
-
-// Server to Server Endpoint with user granularity: accept access token issued for userinfo endpoint
-// Secure with service account or similar
-
-// leaktoken endpoint for testing? Token fields, expiration, ...
 
 var server = app.listen(8008, function () {
     var host = server.address().address
