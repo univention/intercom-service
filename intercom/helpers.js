@@ -1,7 +1,7 @@
+require('dotenv').config({ path: './.env.prod' });
 const axios = require("axios");
 const qs = require("qs");
 const https = require('https');
-require('dotenv').config();
 
 const fetchToken = async (access_token, audience) => {
     var params = {
@@ -46,7 +46,7 @@ const fetchMatrixToken = async (user_id) => {
         method: "POST",
         data: params,
         proxy: JSON.parse(process.env.PROXY),
-        httpsAgent: new https.Agent({rejectUnauthorized: false})
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
     }).then(res => {
         return res.data.access_token
     })
@@ -68,8 +68,17 @@ const massageCors = async (req, proxyRes, allowedRegEx) => {
 }
 
 
-module.exports.fetchToken = fetchToken
-module.exports.fetchMatrixToken = fetchMatrixToken
-module.exports.stripIntercomCookies = stripIntercomCookies
-module.exports.massageCors = massageCors
 
+module.exports = {
+    fetchToken,
+    fetchMatrixToken,
+    stripIntercomCookies,
+    massageCors,
+}
+
+/*
+* module.exports.fetchToken = fetchToken
+* module.exports.fetchMatrixToken = fetchMatrixToken
+* module.exports.stripIntercomCookies = stripIntercomCookies
+* module.exports.massageCors = massageCors
+*/

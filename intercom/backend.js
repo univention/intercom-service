@@ -1,15 +1,16 @@
 /*
-   Simple Backend for the Browser: OIDC Login, some Methods to call
+ * Simple Backend for the Browser: OIDC Login, some Methods to call
  */
 
 // Ask providers if there's any ouath in the stack. Oauth as in "I have an access token provided by keycloak and can do stuff via REST, ..."
-require('dotenv').config();
+require('dotenv').config({ path: './.env.prod' });
+// console.log(process.env)
 const express = require('express')
 var app = express();
 app.set('view engine', 'ejs');
-const {createProxyMiddleware} = require('http-proxy-middleware');
-const {fetchMatrixToken, fetchToken, stripIntercomCookies, massageCors} = require('./helpers')
-const {auth, requiresAuth, attemptSilentLogin, claimEquals} = require('express-openid-connect')
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const { fetchMatrixToken, fetchToken, stripIntercomCookies, massageCors } = require('./helpers')
+const { auth, requiresAuth, attemptSilentLogin, claimEquals } = require('express-openid-connect')
 const csrfDSC = require('express-csrf-double-submit-cookie')
 const jwt_decode = require("jwt-decode")
 const cookieParser = require('cookie-parser')
@@ -64,9 +65,10 @@ app.use(
             } catch (error) {
                 console.log("Error fetching Tokens: " + error)
             }
-            return {...session, ...ret}
+            return { ...session, ...ret }
         }
     }))
+
 
 app.use(cors(corsOptions))
 app.use(cookieParser());
@@ -75,7 +77,7 @@ app.use(csrfProtection)
 /**
  * Just a simple Endpoint to check if the service is there and for CORS testing
  */
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.send("<p>Hello</p>")
 })
 
@@ -87,7 +89,7 @@ app.get('/', function (req, res) {
  */
 app.use('/nob', requiresAuth(), csrfProtection.validate, createProxyMiddleware({
     target: process.env.NORDECK_URL, logLevel: 'debug', changeOrigin: true,
-    pathRewrite: {'^/nob': '',}, secure:false,
+    pathRewrite: { '^/nob': '', }, secure: false,
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         // TODO: Build Switch for Nordeck Live Mode
@@ -98,7 +100,7 @@ app.use('/nob', requiresAuth(), csrfProtection.validate, createProxyMiddleware({
             proxyReq.setHeader('authorization', `Bearer ${req.appSession.matrix_access_token}`);
         }
     },
-    onProxyRes: function (proxyRes, req, res) {
+    onProxyRes: function(proxyRes, req, res) {
         // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...
         massageCors(req, proxyRes, corsOptions.origin)
     }
@@ -114,20 +116,20 @@ app.use('/nob', requiresAuth(), csrfProtection.validate, createProxyMiddleware({
  *
  */
 app.use('/fs', requiresAuth(), createProxyMiddleware({
-        target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
-        pathRewrite: {
-            '^/fs': ''
-        },
-        onProxyReq: function onProxyReq(proxyReq, req, res) {
-            // TODO: Service takes pretty much any token which is not good
-            stripIntercomCookies(proxyReq)
-            proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
-            console.log(proxyReq)
-        },
-        onProxyRes: function (proxyRes, req, res) {
-            massageCors(req, proxyRes, corsOptions.origin)
-        }
+    target: process.env.NC_URL, logLevel: 'debug', changeOrigin: true,
+    pathRewrite: {
+        '^/fs': ''
+    },
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+        // TODO: Service takes pretty much any token which is not good
+        stripIntercomCookies(proxyReq)
+        proxyReq.setHeader('authorization', `Bearer ${req.appSession.ox_access_token}`);
+        console.log(proxyReq)
+    },
+    onProxyRes: function(proxyRes, req, res) {
+        massageCors(req, proxyRes, corsOptions.origin)
     }
+}
 ))
 
 /**
@@ -144,7 +146,7 @@ app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', 'Basic ' + btoa(jwt_decode(req.appSession.id_token)['phoenixusername'] + ':' + process.env.PORTAL_API_KEY));
-    }, onProxyRes: function (proxyRes, req, res) {
+    }, onProxyRes: function(proxyRes, req, res) {
         massageCors(req, proxyRes, corsOptions.origin)
     }
 }))
@@ -162,7 +164,7 @@ app.get('/silent', attemptSilentLogin(), (req, res) => {
     // TODO: Do proper postMessage reporting
     const sessionStatus = ('access_token' in req.appSession)
     console.log(`Silent login, logged in ${sessionStatus}`)
-    res.render("pages/silent", {sessionStatus, csrftoken: req.cookies['_csrf_token']})
+    res.render("pages/silent", { sessionStatus, csrftoken: req.cookies['_csrf_token'] })
 });
 
 /**
@@ -175,8 +177,8 @@ app.get("/uuid", requiresAuth(), (req, res) => {
     res.send(entryUUID)
 })
 
-var server = app.listen(8008, function () {
+var server = app.listen(process.env.PORT, function() {
     var host = server.address().address
     var port = server.address().port
-    console.log("Intercom app listening at http://%s:%s", host, port)
+    console.info("Intercom app listening at http://%s:%s", host, port)
 })
