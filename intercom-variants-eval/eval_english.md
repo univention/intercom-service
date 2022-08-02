@@ -67,6 +67,8 @@ every service is now talking to the intercom.
   * how is failover achieved, what happens if one instance dies?
   * how is a session ended on all nodes?
   * ...
+* Misc
+  * We're currently feeding nextlcloud an ox token. They should implement proper checks according to the specs (audience, azp, ...) and we should feed them a proper nextcloud token.
 * Usual Chores
   * Implement Secure Storage for secrets (vault, ...)
   * Implement thorough checks for input data 
