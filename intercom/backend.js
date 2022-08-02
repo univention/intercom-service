@@ -136,15 +136,14 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
  * Proxy to the portal for global Navigation Data.
  * Adds the proper Authorization Header
  */
-// TODO: https://127.0.0.1/univention/portal/apps.json?lang=de_DE -H "Authorization: Bearer MyPortalSecretFromBMIUXAnsibleHostINI"
+// TODO: https://127.0.0.1/univention/portal/navigation.json?lang=de_DE -H "Authorization: Basic username:MyPortalSecretFromBMIUXAnsibleHostINI"
 app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
     // TODO: Final version will probably be under this path, atm it's a static mock
-    //pathRewrite: {'^/navigation.json': '/univention/portal/portal.json'},
+    //pathRewrite: {'^/navigation.json': '/univention/portal/navigation.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
-        proxyReq.setHeader('Authorization', `Bearer ${process.env.PORTAL_API_KEY}`);
-        proxyReq.setHeader('X-Ucs-Username', jwt_decode(req.appSession.id_token)['phoenixusername'])
+        proxyReq.setHeader('Authorization', 'Basic ' + btoa(jwt_decode(req.appSession.id_token)['phoenixusername'] + ':' + process.env.PORTAL_API_KEY));
     }, onProxyRes: function (proxyRes, req, res) {
         massageCors(req, proxyRes, corsOptions.origin)
     }
