@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  ics:
+    container_name: ics
+    image: "ics:latest"
+    build: ./
+    restart: unless-stopped
+    ports:
+      - 8008:8008
+    env_file:
+      - .env.prod
+

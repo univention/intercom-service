@@ -1,0 +1,27 @@
+Access Token
+eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzQlBpVHRUNFdBaURfc0xpalY4X1AtTm1nbmtKdTZTRHlkUkc2UGJpdVpnIn0.eyJleHAiOjE2NTE1NTk4NDAsImlhdCI6MTY1MTU1OTU0MCwiYXV0aF90aW1lIjoxNjUxNTU5NTM5LCJqdGkiOiI2ZTRlYmJjNC04ZjIwLTQ5YzEtOWNiMy0yMjM0ZDE0OTIzYzMiLCJpc3MiOiJodHRwczovL2lkLmRweC1pY3NkZXZlbDEuYXQtdW5pdmVudGlvbi5kZS9hdXRoL3JlYWxtcy9kcHgtaWNzZGV2ZWwxIiwic3ViIjoiMzg4Zjk5MmMtZmNhMi00MzBmLWJmNTctZTliZGVhNTdlZDM5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaW50ZXJjb20iLCJub25jZSI6Ikl3NEZWVmNzcHU2OS1IZVB3blhISEd4VFR4Ry1Wc3BYcjhiMVZlTC1CMzQiLCJzZXNzaW9uX3N0YXRlIjoiNDU1YzdjODgtZWY5OS00N2Q0LWE2M2YtZGZhNDRmMjNlYjRjIiwiYWNyIjoiMCIsInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJVc2VyIEFuZGkiLCJnaXZlbl9uYW1lIjoiVXNlciIsImZhbWlseV9uYW1lIjoiQW5kaSIsImVtYWlsIjoiYW5kaS11c2VyQGRweC1pY3NkZXZlbDEuYXQtdW5pdmVudGlvbi5kZSIsInVzZXJuYW1lIjoiZGMxM2RlODAtNWRjMS0xMDNjLTg5ZmQtOWQ0YWVkYzg2NDBkIn0.GhZd1WJoPj7voaeOQsddDE63L8cG4PtySt7PEWBmuhygkGrj_61p0rjvQbrn80ly65pQCGAM8atOtCa8TkJiXnFgGk3wwMZAbWxvxMA7dlbZBIFlJY8hdilhMZASLhUbB18wUVASvHIrb0qPLoKDyxFvhMm6ro2hUIunwCWabXWgh-FcxlCMTp3-Lp9BEDQ6-1tHCC6V2cH8RWxiGOgAJvo8GmbklsmxKxbc8tMp4-4voKi1SgjFjj8xkzJCVU9hgKccejyynYOMiX_dq4KfXZ1FFg_cxeNHYT9SCjp8IwnsOoLscu-ZdQvhq66zgEO40_qxrU2tlnf0G0x02biPkA
+
+{
+  "exp": 1651559840,
+  "iat": 1651559540,
+  "auth_time": 1651559539,
+  "jti": "cd36d0ef-a769-4a34-85c4-a4ae2d9c7144",
+  "iss": "https://id.dpx-icsdevel1.at-univention.de/auth/realms/dpx-icsdevel1",
+  "aud": "intercom",
+  "sub": "388f992c-fca2-430f-bf57-e9bdea57ed39",
+  "typ": "ID",
+  "azp": "intercom",
+  "nonce": "Iw4FVVcspu69-HePwnXHHGxTTxG-VspXr8b1VeL-B34",
+  "session_state": "455c7c88-ef99-47d4-a63f-dfa44f23eb4c",
+  "at_hash": "0Oa6EUobw2bAv9-P34ZMYQ",
+  "acr": "0",
+  "email_verified": false,
+  "name": "User Andi",
+  "given_name": "User",
+  "family_name": "Andi",
+  "email": "andi-user@dpx-icsdevel1.at-univention.de",
+  "username": "dc13de80-5dc1-103c-89fd-9d4aedc8640d"
+}
+
+
+Ox Token
