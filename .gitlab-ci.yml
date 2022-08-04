@@ -1,16 +1,19 @@
 stages:
   - build
-#  - production
+  # - production
 
 variables:
   DOCS_DIR: "docs"
   CI_REGISTRY: docker-registry.knut.univention.de
+  REPO_CI_REGISTRY: gitregistry.knut.univention.de
   SPHINX_DOC: $CI_REGISTRY/sphinx
   LANG: "C.UTF-8"
   DEBIAN_FRONTEND: noninteractive
   UNIVENTION_BASECONF: /dev/null
   DOC_TARGET_VERSION: "18.0.2"
 
+services:
+  - docker:dind
 
 .sphinx-doc:
   image: $SPHINX_DOC
@@ -64,6 +67,30 @@ pdf:
     paths:
       - $DOCS_DIR/_build/latex
       - out
+
+build_image_develop:
+  stage: build
+  image: docker:20.10.10
+  rules:
+    - if: ($CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH)
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $REPO_CI_REGISTRY --password-stdin
+  script:
+    - docker login $REPO_CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:develop ./intercom
+    # - docker push $CI_REGISTRY_IMAGE:develop
+
+build_image:
+  stage: build
+  image: docker:20.10.10
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $REPO_CI_REGISTRY --password-stdin
+  script:
+    - docker login $REPO_CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE ./intercom
+    - docker push $CI_REGISTRY_IMAGE
 
 #docs-production:
 #  stage: production
