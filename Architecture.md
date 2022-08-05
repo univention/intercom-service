@@ -43,9 +43,31 @@ The intercom injects the needed Credentials on the Server Side and they are neve
 ![Intercom (OX Example)](./diagrams/architecture_docs/IntercomCurrentSituation.drawio.png)
 
 # Frontend Auth
+The challange is to Auth Frontend / Browser Tab A with Backend B while using different Subdomains.
 ## Silent Login
-## Required Headers, Cookie Flags, ...
+Assuming consent was established prior to the login, the Authorization Code Flow can be achieved "silent",
+without any user interaction. (this is assuming we're running a browser flow with a "Cookie" Stage).
 
+A page which wants to silently log into the ICS opens the "/silent" endpoint in an IFrame and gets messaged
+by window.postmessage about the result. In case of a successful login, an CSRF Token is also submitted.
+## Cookie Flags, ...
+Since the IFrame is cross-site and not a "top-level browsing context", we have to set SameSite=None on the cookie,
+with the default "Lax", the cookies will not be included.
+To be able to transfer credentials with SameSite=None, the cookie has also to be set "secure", preventing any transport
+not secured by TLS.
+
+https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-07#section-5.5
+## Required Headers
+### access-control-allow-origin
+Allow the requesting site (for example ox) to access the ics
+### access-control-allow-credentials
+Allow the browser to attach cookis
+### access-control-expose-headers
+A list of allowed response headers
+### Access-Control-Allow-Headers
+A list of allowed request headers
+
+	
 [^1]: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 
 [^2]: There is an access Token provided but this is only intended for the client to access to IdPs Userinfo endpoint.
