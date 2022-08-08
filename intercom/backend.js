@@ -25,7 +25,7 @@ var corsOptions = {
     origin: new RegExp(process.env.ORIGIN_REGEX),
 }
 
-const csrfProtection = csrfDSC();
+const csrfProtection = csrfDSC({cookie: {sameSite: "none", secure: true}});
 
 app.use(
     auth({
