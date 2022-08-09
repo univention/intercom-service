@@ -5,6 +5,8 @@ services:
     image: "ics:latest"
     build: ./
     restart: unless-stopped
+    dns:
+      - 1.1.1.1
     ports:
       - 8008:8008
     env_file:
