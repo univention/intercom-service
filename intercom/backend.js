@@ -30,7 +30,7 @@ const csrfProtection = csrfDSC({cookie: {sameSite: "none", secure: true}});
 app.use(
     auth({
         // TODO; move to environ
-        issuerBaseURL: process.env.ISSUER_BASE_URL,
+        issuerBaseURL: process.env.ISSUER_BASE_URL ?? `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`,
         baseURL: process.env.BASE_URL,
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,

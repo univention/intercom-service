@@ -13,7 +13,7 @@ const fetchToken = async (access_token, audience) => {
     }
 
     return axios.request({
-        url: process.env.ISSUER_BASE_URL + '/protocol/openid-connect/token',
+        url: (process.env.ISSUER_BASE_URL ?? `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`) + '/protocol/openid-connect/token',
         method: 'POST',
         data: qs.stringify(params),
         headers: {

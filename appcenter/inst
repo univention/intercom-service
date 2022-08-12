@@ -1,0 +1,81 @@
+#!/bin/bash
+#
+# App join script
+#
+# Copyright 2022 Univention GmbH
+#
+# http://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <http://www.gnu.org/licenses/>.
+
+## joinscript api: bindpwdfile
+
+VERSION="1"
+
+. /usr/share/univention-lib/all.sh || exit 1
+. /usr/share/univention-appcenter/joinscripthelper.sh || exit 1
+
+
+
+APP_ID="intercom-service"
+
+joinscript_init
+
+ucs_addServiceToLocalhost "$APP_ID" "$@"
+
+domainname="$(ucr get domainname)"
+keycloak_url="$(ucr get intercom-service/keycloak/url)"
+realm_name="$(ucr get intercom-service/keycloak/realm-name)"
+# hostname="$(ucr get hostname)"
+
+ucr set \
+
+  # AppCenter specific variables
+  # $APP_ID/description/de="Intercom Service" \
+  $APP_ID/description="Intercom Service" \
+  # $app_id/label="Intercom-Service" \
+  # $app_id/link="https://___/admin/" \
+  # $app_id/icon="/univention/js/dijit/themes/umc/icons/scalable/apps-$COMPONENT_ID.svg" \
+  # $app_id/link-target='newwindow'
+
+  # ICS specific variables
+  # $APP_ID/settings/client-id="intercom" \
+  # $APP_ID/settings/intercom-url="https://ics.$domainname" \
+  # $APP_ID/settings/base-url="https://ics.$domainname" \
+  # Separate into realm_name and keycloak
+  $APP_ID/settings/issuer-base-url="$keycloak_url/auth/realms/$realm_name" \
+  # $APP_ID/settings/origin-regex="$(ucr get domainname | sed -r 's/\./\\\./g')$" \
+  # $APP_ID/matrix/url="https://matrix.$domainname" \
+  # $APP_ID/matrix/server-name="matrix.$domainname" \
+  # $APP_ID/matrix/login-type="uk.half-shot.msc2778.login.application_service" \
+  # $APP_ID/matrix/nordeck-mode="test" \
+  # $APP_ID/matrix/nordeck-url="https://meetings-widget-bot.$domainname" \
+  # $APP_ID/portal/url="$(ucr get ucs/server/sso/fqdn)" \
+  # $APP_ID/ox/origin="https://webmail.$domainname" \
+  # $APP_ID/ox/audience="oxoidc" \
+  # $APP_ID/nextcloud/url="https://fs.$domainname" \
+  # $APP_ID/nextcloud/origin="https://fs.$domainname"
+
+joinscript_save_current_version
+exit 0
