@@ -1,0 +1,218 @@
+[intercom-service/settings/client-id]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = intercom
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/intercom-url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://ics.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/base-url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://ics.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/issuer-base-url]
+Type = String
+Required = False
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = 
+Scope = outside
+Description = This variable overwrites the defined keycloak_url and realm_name for more customized setups
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/keycloak/url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://id.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+
+[intercom-service/keycloak/realm-name]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = UCS
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/origin-regex]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = @%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/proxy]
+Type = String 
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = false
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/matrix/url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://matrix.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/matrix/server-name]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = matrix.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/matrix/login-type]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = uk.half-shot.msc2778.login.application_service
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/matrix/nordeck-mode]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = test
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/matrix/nordeck-url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://meetings-widget-bot.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/portal/url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = @%@ucs/server/sso/fqdn@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/ox/origin]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://webmail.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/ox/audience]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = oxoidc
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/nextcloud/url]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://fs.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/nextcloud/origin]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = https://fs.@%@domainname@%@
+Scope = outside
+Description =
+Description[de] =
+Group = Administration
+Group[de] = Administration
+
+
