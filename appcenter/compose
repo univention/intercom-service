@@ -1,0 +1,68 @@
+version: "3.7"
+services:
+  intercom-service:
+    container_name: intercom-service
+    image: "docker.software-univention.de/intercom:develop"
+    restart: unless-stopped
+    ports:
+      - 8008:8008
+    environment:
+      # CLIENT
+      CLIENT_ID: @%@intercom-service/settings/client-id@%@
+      CLIENT_SECRET: @!@
+import os
+pwdfile="/etc/client.secret"
+with open(pwdfile, 'r') as fd:
+    print(fd.read().strip())@!@
+
+      # INTERCOM
+      SECRET: @!@
+import os
+pwdfile="/etc/intercom.secret"
+with open(pwdfile, 'r') as fd:
+    print(fd.read().strip())@!@
+      INTERCOM_URL: @%@intercom-service/settings/intercom-url@%@
+      BASE_URL: @%@intercom-service/settings/base-url@%@
+      PORT: 8008
+
+      # ISSUER  
+      ISSUER_BASE_URL: @%@intercom-service/settings/issuer-base-url@%@
+      KEYCLOAK_URL: @%@intercom-service/keycloak/url@%@
+      REALM_NAME: @%@intercom-service/keycloak/realm-name@%@
+
+      # MATRIX
+      MATRIX_URL: @%@intercom-service/matrix/url@%@
+      MATRIX_SERVER_NAME: @%@intercom-service/matrix/server-name@%@
+      MATRIX_AS_SECRET: @!@
+import os
+pwdfile="/etc/matrix.secret"
+with open(pwdfile, 'r') as fd:
+    print(fd.read().strip())@!@
+      MATRIX_LOGIN_TYPE: @%@intercom-service/matrix/login-type@%@
+
+      # PROXY
+      PROXY: "@%@intercom-service/settings/proxy@%@"
+
+      # NORDECK
+      NORDECK_MODE: @%@intercom-service/matrix/nordeck-mode@%@  # test, live, test proxies
+      NORDECK_URL: @%@intercom-service/matrix/nordeck-url@%@
+
+      # PORTAL
+      PORTAL_URL: @%@intercom-service/portal/url@%@
+      PORTAL_API_KEY: @!@
+import os
+pwdfile="/etc/portal.secret"
+with open(pwdfile, 'r') as fd:
+    print(fd.read().strip())@!@
+
+      # OX
+      OX_AUDIENCE: @%@intercom-service/ox/audience@%@
+      OX_ORIGIN: @%@intercom-service/ox/origin@%@
+
+      # NC
+      NC_URL: @%@intercom-service/nextcloud/url@%@
+      NC_ORIGIN: @%@intercom-service/nextcloud/origin@%@
+
+      # ORIGIN
+      ORIGIN_REGEX: @%@intercom-service/settings/origin-regex@%@
+
