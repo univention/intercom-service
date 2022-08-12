@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: "docker.software-univention.de/intercom:develop"
+    image: "docker-registry.knut.univention.de/phoenix/intercom:develop"
     restart: unless-stopped
     ports:
       - 8008:8008

@@ -77,7 +77,7 @@ build_image_develop:
   script:
     - docker login $CI_REGISTRY
     - docker build -t $CI_REGISTRY/phoenix/intercom:develop ./intercom
-    # - docker push $CI_REGISTRY/phoenix/intercom:develop
+    - docker push $CI_REGISTRY/phoenix/intercom:develop
 
 build_image:
   stage: build
