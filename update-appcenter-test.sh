@@ -6,7 +6,7 @@
 set -e
 set -x
 
-APP_VERSION="4.4/ics=0.0.1-ucs1"
+APP_VERSION="4.4/intercom-service=0.0.1-ucs1"
 
 selfservice () {
 	local uri="https://provider-portal.software-univention.de/appcenter-selfservice/univention-appcenter-control"
@@ -19,7 +19,7 @@ selfservice () {
 	PWDFILE="~/.selfservicepwd"
 	[ -e "$HOME/.univention-appcenter-pwd" ] && PWDFILE="$HOME/.univention-appcenter-pwd"
 
-	curl -sSfL "$uri" | python - "$first" --username=${USERNAME} --pwdfile=${PWDFILE} "$@"
+	curl -sSfL "$uri" | python2 - "$first" --username=${USERNAME} --pwdfile=${PWDFILE} "$@"
 }
 
 die () {
@@ -34,14 +34,14 @@ die () {
 ## * https://git.knut.univention.de/univention/components/oidc-provider
 
 ## Some apps use templates to install additional files, e.g.:
-cp app/preinst.tmpl app/preinst
+cp appcenter/preinst.tmpl appcenter/preinst
 
 ## Now we can upload the files for the app to the provider-portal:
 ## The order of the arguments doesn't matter, the univention-appcenter-control script recongnizes the filenames and file extensions.
-selfservice upload "$APP_VERSION" app/compose app/settings app/preinst app/configure_host app/inst app/env app/test
+selfservice upload "$APP_VERSION" appcenter/compose appcenter/settings appcenter/preinst appcenter/configure_host appcenter/inst appcenter/env appcenter/test
 
 ## There are more "magic" files that can be uploaded for specific purposes:
 # selfservice upload "$APP_VERSION" app/compose app/settings app/preinst app/configure_host app/inst app/uinst app/env app/test app/setup README_*
 
 ## And finally they clean the working directory after upload
-rm -f app/preinst files/tmp_base64
+rm -f appcenter/preinst files/tmp_base64
