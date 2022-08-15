@@ -1,0 +1,44 @@
+[Application]
+ID = intercom-service
+Version = 0.0.1-ucs1
+Name = Intercom Service
+UcsOverviewCategory=False
+DockerScriptRestoreDataAfterSetup = 
+DockerScriptStoreData = 
+DockerScriptUpdateAvailable = 
+DockerScriptRestoreDataBeforeSetup = 
+DockerScriptUpdatePackages = 
+DockerScriptUpdateAppVersion = 
+DockerScriptUpdateRelease = 
+DockerScriptSetup = 
+LogoDetailPage = 
+Description = 
+AppCategories = Identity Management, Infrastructure
+DockerMainService = intercom-service 
+Logo = logo.png
+LongDescription =
+PortsExclusive = 8008
+SupportedUcsVersions = 5.0-0
+ServerRole = domaincontroller_master, domaincontroller_slave
+DockerEnvDatabaseHost =
+DockerEnvDatabaseUser =
+Database =
+DockerEnvDatabasePassword = 
+DockerEnvDatabasePort = 
+DockerEnvDatabaseName = 
+DatabaseUser = 
+DatabasePasswordFile =
+WebsiteMaintainer = https://www.univention.com/
+Maintainer = Univention GmbH
+NotifyVendor = True
+License = free
+Contact = sales@univention.de
+NotificationEmail = appcenter-reporting@univention.de
+
+[de]
+LongDescription = 
+Description = 
+Maintainer = Univention GmbH
+WebsiteMaintainer = https://www.univention.de/
+
+
