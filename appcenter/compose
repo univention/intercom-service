@@ -2,8 +2,12 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: "docker-registry.knut.univention.de/phoenix/intercom:develop"
+#   image: "docker-registry.knut.univention.de/phoenix/intercom:develop"
+    image: quay.io/d3vv3/ics:develop
     restart: unless-stopped
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
     ports:
       - 8008:8008
     environment:
