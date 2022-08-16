@@ -14,6 +14,10 @@ const { auth, requiresAuth, attemptSilentLogin, claimEquals } = require('express
 const csrfDSC = require('express-csrf-double-submit-cookie')
 const jwt_decode = require("jwt-decode")
 const cookieParser = require('cookie-parser')
+
+const { createClient } = require('redis');
+const RedisStore = require('connect-redis')(auth);
+
 var cors = require('cors')
 
 
@@ -26,6 +30,10 @@ var corsOptions = {
 }
 
 const csrfProtection = csrfDSC({cookie: {sameSite: "none", secure: true}});
+
+app.use(express.urlencoded());
+let redisClient = createClient({ legacyMode: true });
+redisClient.connect().catch(console.error)
 
 app.use(
     auth({
@@ -41,6 +49,9 @@ app.use(
             response_type: 'code',
             scope: 'openid'
         },
+        session: {
+            store: new RedisStore({ client: redisClient }),
+        }
         afterCallback: async (req, res, session, decodedState) => {
             // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort
             try {
@@ -73,6 +84,23 @@ app.use(
 app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(csrfProtection)
+app.use((req, res, next) => {
+    if (req.cookies && 'appSession' in req.cookies && req.appSession
+            && 'session_state' in req.appSession) {
+        redisClient.set(req.appSession['session_state'], req.cookies['appSession'])
+    }
+    next()
+})
+
+app.post("/backchannel_logout", async (req, res) => {
+    // TODO: Actually check the Token, Verify the signature, ...
+    const token = jwt_decode(req.body.logout_token)
+    redisClient.get( token['sid'], function(err, session_id) {
+        redisClient.del("sess:"+session_id)
+        redisClient.del(token['sid'])
+        res.send("Done")
+    });
+})
 
 /**
  * Just a simple Endpoint to check if the service is there and for CORS testing

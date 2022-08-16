@@ -214,5 +214,3 @@ Description = CORS origin settings for Nextcloud requests
 Description[de] = CORS Origin Wert für Nextcloud Anfragen
 Group = Administration
 Group[de] = Administration
-
-
