@@ -18,7 +18,7 @@ Show = Install, Settings
 InitialValue = https://ics.@%@domainname@%@
 Scope = outside
 Description = Fully qualified URL with protocol for external endpoint of ICS
-Description[de] = Vollqualifizierte URL mit Protokol des externen Endpunktes des ICS
+Description[de] = Vollqualifizierte URL mit Protokoll des externen Endpunktes des ICS
 Group = Administration
 Group[de] = Administration
 
@@ -30,7 +30,7 @@ Show = Install, Settings
 InitialValue = https://ics.@%@domainname@%@
 Scope = outside
 Description = Fully qualified URL with protocol used in the OIDC-client for ICS on the IdP
-Description[de] = Vollqualifizierte URL mit Protocol für den ICS OIDC-client des IdPs
+Description[de] = Vollqualifizierte URL mit Protokoll für den ICS OIDC-client des IdPs
 Group = Administration
 Group[de] = Administration
 
@@ -54,7 +54,7 @@ Show = Install, Settings
 InitialValue = https://id.@%@domainname@%@
 Scope = outside
 Description = Fully qualified URL with protocol of the target Keycloak
-Description[de] = Vollqualifizierte URL mit Protocol des Ziel-Keycloaks
+Description[de] = Vollqualifizierte URL mit Protokoll des Ziel-Keycloaks
 Group = Administration
 Group[de] = Administration
 
@@ -103,7 +103,7 @@ Show = Install, Settings
 InitialValue = https://matrix.@%@domainname@%@
 Scope = outside
 Description = Fully qualified URL with protocol of the Matrix server
-Description[de] = Vollqualifizierte URL mit Protokol des Matrix-Servers
+Description[de] = Vollqualifizierte URL mit Protokoll des Matrix-Servers
 Group = Administration
 Group[de] = Administration
 
