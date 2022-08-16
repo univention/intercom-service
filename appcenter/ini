@@ -16,7 +16,28 @@ Description =
 AppCategories = Identity Management, Infrastructure
 DockerMainService = intercom-service 
 Logo = logo.png
-LongDescription =
+LongDescription = <div class="col-sm-7 col-xs-12 left-col">
+    <p>
+    The UCS Intercom Service (ICS) is a backend service that acts as an intermediary for the
+    secure communication and Single Sign-On between other services. The ICS allows webservice
+    backends to communicate with each other based on the Single Sign-On session of the
+    current end user while ensuring session security.
+
+    The ICS is very specific for dedicated use cases, currently in the interaction between
+    Open-Xchange, Nextcloud and elements/matrix. Details are outlined in the documentation.
+    </p>
+    
+    <h3>Before installing</h3>
+    <p>
+        Make sure to place your secrets inside this files:
+        <ul>
+            <li>/etc/intercom-client.secret</li>
+            <li>/etc/intercom.secret</li>
+            <li>/etc/matrix.secret</li>
+            <li>/etc/intercom-portal.secret</li>
+        </ul>
+    </p>
+    </div>
 PortsExclusive = 8008
 SupportedUcsVersions = 5.0-0
 ServerRole = domaincontroller_master, domaincontroller_backup
