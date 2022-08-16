@@ -92,7 +92,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.post("/backchannel_logout", async (req, res) => {
+app.post("/backchannel-logout", async (req, res) => {
     // TODO: Actually check the Token, Verify the signature, ...
     const token = jwt_decode(req.body.logout_token)
     redisClient.get( token['sid'], function(err, session_id) {
