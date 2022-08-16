@@ -15,7 +15,7 @@ services:
       CLIENT_ID: @%@intercom-service/settings/client-id@%@
       CLIENT_SECRET: @!@
 import os
-pwdfile="/etc/client.secret"
+pwdfile="/etc/intercom-client.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
 
@@ -55,7 +55,7 @@ with open(pwdfile, 'r') as fd:
       PORTAL_URL: @%@intercom-service/portal/url@%@
       PORTAL_API_KEY: @!@
 import os
-pwdfile="/etc/portal.secret"
+pwdfile="/etc/intercom-portal.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
 

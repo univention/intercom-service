@@ -13,13 +13,14 @@ selfservice () {
 	local first=$1
 	shift
 
-	USERNAME="$USER"
-	[ -e "$HOME/.univention-appcenter-user" ] && USERNAME="$(< $HOME/.univention-appcenter-user)"
+	# USERNAME="$USER"
+	# [ -e "$HOME/.univention-appcenter-user" ] && USERNAME="$(< $HOME/.univention-appcenter-user)"
 
-	PWDFILE="~/.selfservicepwd"
-	[ -e "$HOME/.univention-appcenter-pwd" ] && PWDFILE="$HOME/.univention-appcenter-pwd"
+	# PWDFILE="~/.selfservicepwd"
+	# [ -e "$HOME/.univention-appcenter-pwd" ] && PWDFILE="$HOME/.univention-appcenter-pwd"
 
-	curl -sSfL "$uri" | python2 - "$first" --username=${USERNAME} --pwdfile=${PWDFILE} "$@"
+	# curl -sSfL "$uri" | python2 - "$first" --username=${USERNAME} --pwdfile=${PWDFILE} "$@"
+    curl -sSfL "$uri" | python2 - "$first" "$@"
 }
 
 die () {

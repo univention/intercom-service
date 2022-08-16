@@ -4,10 +4,10 @@
 [ -e /usr/share/univention-lib/ucr.sh ] && . /usr/share/univention-lib/ucr.sh
 
 
-ACTION=$1
-APP_ID=$2  # intercom-service
-APP_VERSION=$3
-ERROR_FILE=$4
+ACTION="$1"
+APP_ID="$2"  # intercom-service
+APP_VERSION="$3"
+ERROR_FILE="$4"
 
 
 
@@ -17,6 +17,6 @@ fi
 
 
 if [ "$action" = "settings" ]; then
-    univention-app reinitialize intercom-service
+    univention-app reinitialize $APP_ID
 fi
 

@@ -44,38 +44,39 @@ joinscript_init
 
 ucs_addServiceToLocalhost "$APP_ID" "$@"
 
-domainname="$(ucr get domainname)"
-keycloak_url="$(ucr get intercom-service/keycloak/url)"
-realm_name="$(ucr get intercom-service/keycloak/realm-name)"
+eval "$(ucr shell)"
+# domainname="$(ucr get domainname)"
+keycloak_url="$intercom_service_keycloak_url"
+realm_name="$intercom_service_keycloak_realm_name"
 # hostname="$(ucr get hostname)"
 
 ucr set \
+    $APP_ID/settings/issuer-base-url="$keycloak_url/auth/realms/$realm_name"
+    # AppCenter specific variables
+    # $APP_ID/description/de="Intercom Service" \
+    # $APP_ID/description="Intercom Service" \
+    # $app_id/label="Intercom-Service" \
+    # $app_id/link="https://___/admin/" \
+    # $app_id/icon="/univention/js/dijit/themes/umc/icons/scalable/apps-$COMPONENT_ID.svg" \
+    # $app_id/link-target='newwindow'
 
-  # AppCenter specific variables
-  # $APP_ID/description/de="Intercom Service" \
-  $APP_ID/description="Intercom Service" \
-  # $app_id/label="Intercom-Service" \
-  # $app_id/link="https://___/admin/" \
-  # $app_id/icon="/univention/js/dijit/themes/umc/icons/scalable/apps-$COMPONENT_ID.svg" \
-  # $app_id/link-target='newwindow'
-
-  # ICS specific variables
-  # $APP_ID/settings/client-id="intercom" \
-  # $APP_ID/settings/intercom-url="https://ics.$domainname" \
-  # $APP_ID/settings/base-url="https://ics.$domainname" \
-  # Separate into realm_name and keycloak
-  $APP_ID/settings/issuer-base-url="$keycloak_url/auth/realms/$realm_name" \
-  # $APP_ID/settings/origin-regex="$(ucr get domainname | sed -r 's/\./\\\./g')$" \
-  # $APP_ID/matrix/url="https://matrix.$domainname" \
-  # $APP_ID/matrix/server-name="matrix.$domainname" \
-  # $APP_ID/matrix/login-type="uk.half-shot.msc2778.login.application_service" \
-  # $APP_ID/matrix/nordeck-mode="test" \
-  # $APP_ID/matrix/nordeck-url="https://meetings-widget-bot.$domainname" \
-  # $APP_ID/portal/url="$(ucr get ucs/server/sso/fqdn)" \
-  # $APP_ID/ox/origin="https://webmail.$domainname" \
-  # $APP_ID/ox/audience="oxoidc" \
-  # $APP_ID/nextcloud/url="https://fs.$domainname" \
-  # $APP_ID/nextcloud/origin="https://fs.$domainname"
+    # ICS specific variables
+    # $APP_ID/settings/client-id="intercom" \
+    # $APP_ID/settings/intercom-url="https://ics.$domainname" \
+    # $APP_ID/settings/base-url="https://ics.$domainname" \
+    # Separate into realm_name and keycloak
+    # $APP_ID/settings/issuer-base-url="$keycloak_url/auth/realms/$realm_name"
+    # $APP_ID/settings/origin-regex="$(ucr get domainname | sed -r 's/\./\\\./g')$" \
+    # $APP_ID/matrix/url="https://matrix.$domainname" \
+    # $APP_ID/matrix/server-name="matrix.$domainname" \
+    # $APP_ID/matrix/login-type="uk.half-shot.msc2778.login.application_service" \
+    # $APP_ID/matrix/nordeck-mode="test" \
+    # $APP_ID/matrix/nordeck-url="https://meetings-widget-bot.$domainname" \
+    # $APP_ID/portal/url="$(ucr get ucs/server/sso/fqdn)" \
+    # $APP_ID/ox/origin="https://webmail.$domainname" \
+    # $APP_ID/ox/audience="oxoidc" \
+    # $APP_ID/nextcloud/url="https://fs.$domainname" \
+    # $APP_ID/nextcloud/origin="https://fs.$domainname"
 
 joinscript_save_current_version
 exit 0

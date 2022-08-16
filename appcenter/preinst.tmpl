@@ -27,16 +27,40 @@ while [ $# -gt 0 ]; do
 done
 
 if [ "$server_role" != "domaincontroller_master" ]; then
-
-    message="Error: The Keycloak app needs to be installed on the Primary Directory Node first."
+    message="Error: The Intercom Service app needs to be installed on the Primary Directory Node first."
     echo "$message" > "$errorfile"
     exit 1
 fi
 
-# create intercom
+# Create Intercom Service secret
 pwdfile="/etc/intercom.secret"
 [ -e "$pwdfile" ] || makepasswd --chars 20 > "$pwdfile"
 chmod 640 "$pwdfile"
+
+# Check files exist
+FILE=/etc/matrix.secret
+if [ ! -f "$FILE" ]; then
+    echo "$FILE does not exists"
+    exit 1
+fi
+
+FILE=/etc/intercom.secret
+if [ ! -f "$FILE" ]; then
+    echo "$FILE does not exists"
+    exit 1
+fi
+
+FILE=/etc/intercom-client.secret
+if [ ! -f "$FILE" ]; then
+    echo "$FILE does not exists"
+    exit 1
+fi
+
+FILE=/etc/intercom-portal.secret
+if [ ! -f "$FILE" ]; then
+    echo "$FILE does not exists"
+    exit 1
+fi
 
 exit 0
 
