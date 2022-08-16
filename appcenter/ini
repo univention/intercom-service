@@ -1,6 +1,6 @@
 [Application]
 ID = intercom-service
-Version = 0.0.1-ucs1
+Version = 0.9
 Name = Intercom Service
 UcsOverviewCategory=False
 DockerScriptRestoreDataAfterSetup = 
