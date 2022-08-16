@@ -96,7 +96,7 @@ app.post("/backchannel-logout", async (req, res) => {
     // TODO: Actually check the Token, Verify the signature, ...
     const token = jwt_decode(req.body.logout_token)
     redisClient.get( token['sid'], function(err, session_id) {
-        redisClient.del("sess:"+session_id)
+        redisClient.del("sess:" + session_id)
         redisClient.del(token['sid'])
         res.send("Done")
     });
