@@ -1,2 +1,2 @@
-.. _keycloak: https://www.keycloak.org/
-
+.. _nextcoud: https://nextcloud.com/
+.. _deb-admin-handbook-shell: https://www.debian.org/doc/manuals/debian-handbook/short-remedial-course.en.html#sect.shell-and-basic-commands
