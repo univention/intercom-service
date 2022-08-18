@@ -61,7 +61,7 @@ pdf:
   script:
     - make -C "$DOCS_DIR" latexpdf
     - mkdir -p "$CI_PROJECT_DIR"/out
-    - cp "$DOCS_DIR"/_build/latex/keycloak-app.pdf "$CI_PROJECT_DIR"/out/keycloak-app.pdf
+    - cp "$DOCS_DIR"/_build/latex/ics-app.pdf "$CI_PROJECT_DIR"/out/ics-app.pdf
   artifacts:
     paths:
       - $DOCS_DIR/_build/latex
