@@ -20,6 +20,40 @@ UCS offers two different ways for app installation:
 For general information about Univention App Center and how to use it for software
 installation, see :ref:`uv-manual:software-appcenter` in :cite:t:`ucs-manual`.
 
+.. _prerequisites:
+
+Installing this app has various prerequisites
+=============================================
+
+#. ICS only supports OIDC, this means both *Nextcloud (>=23.0)* and *OX (>=7.10.6)* have to be authenticated via OIDC as well
+
+#. For working CSRF protection all other Apps need to be up to date
+
+#. ICS requires the "Nordeck"-Bot to be up an running for Matrix
+
+#. ICS requires it's four secrets to be provided before installation, see :ref:`app-secrets` for details
+  
+#. ICS requires correctly configured Keycloak, including a valid Intercom OIDC client before installation
+
+   .. tab::
+    Enter the Keycloak Admin interface.
+    
+    Create a new OIDC Client, the "Client ID" can be configured during ICS app installation, but by default you should use "intercom", leave the "Root URL" empty and save.
+
+    Select "Access Type" as "confidential".
+
+    Set "Service Accounts Enabled" and "Authorization Enabled" to "On".
+
+    Set the valid redirect URL to your intended ICS-domain with protocol and append the ICS callback path "/callback", for example:
+    
+      .. code-block::
+
+         https://ics.example-domain.example-tld/callback
+
+    Go to the Tab "Credentials", copy the secret and save it to "/etc/intercom-client.secret".
+
+        
+
 .. _installation-browser:
 
 Installation with the web browser

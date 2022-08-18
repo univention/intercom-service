@@ -40,13 +40,13 @@ def read_version_from_ci() -> str:
     with open("../.gitlab-ci.yml", "r") as f:
         ci = yaml.safe_load(f)
         return ci.get(
-                "variables", {"DOC_TARGET_VERSION": "18.0.0"}
+                "variables", {"DOC_TARGET_VERSION": "0.9.0"}
                 ).get("DOC_TARGET_VERSION")
 
 
 release = read_version_from_ci()
 version = release
-project = "Keycloak app {}".format(release)
+project = "ICS app {}".format(release)
 copyright = '{}, Univention GmbH'.format(date.today().year)
 author = 'Univention GmbH'
 html_show_copyright = True
@@ -145,7 +145,7 @@ latex_engine = 'lualatex'
 latex_show_pagerefs = True
 latex_show_urls = "footnote"
 latex_documents = [
-    (root_doc, 'keycloak-app.tex', project, author, "manual", False)]
+    (root_doc, 'ics-app.tex', project, author, "manual", False)]
 latex_elements = {
     "papersize": "a4paper",
 }

@@ -30,7 +30,7 @@ places.
    ICS, the app also joins the domain.
 
 ICS Docker container
-   The app uses a custom builde node image. The App
+   The app uses a custom builder node image. The App
    Center runs the container. You can view log information from the ICS
    Docker container with the following command:
 
@@ -38,9 +38,3 @@ ICS Docker container
 
       $ univention-app logs ics
 
-.. _app-debugging:
-
-Debugging
-=========
-
-TODO ???

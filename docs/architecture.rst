@@ -13,48 +13,17 @@ The :program:`ICS` app architecture consists of the following elements:
 
 * The Keycloak Identity Access Management, which is used by ICS to authenticate sessions and obtain login tokens for applications.
 
-* TODO review?
+* A Redis container to store OIDC sessions.
 
 .. _app-architecture-overview:
 
 Overview
 ========
 
-:numref:`figure-architecture` shows the architecture with the most important
-elements. 
-
-.. _figure-architecture:
-
-.. figure:: /images/architecture.*
-   :alt: ICS app architecture
-
-   ICS app architecture
-
-   View focuses on the endpoints of ICS and interacting apps.
-
-:numref:`figure-flowchart-simplified` shows the interaction between browsers, apps, IdP and ICS. 
-
-.. _figure-architecture:
-
-.. figure:: /images/flowcharts.*
-   :alt: ICS app flowchart
-
-   ICS app flowchart
-
-   View focuses on the flow from browser login, ICS communication being initied and Action being executed.
-
-
-The following list describes the elements in more detail.
-
-.. glossary::
-
-   ICS
-      The *Intercom-Service* is the main component of this package, it proxies connections between apps in order to conform with CORS and be endpoint independant.
 
 .. _app-design-decisions:
 
 Design decisions
 ================
 
-The :program:`ICS` app aims to provide a simple way to interact 
-TODO
+The :program:`ICS` app aims to provide a simple way to facilitate CORS-conform communication to different backends directly from the browser. It can proxy, modify and authenticate requests and use Keycloak and it's own sessions storage to hold OIDC session. It can acquire those sessions via a silent background login, provided a valid OIDC cookie is already available in the browser.
