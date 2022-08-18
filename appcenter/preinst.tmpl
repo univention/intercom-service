@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-eval "$(ucr shell)"
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -25,12 +24,6 @@ while [ $# -gt 0 ]; do
             ;;
     esac
 done
-
-if [ "$server_role" != "domaincontroller_master" ]; then
-    message="Error: The Intercom Service app needs to be installed on the Primary Directory Node first."
-    echo "$message" > "$errorfile"
-    exit 1
-fi
 
 # Create Intercom Service secret
 pwdfile="/etc/intercom.secret"
