@@ -258,7 +258,7 @@ The following references show the available settings within the
           - Only before installation
 
 
-.. envvar:: intercom/matrix/nodeck-mode
+.. envvar:: intercom/matrix/nordeck-mode
 
     Defines the connection mode of the Nordeck-bot.
 
@@ -279,7 +279,7 @@ The following references show the available settings within the
           - ``test``
           - Only before installation
 
-.. envvar:: intercom/matrix/nodeck-url
+.. envvar:: intercom/matrix/nordeck-url
 
     Defines the URL on which Nordeck-bot is listening.
 
