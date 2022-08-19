@@ -5,7 +5,7 @@ Univention ICS app documentation
 #####################################
 
 Welcome to the documentation about the Univention :program:`ICS` app. The
-app installs the Intercom Service, and intermediary for communication between applications like Nextcloud, OX and Synapse (Element). This program is required for the functionalities File-picker, Videoconference create and TODO
+app installs the Intercom Service, and intermediary for communication between applications like Nextcloud, OX and Synapse (Element). This program is required for the functionalities File-picker, Videoconference create and accessing the Univention-Portal navigation endpoint from other apps.
 
 This documentation is for system administrators who operate the
 :program:`ICS` app from Univention App Center connected to the LDAP
