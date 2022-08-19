@@ -141,8 +141,7 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
 // TODO: https://127.0.0.1/univention/portal/navigation.json?lang=de_DE -H "Authorization: Basic username:MyPortalSecretFromBMIUXAnsibleHostINI"
 app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
-    // TODO: Final version will probably be under this path, atm it's a static mock
-    //pathRewrite: {'^/navigation.json': '/univention/portal/navigation.json'},
+    pathRewrite: {'^/navigation.json': '/univention/portal/navigation.json'},
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', 'Basic ' + btoa(jwt_decode(req.appSession.id_token)['phoenixusername'] + ':' + process.env.PORTAL_API_KEY));
