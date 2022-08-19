@@ -45,7 +45,7 @@ The ICS app requires secrets, that are not currently automatically generated. Th
 
 .. envvar:: /etc/intercom-client.secret
 
-   The client secret for authenticating with the IdP. This client secret can be retrieved from the Keycloak admin console in the "Authorization"-tab of the intercom-client.
+   The client secret for authenticating with the IdP. This client secret can be retrieved from the Keycloak admin console in the :guilabel:`Authorization`-tab of the intercom-client.
 
 
 .. envvar:: /etc/intercom.secret
@@ -58,7 +58,7 @@ The ICS app requires secrets, that are not currently automatically generated. Th
 
 .. envvar:: /etc/matrix.secret
 
-   The secret for backend-communication with the Matrix server. It can retrieved from the auto-join-app-service on the system running Matrix (MAV).
+   The secret for backend-communication with the Matrix server. It can be retrieved from the auto-join-app-service on the system running Matrix (MAV).
 
    .. code-block::
 
@@ -69,7 +69,7 @@ The ICS app requires secrets, that are not currently automatically generated. Th
 
 .. envvar:: /etc/portal.secret
 
-   The secret to communicate with the Univention-Portal navigation service. Usually this can be retrieved from "/etc/portal-navigation-service.secret".
+   The secret to communicate with the Univention-Portal navigation service. Usually this can be retrieved from :file:`/etc/portal-navigation-service.secret`.
 
 
 .. _app-settings:
@@ -82,7 +82,7 @@ The following references show the available settings within the
 
 .. envvar:: intercom/settings/client-id
 
-    Defines the OIDC client name of ICS in Keycloak. The file :file:`/etc/ics_client.secret` stores secret of this client.
+    Defines the OIDC client name of ICS in Keycloak. The file :file:`/etc/ics_client.secret` stores the secret of this client.
 
     .. list-table::
         :header-rows: 1
@@ -98,7 +98,7 @@ The following references show the available settings within the
 
 .. envvar:: intercom/settings/intercom-url
 
-   Defines the fully qualified URL with protocol, on which ICS is reachable. This needs to be a externally reachable address as it is used by the browser to connect to ICS.
+   Defines the fully qualified URL with protocol, on which ICS is reachable. This needs to be a externally reachable address as it's used by the browser to connect to ICS.
 
     .. list-table::
         :header-rows: 1
@@ -265,7 +265,7 @@ The following references show the available settings within the
     Possible values
         ``test``, ``live``, ``test proxies``.
 
-    For more information refer to the Nordeck Documentation.
+    For more information refer to the Nordeck documentation.
 
     .. list-table::
         :header-rows: 1
