@@ -31,26 +31,26 @@ Installing this app has various prerequisites
 
 #. ICS requires the "Nordeck"-Bot to be up an running for Matrix
 
-#. ICS requires it's four secrets to be provided before installation, see :ref:`app-secrets` for details
+#. ICS requires its four secrets to be provided before installation, see :ref:`app-secrets` for details
   
 #. ICS requires correctly configured Keycloak, including a valid Intercom OIDC client before installation
 
    .. tab::
     Enter the Keycloak Admin interface.
     
-    Create a new OIDC Client, the "Client ID" can be configured during ICS app installation, but by default you should use "intercom", leave the "Root URL" empty and save.
+    Create a new OIDC Client, the ``Client ID can be configured during ICS app installation, but by default you should use ``intercom``, leave the ``Root URL`` empty and save.
 
-    Select "Access Type" as "confidential".
+    Select ``Access Type`` as ``confidential``.
 
-    Set "Service Accounts Enabled" and "Authorization Enabled" to "On".
+    Set ``Service Accounts Enabled`` and ``Authorization Enabled`` to ``On``.
 
-    Set the valid redirect URL to your intended ICS-domain with protocol and append the ICS callback path "/callback", for example:
+    Set the valid redirect URL to your intended ICS-domain with protocol and append the ICS callback path ``/callback``, for example:
     
       .. code-block::
 
          https://ics.example-domain.example-tld/callback
 
-    Go to the Tab "Credentials", copy the secret and save it to "/etc/intercom-client.secret".
+    Go to the Tab :guilabel:`Credentials`, copy the secret and save it to :file:`/etc/intercom-client.secret`.
 
         
 
