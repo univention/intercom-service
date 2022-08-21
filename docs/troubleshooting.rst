@@ -38,3 +38,20 @@ ICS Docker container
 
       $ univention-app logs ics
 
+
+:file:`/var/log/apache2/*.log`
+    Reverse proxy logs may contain relevant information for queried URLs by :program:`ICS`, for example the status of middleware queries to other components. Please note that for externalized setups, like for example the BMI-UX setup, the queries will be proxied through the external HAproxy and therefore logs will be located in :file:`/var/log/haproxy.log` on the haproxy-server.
+
+
+Common Problems
+===============
+
+.. _app-forgot_protocol:
+
+Failing to provide the protocol (http or https) for middleware relevant URLs like :envar:`intercom-service/nextcloud/url`, :envar:`intercom/portal/portal-url`, :envar:`intercom/matrix/nordeck-url` will lead to an error during the request in the form of:
+
+   .. code-block::
+
+      TypeError: Cannot read properties of null (reading 'split')
+        at required (/app/node_modules/requires-port/index.js:13:23)
+
