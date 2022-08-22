@@ -45,10 +45,10 @@ Refer to :numref:`figure-overview-simple` for a visual representation.
 Let's consider how this fits into the wider OIDC authentication scheme. (see :numref:`figure-overview-detail`)
 
  * The browser starts unauthenticated at the login endpoint of an ICS supporting app.
- * The browser follows the OIDC login procedure, getting redirected to Keycloak and, assuming successful login, causing the App and by extension the browser being assigned an OIDC session.
- * The browser requests an action, for example creating a video conference as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in element) is requested.
- * A silent login happens in the background. This silent login uses the information stored in the browsers to authentication of the ICS with Keycloak via a hidden iframe.
- * The actual functional interaction, displayed simplified in :numref:`figure-overview-simple` already, begins.
+ * The browser follows the OIDC login procedure, getting redirected to Keycloak and, assuming successful login, causing the App and by extension the browser to be assigned an OIDC session.
+ * The browser requests an action, for example creating a video conference, as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in Element) is requested.
+ * A silent login happens in the background. This silent login uses the information stored in the browser to authentication the ICS with Keycloak via a hidden iframe.
+ * The actual functional interaction, displayed simplified in :numref:`figure-overview-simple`, begins.
  * A requests to the correct backend (usually another Univention-app) is sent.
  * ICS acts as a middleware between the browser and the backend (app)
 
