@@ -38,7 +38,7 @@ Starting from the basics, ignoring everything related to login, authentication a
  * The app contains ICS related (JavaScript-)code as part of it's normal responses.
  * This code will instruct the browser to send a requests to ICS, once communication to a separate app is required.
  * The ICS then acts as a middleware to modify and forward those requests appropriately to the relevant, second app using a backend communication channel.
- * ICS receives back the response and finally sends an appropriately modified response, back to the browser.
+ * ICS receives the response back and finally sends an appropriately modified response back to the browser.
 
 Refer to :numref:`figure-overview-simple` for a visual representation.
 
@@ -48,11 +48,11 @@ Let's consider how this fits into the wider OIDC authentication scheme. (see :nu
  * The browser follows the OIDC login procedure, getting redirected to Keycloak and, assuming successful login, causing the App and by extension the browser to be assigned an OIDC session.
  * The browser requests an action, for example creating a video conference, as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in Element) is requested.
  * A silent login happens in the background. This silent login uses the information stored in the browser to authentication the ICS with Keycloak via a hidden iframe.
- * The actual functional interaction, displayed simplified in :numref:`figure-overview-simple`, begins.
+ * The actual functional interaction begins, displayed in :numref:`figure-overview-simple`.
  * A requests to the correct backend (usually another Univention-app) is sent.
  * ICS acts as a middleware between the browser and the backend (app)
 
-.. note:: ICS may used shared secrets rather can relying on OIDC authentication, when communication with app-backends.
+.. note:: ICS may use shared secrets rather than relying on OIDC authentication when communicating with app-backends.
 
 .. warning:: Backend communication is only safe if done via HTTPS or a secured network. Secrets may be exchanged on Application-Layer.
 
