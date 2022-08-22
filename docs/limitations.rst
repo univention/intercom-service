@@ -12,4 +12,6 @@ administrators need to know the following requirements and limitations:
 CSRF Protection
 ===============
 
+.. warning:: CSRF protection was not extensively tested and may break at any time.
+
 Cross-Site-Request-Forgery protection may not be working for OX, Matrix and Nextcloud version released before 09.2022.

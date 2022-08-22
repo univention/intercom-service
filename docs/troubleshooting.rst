@@ -40,7 +40,7 @@ ICS Docker container
 
 
 :file:`/var/log/apache2/*.log`
-    Reverse proxy logs may contain relevant information for queried URLs by :program:`ICS`, for example the status of middleware queries to other components. Please note that for externalized setups, like for example the BMI-UX setup, the queries will be proxied through the external HAproxy and therefore logs will be located in :file:`/var/log/haproxy.log` on the haproxy-server.
+    Reverse proxy logs may contain relevant information for queried URLs by :program:`ICS`, for example the status of middleware queries to other components. Please note that for externalized setups, like for example the BMI-UX setup, the queries will be proxied through the external HA-Proxy and therefore logs will be located in :file:`/var/log/haproxy.log` on the haproxy-server.
 
 
 Common Problems
