@@ -7,9 +7,7 @@ Installation
 .. highlight:: console
 
 You can install the :program:`ICS` app like any other app with Univention
-App Center. The App Center only allows to install Keycloak on a UCS system with
-the system role *Primary Director Node*. For more information, see
-:ref:`uv-manual:domain-ldap-primary-directory-node` in :cite:t:`ucs-manual`.
+App Center.
 
 UCS offers two different ways for app installation:
 
