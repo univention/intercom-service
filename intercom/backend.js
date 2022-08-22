@@ -51,7 +51,7 @@ app.use(
         },
         session: {
             store: new RedisStore({ client: redisClient }),
-        }
+        },
         afterCallback: async (req, res, session, decodedState) => {
             // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort
             try {
