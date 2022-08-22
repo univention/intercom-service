@@ -7,3 +7,9 @@ ICS
 axios
 backends
 nodejs
+middleware
+HA-Proxy
+haproxy
+iframe
+backchannel
+Filepicker
