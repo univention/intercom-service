@@ -38,7 +38,7 @@ Installing this app has various prerequisites
    .. tab::
     Enter the Keycloak Admin interface.
     
-    Create a new OIDC Client, the ``Client ID can be configured during ICS app installation, but by default you should use ``intercom``, leave the ``Root URL`` empty and save.
+    Create a new OIDC Client, the ``Client ID`` can be configured during ICS app installation, but by default you should use ``intercom``, leave the ``Root URL`` empty and save.
 
     Select ``Access Type`` as ``confidential``.
 
