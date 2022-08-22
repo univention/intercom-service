@@ -38,26 +38,37 @@ Starting from the basics, ignoring everything related to login, authentication a
  * The app contains ICS related (javascript-)code as part of it's normal responses.
  * This code will instruct the browser to send a requests to ICS, once communication to a seperate app is required.
  * The ICS then acts as a middleware to modify and forward those requests appropriatelly to the relevant, second app using a backend communication channel.
- * ICS then receives back the response and finally sends an appropriatelly modified response, back to the browser.
+ * ICS receives back the response and finally sends an appropriatelly modified response, back to the browser.
 
 Refer to :numref:`figure-overview-simple` for a visual representation.
 
 Let's consider how this fits into the wider OIDC authentication scheme. (see :numref:`figure-overview-detail`)
 
-    The browsers starts unauthenticated at the login endpoint of an ICS supporting app. It follows the OIDC login procedure, getting redirected to Keycloak and, assuming successfull login, causing the App and by extension the browser being assinged an OIDC session. Now the browser requests an action, for example creating a video conference as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in element). Now a silent login happens in the background. This silent login uses the information stored in the browsers to authentication of the ICS with Keycloak via a hidden iframe. After this has happend, the actual functional interaction described in overview_no_oidc beings with a requests to the correct backend (usually another univention-app), modification of the requests by ICS acting as a middleware and the response finally reaching the browser. Finally note, that ICS may used shared secrets rather can relying on OIDC authentication, when authenticating itself with different apps.
-    Given this basic functionality let's consider how this fits into the wider OIDC authentication scheme.
+ * The browser starts unauthenticated at the login endpoint of an ICS supporting app.
+ * The browser follows the OIDC login procedure, getting redirected to Keycloak and, assuming successfull login, causing the App and by extension the browser being assinged an OIDC session.
+ * The browser requests an action, for example creating a video conference as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in element) is requested.
+ * Aa silent login happens in the background. This silent login uses the information stored in the browsers to authentication of the ICS with Keycloak via a hidden iframe.
+ * The actual functional interaction, displayed simplified in :numref:`figure-overview-simple` already, begins.
+ * A requests to the correct backend (usually another univention-app) is sent.
+ * ICS acts as a middleware between the browser and the backend (app)
 
-    The browsers starts unauthenticated at the login endpoint of an ICS supporting app. It follows the OIDC login procedure, getting redirected to Keycloak and, assuming successfull login, causing the App and by extension the browser being assinged an OIDC session. Now the browser requests an action, for example creating a video conference as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in element). Now a silent login happens in the background. This silent login uses the information stored in the browsers to authentication of the ICS with Keycloak via a hidden iframe. After this has happend, the actual functional interaction described in overview_no_oidc beings with a requests to the correct backend (usually another univention-app), modification of the requests by ICS acting as a middleware and the response finally reaching the browser. Finally note, that ICS may used shared secrets rather can relying on OIDC authentication, when authenticating itself with different apps.
+.. note:: ICS may used shared secrets rather can relying on OIDC authentication, when communication with app-backends.
+
+.. warning:: Backend communication is only safe if done via HTTPS or a secured network. Secrets may be exchanged on Application-Layer.
 
 .. _figure-overview-simple:
+
 .. figure:: /images/overview_no_oidc.png
    :alt: ICS Abstract Overview
 
-    
-
 .. _figure-overview-detail:
+
 .. figure:: /images/intercom_detail.*
    :alt: OX Univention-Portal Central Navigation Communication
+
+.. raw:: latex
+
+    \clearpage
 
 
 Portal Navigation
@@ -70,6 +81,10 @@ Portal Navigation
 
    Communication overview for the ``Central Navigation`` functionality, which requires cross-app communication between OX and the Univention-portal. 
 
+.. raw:: latex
+
+    \clearpage
+
 
 Filepicker
 ==========
@@ -81,6 +96,9 @@ Filepicker
 
    Communication overview for the ``Filepicker`` functionality, which requires cross-app communication between OX and Nextcloud. 
 
+.. raw:: latex
+
+    \clearpage
 
 .. _app-endpoints:
 
