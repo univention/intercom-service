@@ -9,7 +9,7 @@ variables:
   LANG: "C.UTF-8"
   DEBIAN_FRONTEND: noninteractive
   UNIVENTION_BASECONF: /dev/null
-  DOC_TARGET_VERSION: "18.0.2"
+  DOC_TARGET_VERSION: "0.9"
 
 services:
   - docker:dind
