@@ -61,10 +61,14 @@ Let's consider how this fits into the wider OIDC authentication scheme. (see :nu
 .. figure:: /images/overview_no_oidc.png
    :alt: ICS Abstract Overview
 
+   Interactions of ICS without OIDC
+
 .. _figure-overview-detail:
 
 .. figure:: /images/intercom_detail.*
    :alt: OX Univention-Portal Central Navigation Communication
+
+   Interactions of ICS with OIDC, OX and Nordeck
 
 .. raw:: latex
 
