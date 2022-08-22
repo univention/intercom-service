@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: docker.software-univention.de/intercom:0.9
+    image: docker.software-univention.de/intercom:1.0
     restart: unless-stopped
     dns:
       - 1.1.1.1
