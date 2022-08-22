@@ -48,7 +48,7 @@ Common Problems
 
 .. _app-forgot_protocol:
 
-Failing to provide the protocol (http or https) for middleware relevant URLs like :envar:`intercom-service/nextcloud/url`, :envar:`intercom/portal/portal-url`, :envar:`intercom/matrix/nordeck-url` will lead to an error during the request in the form of:
+Failing to provide the protocol (http or https) for middleware relevant URLs like `intercom-service/nextcloud/url`, `intercom/portal/portal-url`, `intercom/matrix/nordeck-url` will lead to an error during the request in the form of:
 
    .. code-block::
 
