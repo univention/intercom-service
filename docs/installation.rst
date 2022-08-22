@@ -131,4 +131,4 @@ steps:
 
       .. code-block::
 
-         $ univention-app install --set port=8080 TODO other options 
+         $ univention-app install --set OPTION=VALUE
