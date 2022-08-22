@@ -33,7 +33,7 @@ Installing this app has various prerequisites
 
 #. ICS requires its four secrets to be provided before installation, see :ref:`app-secrets` for details
   
-#. ICS requires correctly configured Keycloak (>=15.0), including a valid Intercom OIDC client before installation
+#. ICS requires correctly configured Keycloak (>=12.0), including a valid Intercom OIDC client before installation
 
    .. tab::
     Enter the Keycloak Admin interface.
@@ -46,7 +46,7 @@ Installing this app has various prerequisites
 
     Set ``Service Accounts Enabled`` and ``Authorization Enabled`` to ``On``.
 
-    Set ``Backchannel Logout URL`` to your intended ICS-domain with protocol and append the ICS backchannel logout path (requires Keycloak >=15.0.0), for example:
+    Set ``Backchannel Logout URL`` to your intended ICS-domain with protocol and append the ICS backchannel logout path (requires Keycloak >=12.0.0), for example:
 
       .. code-block::
 
