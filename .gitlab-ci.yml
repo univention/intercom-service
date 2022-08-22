@@ -1,6 +1,6 @@
 stages:
   - build
-  # - production
+  - production
 
 variables:
   DOCS_DIR: "docs"
