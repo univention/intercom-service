@@ -119,11 +119,11 @@ docs-production:
     - git clean --force -d
     - git fetch --no-tags origin
     - git reset --hard origin/master
-    - mkdir -p ./keycloak-app/"$DOC_TARGET_VERSION"
-    - rsync -av --delete "$CI_PROJECT_DIR"/out/ ./keycloak-app/"$DOC_TARGET_VERSION"/
+    - mkdir -p ./intercom-service/"$DOC_TARGET_VERSION"
+    - rsync -av --delete "$CI_PROJECT_DIR"/out/ ./intercom-service/"$DOC_TARGET_VERSION"/
     - git add -- .
     - git commit -m "Automatic doc deployment from $CI_PROJECT_PATH by GitLab commit $CI_COMMIT_SHA"
     - git push
   environment:
     name: production
-    url: http://updates.knut.univention.de/download/docs/keycloak-app
+    url: http://updates.knut.univention.de/download/docs/intercom-service
