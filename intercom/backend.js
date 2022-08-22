@@ -32,7 +32,7 @@ var corsOptions = {
 const csrfProtection = csrfDSC({cookie: {sameSite: "none", secure: true}});
 
 app.use(express.urlencoded());
-let redisClient = createClient({ legacyMode: true });
+let redisClient = createClient({ legacyMode: true, url: "redis://redis:6379"});
 redisClient.connect().catch(console.error)
 
 app.use(
