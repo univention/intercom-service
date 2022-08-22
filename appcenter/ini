@@ -1,8 +1,9 @@
 [Application]
 ID = intercom-service
+Code = 0Y
 Version = 0.9
-Name = Intercom Service
-UcsOverviewCategory=False
+Name = UCS Intercom Service
+Vendor = Univention
 DockerScriptRestoreDataAfterSetup = 
 DockerScriptStoreData = 
 DockerScriptUpdateAvailable = 
@@ -11,55 +12,61 @@ DockerScriptUpdatePackages =
 DockerScriptUpdateAppVersion = 
 DockerScriptUpdateRelease = 
 DockerScriptSetup = 
-LogoDetailPage = 
-Description = 
-AppCategories = Identity Management, Infrastructure
-DockerMainService = intercom-service 
-Logo = logo.png
-LongDescription = <div class="col-sm-7 col-xs-12 left-col">
-    <p>
-    The UCS Intercom Service (ICS) is a backend service that acts as an intermediary for the
-    secure communication and Single Sign-On between other services. The ICS allows webservice
-    backends to communicate with each other based on the Single Sign-On session of the
-    current end user while ensuring session security.
-
-    The ICS is very specific for dedicated use cases, currently in the interaction between
-    Open-Xchange, Nextcloud and elements/matrix. Details are outlined in the documentation.
-    </p>
-    
-    <h3>Before installing</h3>
-    <p>
-        Make sure to place your secrets inside this files:
-        <ul>
-            <li>/etc/intercom-client.secret</li>
-            <li>/etc/intercom.secret</li>
-            <li>/etc/matrix.secret</li>
-            <li>/etc/intercom-portal.secret</li>
-        </ul>
-    </p>
-    </div>
-PortsExclusive = 8008
-SupportedUcsVersions = 5.0-0
+DockerMainService = intercom-service
 ServerRole = domaincontroller_master, domaincontroller_backup
-DockerEnvDatabaseHost =
-DockerEnvDatabaseUser =
-Database =
-DockerEnvDatabasePassword = 
-DockerEnvDatabasePort = 
-DockerEnvDatabaseName = 
-DatabaseUser = 
-DatabasePasswordFile =
-WebsiteMaintainer = https://www.univention.com/
+PortsRedirection = 8008:8008
+PortsExclusive = 8008
 Maintainer = Univention GmbH
-NotifyVendor = True
-License = free
-Contact = sales@univention.de
-NotificationEmail = appcenter-reporting@univention.de
+Description = Single Sign-On helper service for secure backend communication.
+WebsiteMaintainer = https://www.univention.de/
+AppCategories = Identity Management, Infrastructure
+LongDescription = <div>
+		The UCS Intercom Service (ICS) is a backend service that acts as an intermediary for the secure communication and Single Sign-On between other services. The ICS allows webservice backends to communicate with each other based on the Single Sign-On session of the current end user while ensuring session security.
+	</div>
+	<div>
+		<br>
+	</div>
+	<div>
+		The ICS is very specific for dedicated use cases, currently in the interaction between Open-Xchange, Nextcloud and elements/matrix. Details are outlined in the documentation.
+		<br>
+		<br>
+		The App can only be installed successfully if some prerequisites are fullfilled. <b>Please consult the documentation before installation!</b>
+		<br>
+		&nbsp;
+		<br>
+		<ul>
+		</ul>
+	</div>
+	
 
 [de]
-LongDescription = 
-Description = 
 Maintainer = Univention GmbH
 WebsiteMaintainer = https://www.univention.de/
-
+Name = UCS Intercom Service
+Description = Service für sichere Backend-Kommunikation in Single Sign-On Szenarien.
+LongDescription = <div>
+		<div>
+			Der UCS Intercom Service (ICS) ist ein Backend-Dienst, der als Vermittler für die sichere Kommunikation und Single Sign-On zwischen anderen Diensten fungiert. Der ICS ermöglicht es Webservice-Backends, auf der Grundlage der Single Sign-On-Sitzung des aktuellen Endbenutzers miteinander zu kommunizieren und gleichzeitig die Sitzungssicherheit zu gewährleisten.
+		</div>
+		<div>
+			<br>
+		</div>
+		<div>
+			Der ICS ist sehr spezifisch für bestimmte Anwendungsfälle, derzeit für die Interaktion zwischen Open-Xchange, Nextcloud und elements/matrix. Details sind in der Dokumentation beschrieben.
+		</div>
+		<div>
+			<br>
+		</div>
+		<div>
+			Die App kann nur erfolgreich installiert werden, wenn einige Voraussetzungen erfüllt sind. B<b>itte konsultieren Sie vor der Installation die Dokumentation!</b>
+		</div>
+		<div>
+			<br>
+		</div>
+	</div>
+	<div>
+		<ul>
+		</ul>
+	</div>
+	
 
