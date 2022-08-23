@@ -28,16 +28,15 @@ done
 # Create Intercom Service secret
 pwdfile="/etc/intercom.secret"
 [ -e "$pwdfile" ] || makepasswd --chars 20 > "$pwdfile"
-chmod 640 "$pwdfile"
+chmod 600 "$pwdfile"
+
+# Create Intercom Service Redis secret
+pwdfile="/etc/intercom-redis.secret"
+[ -e "$pwdfile" ] || makepasswd --chars 20 > "$pwdfile"
+chmod 600 "$pwdfile"
 
 # Check files exist
 FILE=/etc/matrix.secret
-if [ ! -f "$FILE" ]; then
-    echo "$FILE does not exists"
-    exit 1
-fi
-
-FILE=/etc/intercom.secret
 if [ ! -f "$FILE" ]; then
     echo "$FILE does not exists"
     exit 1

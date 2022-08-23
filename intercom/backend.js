@@ -29,10 +29,10 @@ var corsOptions = {
     origin: new RegExp(process.env.ORIGIN_REGEX),
 }
 
-const csrfProtection = csrfDSC({cookie: {sameSite: "none", secure: true}});
+const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
 
 app.use(express.urlencoded());
-let redisClient = createClient({ legacyMode: true, url: "redis://redis-intercom:6379"});
+let redisClient = createClient({ legacyMode: true, url: "redis://redis-intercom:6379", password: process.env.REDIS_PASSWORD });
 redisClient.connect().catch(console.error)
 
 app.use(
@@ -86,7 +86,7 @@ app.use(cookieParser());
 app.use(csrfProtection)
 app.use((req, res, next) => {
     if (req.cookies && 'appSession' in req.cookies && req.appSession
-            && 'session_state' in req.appSession) {
+        && 'session_state' in req.appSession) {
         redisClient.set(req.appSession['session_state'], req.cookies['appSession'])
     }
     next()
@@ -95,7 +95,7 @@ app.use((req, res, next) => {
 app.post("/backchannel-logout", async (req, res) => {
     // TODO: Actually check the Token, Verify the signature, ...
     const token = jwt_decode(req.body.logout_token)
-    redisClient.get( token['sid'], function(err, session_id) {
+    redisClient.get(token['sid'], function(err, session_id) {
         redisClient.del("sess:" + session_id)
         redisClient.del(token['sid'])
         res.send("Done")
@@ -169,7 +169,7 @@ app.use('/fs', requiresAuth(), createProxyMiddleware({
 // TODO: https://127.0.0.1/univention/portal/navigation.json?lang=de_DE -H "Authorization: Basic username:MyPortalSecretFromBMIUXAnsibleHostINI"
 app.use('/navigation.json', requiresAuth(), createProxyMiddleware({
     target: process.env.PORTAL_URL, logLevel: 'debug', changeOrigin: true,
-    pathRewrite: {'^/navigation.json': '/univention/portal/navigation.json'},
+    pathRewrite: { '^/navigation.json': '/univention/portal/navigation.json' },
     onProxyReq: function onProxyReq(proxyReq, req, res) {
         stripIntercomCookies(proxyReq)
         proxyReq.setHeader('Authorization', 'Basic ' + btoa(jwt_decode(req.appSession.id_token)['phoenixusername'] + ':' + process.env.PORTAL_API_KEY));

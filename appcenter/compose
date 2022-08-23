@@ -4,6 +4,8 @@ services:
     container_name: intercom-service
     image: docker.software-univention.de/intercom:1.0
     restart: unless-stopped
+    networks:
+      - intercom
     dns:
       - 1.1.1.1
       - 1.0.0.1
@@ -46,6 +48,13 @@ with open(pwdfile, 'r') as fd:
       # PROXY
       PROXY: "@%@intercom-service/settings/proxy@%@"
 
+      # REDIS
+      REDIS_PASSWORD: @!@
+import os
+pwdfile="/etc/intercom-redis.secret"
+with open(pwdfile) as fd:
+    print(fd.read().strip())@!@
+
       # NORDECK
       NORDECK_MODE: @%@intercom-service/matrix/nordeck-mode@%@  # test, live, test proxies
       NORDECK_URL: @%@intercom-service/matrix/nordeck-url@%@
@@ -72,6 +81,15 @@ with open(pwdfile, 'r') as fd:
   redis-intercom:
     image: redis:6.2-alpine
     restart: always
-    ports:
-      - 6379:6379
-    command: redis-server --save 20 1 --loglevel warning
+    networks:
+      - intercom
+    command: redis-server --save 20 1 --loglevel warning --requirepass @!@
+import os
+pwdfile="/etc/intercom-redis.secret"
+with open(pwdfile) as fd:
+    print(fd.read().strip())@!@
+
+networks:
+  intercom:
+    name: intercom
+    external: false
