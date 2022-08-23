@@ -12,6 +12,7 @@ DockerScriptUpdatePackages =
 DockerScriptUpdateAppVersion = 
 DockerScriptUpdateRelease = 
 DockerScriptSetup = 
+DockerShellCommand = /bin/sh
 DockerMainService = intercom-service
 ServerRole = domaincontroller_master, domaincontroller_backup
 PortsRedirection = 8008:8008
