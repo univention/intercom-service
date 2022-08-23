@@ -108,11 +108,13 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
+
+pdf_doc_base = f"{read_doc_name_from_ci()}-app"
+
 html_theme = 'univention_sphinx_book_theme'
 
 html_context = {
-    "pdf_download_filename": "ics-app.pdf",
+    "pdf_download_filename": f"{pdf_doc_base}.pdf",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -160,7 +162,7 @@ latex_engine = 'lualatex'
 latex_show_pagerefs = True
 latex_show_urls = "footnote"
 latex_documents = [
-    (root_doc, 'ics-app.tex', project, author, "manual", False)]
+    (root_doc, f'{pdf_doc_base}.tex', project, author, "manual", False)]
 latex_elements = {
     "papersize": "a4paper",
 }
