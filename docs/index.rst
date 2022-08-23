@@ -1,18 +1,24 @@
 .. _doc-entry:
 
-#####################################
-Univention ICS app documentation
-#####################################
+########################
+UCS Intercom Service app
+########################
 
-Welcome to the documentation about the Univention :program:`ICS` app. The
-app installs the Intercom Service, and intermediary for communication between applications like Nextcloud, OX and Synapse (Element). This program is required for the functionalities File-picker, Videoconference create and accessing the Univention-Portal navigation endpoint from other apps.
+Welcome to the documentation about the Univention app |ICS_p|. The app installs
+the |ICS|, an intermediary for communication between applications
+like *Nextcloud*, *OX App Suite* and *Matrix*. The functionalities
+*File-picker*, *Video conference*, create and accessing the *Univention-Portal
+navigation* endpoint from other apps require the app |ICS_p|.
 
-This documentation is for system administrators who operate the
-:program:`ICS` app from Univention App Center connected to the LDAP
-directory in Univention Corporate Server (UCS). It covers the following topics:
+This documentation is for system administrators who operate the app |ICS_p| from
+Univention App Center connected to the LDAP directory in |UCS|. It covers the
+following topics:
 
-#. :ref:`app-architecture-overview`
-#. :ref:`app-design-decisions`
+#. :ref:`app-architecture`
+#. :ref:`app-installation`
+#. :ref:`app-configuration`
+#. :ref:`app-limitations`
+#. :ref:`app-troubleshooting`
 
 This documentation doesn't cover the following topics:
 
@@ -29,9 +35,13 @@ tasks:
 * :ref:`Manage an app through Univention App Center
   <uv-manual:computers-softwareselection>` in :cite:t:`ucs-manual`.
 
+The app |ICS_p| supports *Keycloak* as :term:`IdP`. In the context of this
+document, the term *IdP* is synonymous for *Keycloak* in the context of an IdP
+in |OIDC|.
+
 Your feedback is welcome and highly appreciated. If you have comments,
 suggestions, or criticism, please `send your feedback
-<https://www.univention.com/feedback/?ics-app=generic>`_ for document
+<https://www.univention.com/feedback/?intercom-service-app=generic>`_ for document
 improvement.
 
 .. toctree::

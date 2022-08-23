@@ -44,9 +44,24 @@ def read_version_from_ci() -> str:
                 ).get("DOC_TARGET_VERSION")
 
 
+def read_doc_name_from_ci() -> str:
+    import yaml
+
+    with open("../.gitlab-ci.yml", "r") as f:
+        ci = yaml.safe_load(f)
+        return ci.get(
+                "variables", {"DOC_NAME": "intercom-service"}
+                ).get("DOC_NAME")
+
+
 release = read_version_from_ci()
 version = release
-project = "ICS app {}".format(release)
+
+project = f"UCS Intercom Service app {release}"
+
+if "latexpdf" in sys.argv:
+    project = "UCS Intercom Service app"
+
 copyright = '{}, Univention GmbH'.format(date.today().year)
 author = 'Univention GmbH'
 html_show_copyright = True

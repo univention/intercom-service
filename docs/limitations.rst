@@ -4,14 +4,17 @@
 Requirements and limitations
 ****************************
 
-To ensure a smooth operation of the :program:`ICS` app on |UCS|,
-administrators need to know the following requirements and limitations:
+To ensure a smooth operation of the app |ICS_p| on |UCS|, administrators need to
+know the following requirements and limitations.
 
-.. _limitation_security-issues:
+.. _limitation-security-issues:
 
-CSRF Protection
-===============
+Cross-Site-Request-Forgery protection
+=====================================
 
-.. warning:: CSRF protection was not extensively tested and may break at any time.
+.. warning::
 
-Cross-Site-Request-Forgery protection may not be working for OX, Matrix and Nextcloud version released before 09.2022.
+   |CSRF| protection wasn't extensively tested and may break at any time.
+
+|CSRF| protection may not be working for *Matrix*, *Nextcloud*, and *OX App
+Suite* versions released before September 2022.

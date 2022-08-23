@@ -6,8 +6,7 @@ Installation
 
 .. highlight:: console
 
-You can install the :program:`ICS` app like any other app with Univention
-App Center.
+You can install the app |ICS_p| like any other app with Univention App Center.
 
 UCS offers two different ways for app installation:
 
@@ -15,65 +14,83 @@ UCS offers two different ways for app installation:
 
 * With the command-line
 
-For general information about Univention App Center and how to use it for software
-installation, see :ref:`uv-manual:software-appcenter` in :cite:t:`ucs-manual`.
+For general information about Univention App Center and how to use it for
+software installation, see :ref:`uv-manual:software-appcenter` in
+:cite:t:`ucs-manual`.
 
-.. _prerequisites:
+.. _app-prerequisites:
 
-Installing this app has various prerequisites
-=============================================
+Prerequisites
+=============
 
-#. ICS only supports OIDC, this means both *Nextcloud (>=23.0)* and *OX (>=7.10.6)* have to be authenticated via OIDC as well
+Installing this app has various prerequisites:
 
-#. For working CSRF protection all other Apps need to be up to date
+#. |ICS| supports |OIDC|, this means both *Nextcloud (>=23.0)* and *OX App
+   Suite (>=7.10.6)* have to be authenticated via OIDC, as well.
 
-#. ICS requires the "Nordeck"-Bot to be up an running for Matrix
+#. For working CSRF protection all other apps need to be up to date.
 
-#. ICS requires its four secrets to be provided before installation, see :ref:`app-secrets` for details
-  
-#. ICS requires correctly configured Keycloak (>=12.0), including a valid Intercom OIDC client before installation
+#. |ICS| requires the *Nordeck* bot up and running for Matrix.
 
-   .. tab::
-    Enter the Keycloak Admin interface.
-    
-    Create a new OIDC Client, the ``Client ID`` can be configured during ICS app installation, but by default you should use ``intercom``, leave the ``Root URL`` empty and save.
+#. |ICS| requires its four secrets before installation, see :ref:`app-secrets` for
+   details.
 
-    Select ``Access Type`` as ``confidential``.
+#. |ICS| requires a configured *Keycloak* (>=12.0), including a valid Intercom
+   |OIDC| client before installation.
 
-    Set ``Service Accounts Enabled`` and ``Authorization Enabled`` to ``On``.
 
-    Set ``Service Accounts Enabled`` and ``Authorization Enabled`` to ``On``.
+Add ICS client to IdP
+=====================
 
-    Set ``Backchannel Logout URL`` to your intended ICS-domain with protocol and append the ICS backchannel logout path (requires Keycloak >=12.0.0), for example:
+To prepare the existing :term:`IdP` for the installation of the app |ICS_p|, use
+the following steps:
 
-      .. code-block::
+#. Enter the *Keycloak Admin Console*.
 
-         https://ics.example-domain.example-tld/backchannel-logout
+#. Create a |OIDC| Client. Recommendation is to use the default value
+   ``intercom`` for the *Client ID* and leave the *Root URL* empty and save it.
 
-    Set the valid redirect URL to your intended ICS-domain with protocol and append the ICS callback path ``/callback``, for example:
-    
-      .. code-block::
+   During app installation, |ICS_p| asks for the *Client ID*.
 
-         https://ics.example-domain.example-tld/callback
+#. Set *Access Type* to ``confidential``.
 
-    Go to the Tab :guilabel:`Credentials`, copy the secret and save it to :file:`/etc/intercom-client.secret`.
+#. Set *Service Accounts Enabled* and *Authorization Enabled* to ``On``.
 
-        
+#. Set *Service Accounts Enabled* and *Authorization Enabled* to ``On``.
+
+#. Set *Backchannel Logout URL* to your intended domain for |ICS| with protocol
+   and append the ``backchannel-logout`` path, for example:
+
+   .. code-block::
+
+      https://ics.example-domain.example-tld/backchannel-logout
+
+   This step requires *Keycloak* >=12.0.0.
+
+#. Set the valid redirect URL to your intended |ICS| domain with protocol and
+   append the ``/callback`` path, for example:
+
+   .. code-block::
+
+      https://ics.example-domain.example-tld/callback
+
+#. Go to the tab *Credentials*, copy the secret and save it to
+   :file:`/etc/intercom-client.secret`.
 
 .. _installation-browser:
 
 Installation with the web browser
 =================================
 
-To install ICS from the UCS management system, use the following steps:
+To install |ICS| from the UCS management system, use the following steps:
 
 #. Use a web browser and sign in to the UCS management system.
 
 #. Open the *App Center*.
 
-#. Select or search for *ICS* and open the app with a click.
+#. Select or search for *Intercom Service* and open the app with a click.
 
-#. To install ICS, click :guilabel:`Install`.
+#. To install *Intercom Service*, click :guilabel:`Install`.
 
 #. Leave the *App settings* in their defaults or adjust them to your
    preferences. For a reference, see :ref:`app-settings`.
@@ -95,8 +112,7 @@ To install ICS from the UCS management system, use the following steps:
 Installation with command-line
 ==============================
 
-To install the :program:`ICS` app from the command-line, use the following
-steps:
+To install the app |ICS_p| from the command-line, use the following steps:
 
 #. Sign in to a terminal or remote shell with a username with administration
    rights, for example ``root``.
@@ -110,7 +126,7 @@ steps:
 
       .. code-block::
 
-         $ univention-app install ics
+         $ univention-app install intercom-service
 
    .. tab:: Custom settings
 
@@ -119,7 +135,7 @@ steps:
 
       .. code-block::
 
-         $ univention-app install --set $SETTING_KEY=$SETTING_VALUE ics
+         $ univention-app install --set $SETTING_KEY=$SETTING_VALUE intercom-service
 
       .. caution::
 
@@ -131,4 +147,5 @@ steps:
 
       .. code-block::
 
-         $ univention-app install --set OPTION=VALUE
+         $ univention-app install intercom-service \
+           --set intercom-service/settings/issuer-base-url=https://sso.example.com/auth/realms/REALM_NAME

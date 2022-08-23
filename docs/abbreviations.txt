@@ -1,6 +1,8 @@
+.. |CORS| replace:: :abbr:`CORS (Cross-Origin Resource Sharing)`
+.. |CSRF| replace:: :abbr:`CSRF (Cross-Site-Request-Forgery)`
 .. |DN| replace:: :abbr:`DN (Distinguished Name)`
+.. |ICS_p| replace:: :program:`UCS Intercom Service`
+.. |ICS| replace:: :abbr:`ICS (UCS Intercom Service)`
 .. |OIDC| replace:: :abbr:`OIDC (OpenID Connect)`
 .. |SAML| replace:: :abbr:`SAML (Security Assertion Markup Language)`
 .. |UCS| replace:: :abbr:`UCS (Univention Corporate Server)`
-.. |ICS| replace:: :abbr:`ICS (Intercom-Service)`
-

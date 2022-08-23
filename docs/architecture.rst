@@ -4,20 +4,26 @@
 Architecture
 ************
 
-The :program:`ICS` app architecture consists of the following elements:
+The |ICS_p| app architecture consists of the following elements:
 
 * The operating environment |UCS| with the App Center and the Docker engine
-  running the ICS-Container.
+  running the |ICS| container.
 
-* The ICS software based on nodejs running in the ICS-Container.
+* The |ICS| software based on *Node.js®* running in the |ICS| container.
 
-* The Keycloak Identity Access Management, which is used by ICS to authenticate sessions and obtain login tokens for applications.
+* The *Keycloak Identity Access Management*, used by |ICS| to authenticate
+  sessions and retrieve login tokens for applications.
 
-* A Redis container to store OIDC sessions.
+* A *Redis* container to store |OIDC| sessions.
 
-* The following sections may refer to ``the browser`` rather than to ``the client`` to avoid confusion with OIDC clients configured in Keycloak. 
-  
-* ``Backend communication`` as referred to in the following section is not related to ``Backchannel Logout``, which is a specific OIDC protocol.
+.. note::
+
+   The following sections may refer to the *browser* rather than to the
+   *client* to avoid confusion with |OIDC| clients configured in *Keycloak*.
+
+   *Back end communication* as referred to in the following section isn't related
+   to the *Backchannel Logout* path, which is a specific part of the |OIDC|
+   protocol.
 
 
 .. _app-design-decisions:
@@ -25,50 +31,83 @@ The :program:`ICS` app architecture consists of the following elements:
 Design decisions
 ================
 
-The :program:`ICS` app aims to provide a simple way to facilitate CORS-conform communication to different backends directly from the browser. It can proxy, modify and authenticate requests and use Keycloak and its own sessions storage to hold OIDC session. It can acquire those sessions via a silent background login, provided a valid OIDC cookie is already available in the browser.
+The app |ICS_p| aims to provide a way to facilitate :term:`CORS` conform communication
+to different back ends directly from the browser. It can proxy, modify, and
+authenticate requests and use *Keycloak* as :term:`IdP` and its own session storage to
+hold |OIDC| sessions. It acquires those sessions through a silent background
+login, provided a valid |OIDC| cookie is already available in the browser.
 
 .. _app-architecture-overview:
 
 Overview
 ========
 
-Starting from the basics, ignoring everything related to login, authentication and sessions for now, this is how ICS works on a basic level.
+Starting from the basics, ignoring everything related to login, authentication,
+and sessions for now, this is how |ICS| works on a basic level.
 
- * The browser opens the intended app normally.
- * The app contains ICS related (JavaScript-)code as part of it's normal responses.
- * This code will instruct the browser to send a requests to ICS, once communication to a separate app is required.
- * The ICS then acts as a middleware to modify and forward those requests appropriately to the relevant, second app using a backend communication channel.
- * ICS receives the response back and finally sends an appropriately modified response back to the browser.
+#. The browser opens the intended app.
 
-Refer to :numref:`figure-overview-simple` for a visual representation.
+#. The app contains |ICS| related JavaScript code as part of its responses.
 
-Let's consider how this fits into the wider OIDC authentication scheme. (see :numref:`figure-overview-detail`)
+#. This code instructs the browser to send a requests to |ICS|, after the
+   browser needs communication to a separate app.
 
- * The browser starts unauthenticated at the login endpoint of an ICS supporting app.
- * The browser follows the OIDC login procedure, getting redirected to Keycloak and, assuming successful login, causing the App and by extension the browser to be assigned an OIDC session.
- * The browser requests an action, for example creating a video conference, as part of a calendar entry. This means an interaction from OX to Element (more specifically the Nordeck-bot running in Element) is requested.
- * A silent login happens in the background. This silent login uses the information stored in the browser to authentication the ICS with Keycloak via a hidden iframe.
- * The actual functional interaction begins, displayed in :numref:`figure-overview-simple`.
- * A requests to the correct backend (usually another Univention-app) is sent.
- * ICS acts as a middleware between the browser and the backend (app)
+#. |ICS| acts as a middleware to modify and forward those requests appropriately
+   to the relevant, second app using a back end communication channel.
 
-.. note:: ICS may use shared secrets rather than relying on OIDC authentication when communicating with app-backends.
+#. |ICS| receives the response and finally sends an appropriately modified
+   response to the browser.
 
-.. warning:: Backend communication is only safe if done via HTTPS or a secured network. Secrets may be exchanged on Application-Layer.
+For a visual representation, refer to :numref:`figure-overview-simple`.
+
+The following list describes how this fits into the wider |OIDC| authentication
+scheme. See also :numref:`figure-overview-detail`.
+
+#. The browser starts unauthenticated at the login endpoint of an app that
+   supports |ICS|, for example *Matrix*, *Nextcloud*, or *OX App Suite*.
+
+#. The browser follows the |OIDC| login procedure. The app redirects the browser
+   to the :term:`IdP` *Keycloak* and upon successful login assigns an |OIDC|
+   session for the app to the browser.
+
+#. The browser requests an action, for example to create a video conference, as
+   part of a calendar entry. The browser requests an interaction from *OX App
+   Suite* to *Matrix*. In detail, the browser requests the *Nordeck* bot that
+   runs in the Matrix user front end *Element*.
+
+#. A silent login happens in the background, that uses the information stored in
+   the browser to authenticate |ICS| with the :term:`IdP` *Keycloak* through a
+   hidden `IFrame <https://en.wikipedia.org/wiki/HTML_element#Frames>`_.
+
+#. The functional interaction begins as displayed in
+   :numref:`figure-overview-simple`.
+
+#. |ICS| sends a requests to the back end, usually another app on UCS. |ICS|
+   acts as a middleware between the browser and back ends, for example apps.
+
+.. note::
+
+   |ICS| may use shared secrets rather than relying on |OIDC| authentication when
+   communicating with back ends.
+
+.. warning::
+
+   Back end communication is only safe, if done through HTTPS or a secure
+   network. Secrets may be exchanged on application layer.
 
 .. _figure-overview-simple:
 
 .. figure:: /images/overview_no_oidc.png
-   :alt: ICS Abstract Overview
+   :alt: Abstract overview of |ICS|
 
-   Interactions of ICS without OIDC
+   Interactions of |ICS| without |OIDC|
 
 .. _figure-overview-detail:
 
 .. figure:: /images/intercom_detail.*
-   :alt: OX Univention-Portal Central Navigation Communication
+   :alt: Interactions of ICS with OIDC, OX App Suite and Nordeck
 
-   Interactions of ICS with OIDC, OX and Nordeck
+   Interactions of |ICS| with |OIDC|, *OX App Suite* and *Nordeck*
 
 .. raw:: latex
 
@@ -83,7 +122,8 @@ Portal Navigation
 .. figure:: /images/PortalCentralNavigation.*
    :alt: OX Univention-Portal Central Navigation Communication
 
-   Communication overview for the ``Central Navigation`` functionality, which requires cross-app communication between OX and the Univention-portal. 
+   Communication overview for the ``Central Navigation`` capability, which
+   requires cross app communication between *OX App Suite* and the *UCS Portal*.
 
 .. raw:: latex
 
@@ -96,9 +136,10 @@ Filepicker
 .. _figure-filepicker:
 
 .. figure:: /images/OxFilepickerAuth.*
-   :alt: OX Filepicker OIDC Communication
+   :alt: OX Filepicker OIDC communication
 
-   Communication overview for the ``Filepicker`` functionality, which requires cross-app communication between OX and Nextcloud. 
+   Communication overview for the ``Filepicker`` capability, which requires
+   cross-app communication between *OX App Suite* and *Nextcloud*.
 
 .. raw:: latex
 
@@ -106,33 +147,64 @@ Filepicker
 
 .. _app-endpoints:
 
+Endpoints
+=========
+
+The app |ICS_p| offers the API endpoints listed below.
+
 General
-=======
+-------
 
-.. envvar:: /
-
+``/``
    Alive test only
 
-.. envvar:: /silent
-
+``/silent``
    Silent (OIDC) login endpoint
 
-.. envvar:: /backchannel-logout
-
+``/backchannel-logout``
    Endpoint for OIDC backchannel logout requests
 
 
-App-Specific
-============
+App specific
+------------
 
-.. envvar:: /fs
-
+``/fs``
    Proxy for Nextcloud
 
-.. envvar:: /navigation.json
-
+``/navigation.json``
    Proxy to Univention-portal for central navigation data
 
-.. envvar:: /nob
-   
-   Proxy for the Nordeck-bot. This endpoint may also be used to send requests to the plain Matrix ``UserInfo``-service in a testing environment.
+``/nob``
+   Proxy for the *Nordeck* bot. This endpoint may also be used to send requests
+   to the plain *Matrix* ``UserInfo`` service in a testing environment.
+
+Terms
+=====
+
+The document uses the terms that may not be clear to the reader. The following
+list provides context and explanation.
+
+.. glossary::
+
+   CORS
+      CORS stands for *Cross-Origin Resource Sharing* and is a mechanism that
+      allows restricted resources on a web page to be requested from another
+      domain outside the domain from which the first resource was served.
+
+      For more information about |CORS|, refer to `Wikipedia: Cross-origin
+      resource sharing
+      <https://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`_.
+
+   IdP
+      stands for *Identity Provider*. An IdP offers user authentication as
+      service. In the context of the app |ICS_p| the software *Keycloak* offers
+      the IdP service to |ICS| and its app back ends.
+
+   OIDC audience
+      The |OIDC| audience is a required claim within the ID Token for all OAuth
+      2.0 flows used by |OIDC|. According to the specification, it must contain
+      the OAuth 2.0 ``client_id`` of the relying party as audience value.
+
+      For more information, see `section ID Token
+      <https://openid.net/specs/openid-connect-core-1_0.html#IDToken>`_ in
+      :cite:t:`openid-connect-core`.
