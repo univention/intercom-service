@@ -6,6 +6,7 @@ variables:
   DOCS_DIR: "docs"
   CI_REGISTRY: docker-registry.knut.univention.de
   SPHINX_DOC: $CI_REGISTRY/sphinx
+  GIT_SYNC: docker-registry.knut.univention.de/knut/git-sync
   LANG: "C.UTF-8"
   DEBIAN_FRONTEND: noninteractive
   UNIVENTION_BASECONF: /dev/null
@@ -106,7 +107,7 @@ docs-production:
     GIT_COMMITTER_NAME: $GITLAB_USER_NAME
     GIT_COMMITTER_EMAIL: $GITLAB_USER_EMAIL
   resource_group: prod
-  image: $SPHINX_DOC
+  image: $GIT_SYNC
   rules:
     - changes:
       - "$DOCS_DIR/**/*"
