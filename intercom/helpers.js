@@ -2,6 +2,7 @@ require('dotenv').config({ path: './.env.prod' });
 const axios = require("axios");
 const qs = require("qs");
 const https = require('https');
+const cookie = require('cookie');
 
 const fetchToken = async (access_token, audience) => {
     var params = {
@@ -53,10 +54,11 @@ const fetchMatrixToken = async (user_id) => {
 }
 
 const stripIntercomCookies = async (proxyReq) => {
-    const cookies = proxyReq.getHeader("cookie").split(";")
-    var keep = cookies.filter(c => !String(c).trim().startsWith("appSession"))
-    if (keep) {
-        proxyReq.setHeader('cookie', keep.join(';'))
+    const cookies = cookie.parse(proxyReq.getHeader("cookie"));
+    delete cookies["appSession"];
+    if (Object.keys(cookies).length > 0) {
+        const keep = Object.keys(cookies).map(c => cookie.serialize(c, cookies[c]));
+        proxyReq.setHeader('cookie', keep.join('; '));
     }
 }
 
