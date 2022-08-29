@@ -56,8 +56,6 @@ the following steps:
 
 #. Set *Service Accounts Enabled* and *Authorization Enabled* to ``On``.
 
-#. Set *Service Accounts Enabled* and *Authorization Enabled* to ``On``.
-
 #. Set *Backchannel Logout URL* to your intended domain for |ICS| with protocol
    and append the ``backchannel-logout`` path, for example:
 
