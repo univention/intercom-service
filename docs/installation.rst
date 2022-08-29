@@ -141,9 +141,9 @@ To install the app |ICS_p| from the command-line, use the following steps:
          their default values, set them before the installation. For a
          reference, see :ref:`app-settings`.
 
-      **Example**: To define a different administration user in ICS, run:
+      **Example**: To define a different Keycloak-realm in ICS, run:
 
       .. code-block::
 
          $ univention-app install intercom-service \
-           --set intercom-service/settings/issuer-base-url=https://sso.example.com/auth/realms/REALM_NAME
+           --set intercom-service/keycloak/realm-name=master
