@@ -32,7 +32,7 @@ Installing this app has various prerequisites:
 
 #. |ICS| requires the *Nordeck* bot up and running for Matrix.
 
-#. |ICS| requires its four secrets before installation, see :ref:`app-secrets` for
+#. |ICS| requires its three secrets before installation, see :ref:`app-secrets` for
    details.
 
 #. |ICS| requires a configured *Keycloak* (>=12.0), including a valid Intercom

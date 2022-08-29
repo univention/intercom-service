@@ -49,15 +49,6 @@ generated. Those secrets are:
    the client secret from the *Keycloak Admin Console* in the *Authorization* tab
    of the *intercom-client*.
 
-
-:file:`/etc/intercom.secret`
-   This secret is an internal secret for the server running |ICS_p|. You can
-   choose it freely.
-
-   .. code-block:: console
-
-      $ pwgen -s 30 > /etc/intercom.secret
-
 :file:`/etc/matrix.secret`
    The secret for back end communication with the *Matrix* server. You can
    retrieve it from the automatic join app service on the system running
