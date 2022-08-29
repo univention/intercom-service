@@ -269,13 +269,11 @@ The following references show the available settings within the app
           - ``matrix.@%@domainname@%@``
           - Only before installation
 
-.. FIXME : Add a link to the Matrix documentation, when you refer to it.
-
 .. envvar:: intercom/matrix/login-type
 
     Defines the login type that |ICS| uses for the *Matrix* server.
 
-    Refer to the Matrix documentation for more information about login types.
+    Refer to the `Matrix <matrix_>`_ documentation for more information about login types.
 
     .. list-table::
         :header-rows: 1
