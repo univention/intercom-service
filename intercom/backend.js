@@ -23,7 +23,6 @@ const {
   claimEquals,
 } = require("express-openid-connect");
 const csrfDSC = require("express-csrf-double-submit-cookie");
-const jwt_decode = require("jwt-decode");
 const cookieParser = require("cookie-parser");
 const jose = require("jose");
 
@@ -178,14 +177,23 @@ app.use(requiresAuth(), async (req, res, next) => {
   next();
 });
 
+/**
+ * @name /backchannel-logout
+ * @desc
+ * OpenID Connect Backchannel Logout implementation to delete the session from the store
+ */
 app.post("/backchannel-logout", async (req, res) => {
-  // TODO: Actually check the Token, Verify the signature, ...
-  const token = jwt_decode(req.body.logout_token);
-  redisClient.get(token["sid"], function (err, session_id) {
-    redisClient.del("sess:" + session_id);
-    redisClient.del(token["sid"]);
-    res.send("Done");
-  });
+    const { payload, protectedHeader } = await jose.jwtDecrypt(  // decrypt and validates claims set
+        req.body.logout_token,
+        JWKS,
+        {
+            issuer: issuerBaseURL,
+            maxTokenAge: "10 seconds"  // to avoid replay attack too far after issued_at
+        }
+    );
+    redisClient.destroy(payload.sid, (err) => {
+        console.error("Could not destroy session", err);
+    });
 });
 
 /**

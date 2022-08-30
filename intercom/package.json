@@ -22,7 +22,8 @@
     "http-proxy-middleware": "^2.0.4",
     "jose": "^4.9.2",
     "jwt-decode": "^3.1.2",
-    "redis": "^4.2.0"
+    "redis": "^4.2.0",
+    "url-join": "^5.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.19.2",
