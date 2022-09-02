@@ -20,7 +20,7 @@ const fetchToken = async (access_token, audience) => {
         headers: {
             'content-type': 'application/x-www-form-urlencoded'
         },
-        proxy: JSON.parse(process.env.PROXY),
+        proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
     }).then(res => {
         return res.data.access_token
     })
@@ -46,7 +46,7 @@ const fetchMatrixToken = async (user_id) => {
         headers,
         method: "POST",
         data: params,
-        proxy: JSON.parse(process.env.PROXY),
+        proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
         httpsAgent: new https.Agent({ rejectUnauthorized: false })
     }).then(res => {
         return res.data.access_token
