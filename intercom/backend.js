@@ -32,7 +32,7 @@ var corsOptions = {
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
 
 app.use(express.urlencoded());
-let redisClient = createClient({ legacyMode: true, url: "redis://redis-intercom:6379", password: process.env.REDIS_PASSWORD });
+let redisClient = createClient({ legacyMode: true, url: `redis://default:${process.env.REDIS_PASSWORD}@redis-intercom:6379` });
 redisClient.connect().catch(console.error)
 
 app.use(
