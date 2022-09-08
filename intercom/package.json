@@ -1,12 +1,12 @@
 {
-  "name": "intercom",
-  "version": "0.0.1",
+  "name": "intercom-service",
+  "version": "1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "univention",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.19.2",
-    "jsdoc": "^3.6.10"
+    "eslint": "^8.23.0",
+    "jsdoc": "^3.6.10",
+    "prettier": "^2.7.1"
   }
 }
