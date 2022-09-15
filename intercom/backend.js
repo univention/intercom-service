@@ -4,7 +4,7 @@
 
 // Ask providers if there's any ouath in the stack. Oauth as in "I have an access token provided by keycloak and can do stuff via REST, ..."
 require("dotenv").config({ path: "./.env.prod" });
-// console.log(process.env)
+const path = require("node:path");
 const express = require("express");
 var app = express();
 app.set("view engine", "ejs");
@@ -14,6 +14,7 @@ const {
   fetchToken,
   stripIntercomCookies,
   massageCors,
+  verifyJWT,
 } = require("./helpers");
 const {
   auth,
@@ -24,6 +25,7 @@ const {
 const csrfDSC = require("express-csrf-double-submit-cookie");
 const jwt_decode = require("jwt-decode");
 const cookieParser = require("cookie-parser");
+const jose = require("jose");
 
 const { createClient } = require("redis");
 const RedisStore = require("connect-redis")(auth);
@@ -48,6 +50,17 @@ var corsOptions = {
 };
 
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
+const issuerBaseURL =
+  process.env.ISSUER_BASE_URL ??
+  `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`;
+const JWKS = jose.createRemoteJWKSet(
+  new URL(
+    path
+      .join(issuerBaseURL, "/protocol/openid-connect/certs")
+      .replace(/\\/g, "/")
+      .replace(":/", "://")
+  )
+);
 
 app.use(express.urlencoded());
 let redisClient = createClient({
@@ -56,12 +69,38 @@ let redisClient = createClient({
 });
 redisClient.connect().catch(console.error);
 
+const oidcVerifyDecodeAccessToken = async (req, res, next) => {
+  try {
+    req.decodedAccessToken = await verifyJWT(
+      req.appSession.access_token,
+      issuerBaseURL,
+      JWKS
+    );
+    next();
+  } catch (error) {
+    console.error("Error verifying OIDC Access Token", error);
+    res.status(401).send();
+  }
+};
+
+const oidcVerifyDecodeIdentityToken = async (req, res, next) => {
+  try {
+    req.decodedIdToken = await verifyJWT(
+      req.appSession.id_token,
+      issuerBaseURL,
+      JWKS
+    );
+    next();
+  } catch (error) {
+    console.error("Error verifying OIDC Identity Token", error);
+    res.status(401).send();
+  }
+};
+
 app.use(
   auth({
     // TODO; move to environ
-    issuerBaseURL:
-      process.env.ISSUER_BASE_URL ??
-      `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`,
+    issuerBaseURL,
     baseURL: process.env.BASE_URL,
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -88,8 +127,10 @@ app.use(
           );
         }
 
-        const token = jwt_decode(session.id_token);
-        let uid = token["entryuuid"];
+        const { payload } = await jose.jwtVerify(session.id_token, JWKS, {
+          issuer: issuerBaseURL,
+        });
+        let uid = payload["entryuuid"];
 
         if (!uid) {
           console.log(
@@ -151,9 +192,10 @@ app.use(
   "/nob",
   requiresAuth(),
   csrfProtection.validate,
+  oidcVerifyDecodeAccessToken,
   createProxyMiddleware({
     target: process.env.NORDECK_URL,
-    logLevel: "debug",
+    logLevel: "info",
     changeOrigin: true,
     pathRewrite: { "^/nob": "" },
     secure: false,
@@ -188,9 +230,10 @@ app.use(
 app.use(
   "/fs",
   requiresAuth(),
+  oidcVerifyDecodeAccessToken,
   createProxyMiddleware({
     target: process.env.NC_URL,
-    logLevel: "debug",
+    logLevel: "info",
     changeOrigin: true,
     pathRewrite: {
       "^/fs": "",
@@ -202,7 +245,6 @@ app.use(
         "authorization",
         `Bearer ${req.appSession.ox_access_token}`
       );
-      console.log(proxyReq);
     },
     onProxyRes: function (proxyRes, req, res) {
       massageCors(req, proxyRes, corsOptions.origin);
@@ -220,9 +262,11 @@ app.use(
 app.use(
   "/navigation.json",
   requiresAuth(),
+  oidcVerifyDecodeAccessToken,
+  oidcVerifyDecodeIdentityToken,
   createProxyMiddleware({
     target: process.env.PORTAL_URL,
-    logLevel: "debug",
+    logLevel: "info",
     changeOrigin: true,
     pathRewrite: { "^/navigation.json": "/univention/portal/navigation.json" },
     onProxyReq: function onProxyReq(proxyReq, req, res) {
@@ -231,7 +275,7 @@ app.use(
         "Authorization",
         "Basic " +
           btoa(
-            jwt_decode(req.appSession.id_token)["phoenixusername"] +
+            req.decodedIdToken["phoenixusername"] +
               ":" +
               process.env.PORTAL_API_KEY
           )
@@ -251,23 +295,28 @@ app.use(
  *
  * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
  */
-app.get("/silent", attemptSilentLogin(), (req, res) => {
-  // TODO: Do proper postMessage reporting
-  const sessionStatus = "access_token" in req.appSession;
-  console.log(`Silent login, logged in ${sessionStatus}`);
-  res.render("pages/silent", {
-    sessionStatus,
-    csrftoken: req.cookies["_csrf_token"],
-  });
-});
+app.get(
+  "/silent",
+  attemptSilentLogin(),
+  oidcVerifyDecodeAccessToken,
+  (req, res) => {
+    // TODO: Do proper postMessage reporting
+    const sessionStatus = "access_token" in req.appSession;
+    console.log(`Silent login, logged in ${sessionStatus}`);
+    res.render("pages/silent", {
+      sessionStatus,
+      csrftoken: req.cookies["_csrf_token"],
+    });
+  }
+);
 
 /**
  * @name /uuid
  * @desc returns the uuid of the logged in user
  */
-app.get("/uuid", requiresAuth(), (req, res) => {
+app.get("/uuid", requiresAuth(), oidcVerifyDecodeIdentityToken, (req, res) => {
   // TODO: wrong field, use username?
-  let entryUUID = jwt_decode(req.appSession.id_token)["entryuuid"];
+  let entryUUID = req.decodedIdToken["entryuuid"];
   res.send(entryUUID);
 });
 
