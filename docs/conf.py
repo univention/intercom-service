@@ -12,6 +12,7 @@
 #
 # import os
 import sys
+
 # sys.path.insert(0, os.path.abspath('.'))
 
 from datetime import date
@@ -39,9 +40,9 @@ def read_version_from_ci() -> str:
 
     with open("../.gitlab-ci.yml", "r") as f:
         ci = yaml.safe_load(f)
-        return ci.get(
-                "variables", {"DOC_TARGET_VERSION": "1.0"}
-                ).get("DOC_TARGET_VERSION")
+        return ci.get("variables", {"DOC_TARGET_VERSION": "1.1"}).get(
+            "DOC_TARGET_VERSION"
+        )
 
 
 def read_doc_name_from_ci() -> str:
@@ -49,9 +50,7 @@ def read_doc_name_from_ci() -> str:
 
     with open("../.gitlab-ci.yml", "r") as f:
         ci = yaml.safe_load(f)
-        return ci.get(
-                "variables", {"DOC_NAME": "intercom-service"}
-                ).get("DOC_NAME")
+        return ci.get("variables", {"DOC_NAME": "intercom-service"}).get("DOC_NAME")
 
 
 release = read_version_from_ci()
@@ -62,10 +61,10 @@ project = f"UCS Intercom Service app {release}"
 if "latexpdf" in sys.argv:
     project = "UCS Intercom Service app"
 
-copyright = '{}, Univention GmbH'.format(date.today().year)
-author = 'Univention GmbH'
+copyright = "{}, Univention GmbH".format(date.today().year)
+author = "Univention GmbH"
 html_show_copyright = True
-language = 'en'
+language = "en"
 
 html_title = project
 
@@ -97,12 +96,12 @@ copybutton_prompt_text = r"\$ |> "
 copybutton_prompt_is_regexp = True
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -111,7 +110,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 pdf_doc_base = f"{read_doc_name_from_ci()}-app"
 
-html_theme = 'univention_sphinx_book_theme'
+html_theme = "univention_sphinx_book_theme"
 
 html_context = {
     "pdf_download_filename": f"{pdf_doc_base}.pdf",
@@ -136,14 +135,14 @@ if "spelling" in sys.argv:
     spelling_lang = "en"
     spelling_show_suggestions = True
     spelling_word_list_filename = ["spelling_wordlist"]
-    suppress_warnings = ['git.too_shallow']
+    suppress_warnings = ["git.too_shallow"]
 
 
 if "linkcheck" in sys.argv:
-    suppress_warnings = ['git.too_shallow']
+    suppress_warnings = ["git.too_shallow"]
 
 linkcheck_ignore = [
-    r'https://ucs-sso-ng.example.com/admin/',
+    r"https://ucs-sso-ng.example.com/admin/",
 ]
 
 root_doc = "index"
@@ -158,11 +157,10 @@ intersphinx_mapping = {
     "uv-manual": ("https://docs.software-univention.de/manual/5.0/en", None)
 }
 
-latex_engine = 'lualatex'
+latex_engine = "lualatex"
 latex_show_pagerefs = True
 latex_show_urls = "footnote"
-latex_documents = [
-    (root_doc, f'{pdf_doc_base}.tex', project, author, "manual", False)]
+latex_documents = [(root_doc, f"{pdf_doc_base}.tex", project, author, "manual", False)]
 latex_elements = {
     "papersize": "a4paper",
 }

@@ -10,7 +10,7 @@ variables:
   LANG: "C.UTF-8"
   DEBIAN_FRONTEND: noninteractive
   UNIVENTION_BASECONF: /dev/null
-  DOC_TARGET_VERSION: "1.0"
+  DOC_TARGET_VERSION: "1.1"
   DOC_NAME: "intercom-service"
 
 services:

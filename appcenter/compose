@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: quay.io/d3vv3/ics:develop  # docker.software-univention.de/intercom:1.0
+    image: docker-registry.knut.univention.de/phoenix/intercom:1.1
     restart: unless-stopped
     networks:
       - intercom
