@@ -109,7 +109,7 @@ app.use(
     idpLogout: true,
     authorizationParams: {
       response_type: "code",
-      scope: "openid",
+      scope: "openid offline_access",
     },
     session: {
       store: new RedisStore({ client: redisClient }),
@@ -161,6 +161,19 @@ app.use((req, res, next) => {
     "session_state" in req.appSession
   ) {
     redisClient.set(req.appSession["session_state"], req.cookies["appSession"]);
+  }
+  next();
+});
+app.use(requiresAuth(), async (req, res, next) => {
+  try {
+    let { token_type, access_token, isExpired, refresh } = req.oidc.accessToken;
+    if (isExpired()) {
+      ({ access_token } = await refresh());
+      req.appSession.access_token = access_token;
+      console.log("Refreshing expired token");
+    }
+  } catch (err) {
+    console.error("Refreshing expired token failed", err);
   }
   next();
 });
