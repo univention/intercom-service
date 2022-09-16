@@ -75,6 +75,8 @@ the following steps:
 #. Go to the tab *Credentials*, copy the secret and save it to
    :file:`/etc/intercom-client.secret`.
 
+#. Go to the tab *Client Scopes* and add ``offline_access`` to *Assigned Default Client Scopes*.
+
 .. _installation-browser:
 
 Installation with the web browser
