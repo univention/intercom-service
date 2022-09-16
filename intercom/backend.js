@@ -183,17 +183,24 @@ app.use(requiresAuth(), async (req, res, next) => {
  * OpenID Connect Backchannel Logout implementation to delete the session from the store
  */
 app.post("/backchannel-logout", async (req, res) => {
-    const { payload, protectedHeader } = await jose.jwtDecrypt(  // decrypt and validates claims set
+    const { payload, protectedHeader } = await jose.jwtVerify(  // decode and validates claims set
         req.body.logout_token,
         JWKS,
         {
             issuer: issuerBaseURL,
-            maxTokenAge: "10 seconds"  // to avoid replay attack too far after issued_at
+            // maxTokenAge: "10 seconds"  // to avoid replay attack too far after issued_at
         }
     );
-    redisClient.destroy(payload.sid, (err) => {
-        console.error("Could not destroy session", err);
+    redisClient.get( payload['sid'], function(err, session_id) {
+        redisClient.del("sess:" + session_id)
+        redisClient.del(payload['sid'])
+        res.send("Done")
     });
+    /*
+    * redisClient.destroy(payload.sid, (err) => {
+    *   console.error("Could not destroy session", err);
+    * });
+    */
 });
 
 /**
