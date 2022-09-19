@@ -2,6 +2,8 @@ sphinx-copybutton>=0.3.1
 sphinx-inline-tabs>=2022.1.2b11
 sphinx-last-updated-by-git>=0.3.2
 sphinx-sitemap>=2.2.0
+sphinx-autobuild==2021.3.14
+sphinx-copybutton
 sphinxcontrib-applehelp>=1.0.2
 sphinxcontrib-bibtex>=2.4.2
 sphinxcontrib-devhelp>=1.0.2
