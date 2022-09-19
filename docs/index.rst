@@ -54,4 +54,5 @@ improvement.
    architecture
    limitations
    troubleshooting
+   changelog
    bibliography
