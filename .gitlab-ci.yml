@@ -5,6 +5,7 @@ stages:
 variables:
   DOCS_DIR: "docs"
   CI_REGISTRY: docker-registry.knut.univention.de
+  CI_REGISTRY_IMAGE: phoenix/intercom
   SPHINX_DOC: $CI_REGISTRY/sphinx
   GIT_SYNC: docker-registry.knut.univention.de/knut/git-sync
   LANG: "C.UTF-8"
@@ -69,29 +70,24 @@ pdf:
       - $DOCS_DIR/_build/latex
       - out
 
-build_image_develop:
-  stage: build
-  image: docker:20.10.10
-  rules:
-    - if: ($CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH)
-  before_script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-  script:
-    - docker login $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/phoenix/intercom:develop ./intercom
-    - docker push $CI_REGISTRY/phoenix/intercom:develop
-
 build_image:
   stage: build
-  image: docker:20.10.10
-  rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
-  before_script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  image: 
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
-    - docker login $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/phoenix/intercom:latest ./intercom
-    - docker push $CI_REGISTRY/phoenix/intercom:latest
+    # install KNUT CA
+    - install -m 644 "$KNUT_CA" /kaniko/ssl/certs/knut.pem
+    - cat /kaniko/ssl/certs/knut.pem >> /kaniko/ssl/certs/ca-certificates.crt
+    - if [ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ] ; then export DOCKER_TAG="develop"; else export DOCKER_TAG="latest" ; fi
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - cd "${CI_PROJECT_DIR}/intercom"
+    - /kaniko/executor
+      --force
+      --context "${CI_PROJECT_DIR}/intercom"
+      --dockerfile "${CI_PROJECT_DIR}/intercom/Dockerfile"
+      --destination "${CI_REGISTRY}/${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
 
 docs-production:
   stage: production
