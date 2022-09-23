@@ -93,12 +93,12 @@ scheme. See also :numref:`figure-overview-detail`.
 .. warning::
 
    Back end communication is only safe, if done through HTTPS or a secure
-   network. Secrets may be exchanged on application layer.
+   network. Otherwise, attackers may eavesdrop secrets on application layer.
 
 .. _figure-overview-simple:
 
 .. figure:: /images/overview_no_oidc.png
-   :alt: Abstract overview of |ICS|
+   :alt: Abstract overview of ICS
 
    Interactions of |ICS| without |OIDC|
 
@@ -113,8 +113,7 @@ scheme. See also :numref:`figure-overview-detail`.
 
     \clearpage
 
-
-Portal Navigation
+Portal navigation
 =================
 
 .. _figure-portal-cn:
@@ -159,10 +158,10 @@ General
    Alive test only
 
 ``/silent``
-   Silent (OIDC) login endpoint
+   Silent |OIDC| login endpoint
 
 ``/backchannel-logout``
-   Endpoint for OIDC backchannel logout requests
+   Endpoint for |OIDC| backchannel logout requests
 
 
 App specific
@@ -175,8 +174,8 @@ App specific
    Proxy to Univention-portal for central navigation data
 
 ``/nob``
-   Proxy for the *Nordeck* bot. This endpoint may also be used to send requests
-   to the plain *Matrix* ``UserInfo`` service in a testing environment.
+   Proxy for the *Nordeck* bot. In a testing environment, developers can use
+   this endpoint to requests to the plain *Matrix* ``UserInfo`` service.
 
 Terms
 =====

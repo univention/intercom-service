@@ -25,10 +25,10 @@ Prerequisites
 
 Installing this app has various prerequisites:
 
-#. |ICS| supports |OIDC|, this means both *Nextcloud (>=23.0)* and *OX App
-   Suite (>=7.10.6)* have to be authenticated via OIDC, as well.
+#. |ICS| supports |OIDC|. *Nextcloud (>=23.0)* and *OX App Suite (>=7.10.6)*
+   must authenticate through |OIDC|, as well.
 
-#. For working CSRF protection all other apps need to be up to date.
+#. For working |CSRF| protection all other apps need to be up to date.
 
 #. |ICS| requires the *Nordeck* bot up and running for Matrix.
 

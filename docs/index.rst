@@ -36,7 +36,7 @@ tasks:
   <uv-manual:computers-softwareselection>` in :cite:t:`ucs-manual`.
 
 The app |ICS_p| supports *Keycloak* as :term:`IdP`. In the context of this
-document, the term *IdP* is synonymous for *Keycloak* in the context of an IdP
+document, the term *IdP* is synonymous for *Keycloak* in the context of an *IdP*
 in |OIDC|.
 
 Your feedback is welcome and highly appreciated. If you have comments,
