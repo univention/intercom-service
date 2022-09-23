@@ -97,3 +97,5 @@ Added
 -----
 
 * Initial Release
+* Endpoint for OIDC silent login on ``/silent```.
+* Session storage with redis.
