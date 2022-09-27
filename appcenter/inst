@@ -31,7 +31,7 @@
 
 ## joinscript api: bindpwdfile
 
-VERSION="1"
+VERSION="2"
 
 . /usr/share/univention-lib/all.sh || exit 1
 . /usr/share/univention-appcenter/joinscripthelper.sh || exit 1
@@ -54,21 +54,21 @@ realm_name="$intercom_service_keycloak_realm_name"
 # Check and warn in case provided URLs are not reachable
 warning_msg="was not reachable during installation, please review. Installation will continue."
 curl --fail "$intercom_service_nextcloud_url" -o /dev/null -s || \
-    echo "$intercom_service_nextcloud_url $warning_msg"
-curl --fail "$intercom_service_matrix_nordeck_url" -o /dev/null -s || \
-    echo "$intercom_service_matrix_nordeck_url $warning_msg"
+    >&2 echo "$intercom_service_nextcloud_url $warning_msg"
+curl --head --fail "$intercom_service_matrix_nordeck_url" -s | head -n 1 | grep -q 404 || \
+    >&2 echo "$intercom_service_matrix_nordeck_url $warning_msg"
 curl --fail "$intercom_service_portal_url" -o /dev/null -s || \
-    echo "$intercom_service_portal_url $warning_msg"
+    >&2 echo "$intercom_service_portal_url $warning_msg"
 
 if [[ -z "${intercom_service_settings_issuer_base_url}" ]]; then
     ucr set \
         $APP_ID/settings/issuer-base-url="$keycloak_url/auth/realms/$realm_name"
 
     curl --fail "$intercom_service_keycloak_url/auth/realms/$intercom_service_keycloak_realm_name" -o /dev/null -s || \
-        echo "$intercom_service_keycloak_url/auth/realms/$intercom_service_keycloak_realm_name $warning_msg"
+        >&2 echo "$intercom_service_keycloak_url/auth/realms/$intercom_service_keycloak_realm_name $warning_msg"
 else
     curl --fail "$intercom_service_settings_issuer_base_url" -o /dev/null -s || \
-        echo "$intercom_service_portal_url $warning_msg"
+        >&2 echo "$intercom_service_portal_url $warning_msg"
 fi
 
 

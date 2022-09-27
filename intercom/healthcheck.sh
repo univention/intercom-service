@@ -1,7 +1,7 @@
 #!/bin/sh
 
 curl --fail "$NC_URL" -o /dev/null -s  && \
-    curl --fail "$NORDECK_URL" -o /dev/null -s && \
+    curl --head --fail --silent "$NORDECK_URL" | head -n 1 | grep -q 404 && \
     curl --fail "$PORTAL_URL" -o /dev/null -s \
     || exit 1
 
