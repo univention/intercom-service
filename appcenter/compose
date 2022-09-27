@@ -7,8 +7,11 @@ services:
     networks:
       - intercom
     dns:
-      - 1.1.1.1
-      - 1.0.0.1
+@!@
+for nameserverUcrName in ('nameserver1', 'nameserver2', 'nameserver3'):
+    nameserverIp = ucr.get(nameserverUcrName)
+    if nameserverIp and set(nameserverIp):
+        print("      - {}".format(nameserverIp))@!@
     ports:
       - 8008:8008
     environment:
