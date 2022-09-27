@@ -71,6 +71,10 @@ else
         >&2 echo "$intercom_service_portal_url $warning_msg"
 fi
 
+# set firewall rule
+univention-config-registry set \
+  "security/packetfilter/package/$APP_ID/tcp/8008/all=ACCEPT" \
+  "security/packetfilter/package/$APP_ID/tcp/8008/en=$APP_ID"
 
 joinscript_save_current_version
 exit 0
