@@ -44,7 +44,7 @@ const {
 
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   auth({
