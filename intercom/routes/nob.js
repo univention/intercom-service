@@ -12,7 +12,7 @@ const { corsOptions } = require("../config");
  * Proxy for the Nordeck Bot (or just the plain Matrix UserInfo Service in testing).
  * Adds the proper Authorization Header
  */
-router.use("/nob", createProxyMiddleware({
+router.use("/", createProxyMiddleware({
   target: process.env.NORDECK_URL,
   logLevel: "info",
   changeOrigin: true,

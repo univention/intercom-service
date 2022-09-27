@@ -25,7 +25,8 @@ const fetchOIDCToken = async (access_token, audience) => {
     })
     .then((res) => {
       return res.data.access_token;
-    });
+    })
+    .catch(err => console.log("Error fetching OIDC token", err));
 };
 
 module.exports = {

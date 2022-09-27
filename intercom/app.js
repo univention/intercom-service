@@ -117,7 +117,7 @@ app.get("/", function (req, res) {
  * @desc
  * OpenID Connect Backchannel Logout implementation to delete the session from the store
  */
-app.post("/backchannel-logout", backchannelLogout);
+app.use("/backchannel-logout", backchannelLogout);
 
 /**
  * @name /nob/
@@ -153,13 +153,13 @@ app.use("/navigation.json", requiresAuth(), oidcVerifyDecodeAccessToken, oidcVer
  *
  * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
  */
-app.get("/silent", attemptSilentLogin(), oidcVerifyDecodeAccessToken, silent);
+app.use("/silent", attemptSilentLogin(), oidcVerifyDecodeAccessToken, silent);
 
 /**
  * @name /uuid
  * @desc returns the uuid of the logged in user
  */
-app.get("/uuid", requiresAuth(), oidcVerifyDecodeIdentityToken, uuid);
+app.use("/uuid", requiresAuth(), oidcVerifyDecodeIdentityToken, uuid);
 
 var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;

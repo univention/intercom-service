@@ -20,14 +20,15 @@ const fetchMatrixToken = async (user_id) => {
     .request({
       url: process.env.MATRIX_URL + "/_matrix/client/r0/login",
       headers,
-      method: "POST",
+      method: "POST", 
       data: params,
       proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     })
     .then((res) => {
       return res.data.access_token;
-    });
+    })
+    .catch(err => console.log("Error fetching Matrix token", err));
 };
 
 module.exports = {
