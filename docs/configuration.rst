@@ -346,7 +346,7 @@ The following references show the available settings within the app
          - ``https://webmail.@%@domainname@%@``
          - Only before installation
 
-.. envvar:: intercom/ox/ox-audience
+.. envvar:: intercom/ox/audience
 
    Defines the :term:`OIDC audience` setting for *OX App Suite* that *OX App
    Suite* uses in the :term:`IdP` *Keycloak*.
