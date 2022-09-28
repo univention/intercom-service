@@ -363,6 +363,22 @@ The following references show the available settings within the app
          - ``oxoidc``
          - Only before installation
 
+.. envvar:: intercom/nextcloud/audience
+
+   Defines the :term:`OIDC audience` setting for *Nextcloud* that *Nextcloud* uses in the :term:`IdP` *Keycloak*.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``ncoidc``
+         - Only before installation
+
 .. envvar:: intercom-service/nextcloud/url
 
    Defines the URL where you can reach *Nextcloud*.

@@ -191,6 +191,18 @@ Description[de] = OIDC 'audience'-Parameter der für die Token-Anfrage für OX a
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/nextcloud/audience]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = ncoidc
+Scope = outside
+Description = OIDC audience parameter used in the token request for Nextcloud to the IdP
+Description[de] = OIDC 'audience'-Parameter der für die Token-Anfrage für Nextcloud an den IdP verwendet wird
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/nextcloud/url]
 Type = String
 Required = True

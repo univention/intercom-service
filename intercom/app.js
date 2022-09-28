@@ -79,7 +79,7 @@ app.use(
         if(!("nc_access_token" in session)){
               ret.nc_access_token = await fetchOIDCToken(
               ret.ox_access_token,
-              `ncoidc`
+              `${process.env.OX_AUDIENCE}`
             );
         }
 
