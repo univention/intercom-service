@@ -103,7 +103,6 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(csrfProtection);
 app.use(updateSessionState);
-app.use(requiresAuth(), refreshTokenIfNeeded);
 
 /**
  * Just a simple Endpoint to check if the service is there and for CORS testing
@@ -117,7 +116,10 @@ app.get("/", function (req, res) {
  * @desc
  * OpenID Connect Backchannel Logout implementation to delete the session from the store
  */
-app.use("/backchannel-logout", backchannelLogout);
+app.use(
+  "/backchannel-logout",
+  backchannelLogout
+);
 
 /**
  * @name /nob/
@@ -125,7 +127,11 @@ app.use("/backchannel-logout", backchannelLogout);
  * Proxy for the Nordeck Bot (or just the plain Matrix UserInfo Service in testing).
  * Adds the proper Authorization Header
  */
-app.use("/nob", requiresAuth(), csrfProtection.validate, oidcVerifyDecodeAccessToken, nob);
+app.use(
+  "/nob",
+  requiresAuth(), refreshTokenIfNeeded, csrfProtection.validate, oidcVerifyDecodeAccessToken,
+  nob
+);
 
 /**
  * @name /fs/
@@ -135,7 +141,11 @@ app.use("/nob", requiresAuth(), csrfProtection.validate, oidcVerifyDecodeAccessT
  * @example PROPFIND http://ic.p.test/fs/remote.php/dav/files/usera1/Photos
  *
  */
-app.use("/fs", requiresAuth(), oidcVerifyDecodeAccessToken, fs);
+app.use(
+  "/fs",
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken,
+  fs
+);
 
 /**
  * @name /navigation.json
@@ -143,7 +153,11 @@ app.use("/fs", requiresAuth(), oidcVerifyDecodeAccessToken, fs);
  * Proxy to the portal for global Navigation Data.
  * Adds the proper Authorization Header
  */
-app.use("/navigation.json", requiresAuth(), oidcVerifyDecodeAccessToken, oidcVerifyDecodeIdentityToken, navigation);
+app.use(
+  "/navigation.json",
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken, oidcVerifyDecodeIdentityToken,
+  navigation
+);
 
 /**
  * @name /silent
@@ -153,13 +167,19 @@ app.use("/navigation.json", requiresAuth(), oidcVerifyDecodeAccessToken, oidcVer
  *
  * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
  */
-app.use("/silent", attemptSilentLogin(), oidcVerifyDecodeAccessToken, silent);
+app.use(
+  "/silent",
+  attemptSilentLogin(), oidcVerifyDecodeAccessToken,
+  silent);
 
 /**
  * @name /uuid
  * @desc returns the uuid of the logged in user
  */
-app.use("/uuid", requiresAuth(), oidcVerifyDecodeIdentityToken, uuid);
+app.use(
+  "/uuid",
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeIdentityToken,
+  uuid);
 
 var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;

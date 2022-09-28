@@ -11,4 +11,5 @@ RUN apk --no-cache add curl
 
 HEALTHCHECK --interval=60s --timeout=10s --start-period=10s CMD ./healthcheck.sh
 
+# ENV DEBUG=express:*
 CMD ["nodejs", "app.js"]

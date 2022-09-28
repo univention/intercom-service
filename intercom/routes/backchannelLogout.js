@@ -17,19 +17,14 @@ router.post("/", async (req, res) => {
     JWKS,
     {
       issuer: issuerBaseURL,
-      // maxTokenAge: "10 seconds"  // to avoid replay attack too far after issued_at
+      maxTokenAge: "10 seconds"  // TODO: to avoid replay attack too far after issued_at
     }
   );
   redisClient.get( payload["sid"], function(err, session_id) {
-    redisClient.del("sess:" + session_id);
     redisClient.del(payload["sid"]);
+    console.log("Backchannel logout");
     res.send("Done");
   });
-  /*
-    * redisClient.destroy(payload.sid, (err) => {
-    *   console.error("Could not destroy session", err);
-    * });
-  */
 });
 
 module.exports = router;
