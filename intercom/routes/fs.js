@@ -22,11 +22,10 @@ router.use("/", createProxyMiddleware({
     "^/fs": "",
   },
   onProxyReq: function onProxyReq(proxyReq, req, res) {
-    // TODO: Service takes pretty much any token which is not good
     stripIntercomCookies(proxyReq);
     proxyReq.setHeader(
       "authorization",
-      `Bearer ${req.appSession.ox_access_token}`
+      `Bearer ${req.appSession.nc_access_token}`
     );
   },
   onProxyRes: function (proxyRes, req, res) {
