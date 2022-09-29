@@ -10,7 +10,6 @@ const {
   requiresAuth,
   attemptSilentLogin,
 } = require("express-openid-connect");
-const RedisStore = require("connect-redis")(auth);
 const csrfDSC = require("express-csrf-double-submit-cookie");
 const cookieParser = require("cookie-parser");
 const jose = require("jose");
@@ -23,7 +22,7 @@ const {
   fetchMatrixToken,
   fetchOIDCToken,
   JWKS,
-  redisClient,
+  redisStore,
 } = require("./utils");
 
 const {
@@ -61,7 +60,7 @@ app.use(
       scope: "openid offline_access",
     },
     session: {
-      store: new RedisStore({ client: redisClient }),
+      store: redisStore,
     },
     afterCallback: async (req, res, session, decodedState) => {
       // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort

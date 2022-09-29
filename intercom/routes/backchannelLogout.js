@@ -20,8 +20,9 @@ router.post("/", async (req, res) => {
       maxTokenAge: "10 seconds"  // TODO: to avoid replay attack too far after issued_at
     }
   );
-  redisClient.get( payload["sid"], function(err, session_id) {
-    redisClient.del(payload["sid"]);
+  redisClient.get(payload.sid, async (err, session_id) => {
+    await redisClient.del("sess:" + session_id);
+    await redisClient.del(payload.sid);
     console.log("Backchannel logout");
     res.send("Done");
   });

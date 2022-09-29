@@ -4,7 +4,7 @@ const { fetchMatrixToken } = require("./matrix");
 const { stripIntercomCookies } = require("./cookies");
 const { massageCors } = require("./cors");
 const { JWKS } = require("./keys");
-const { redisClient } = require("./redis");
+const { redisClient, redisStore } = require("./redis");
 
 module.exports = {
   verifyJWT,
@@ -14,4 +14,5 @@ module.exports = {
   massageCors,
   JWKS,
   redisClient,
+  redisStore,
 };
