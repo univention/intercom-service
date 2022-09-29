@@ -1,7 +1,7 @@
 [Application]
 ID = intercom-service
 Code = 0Y
-Version = 1.1
+Version = 1.2
 Name = UCS Intercom Service
 Vendor = Univention
 DockerScriptRestoreDataAfterSetup = 

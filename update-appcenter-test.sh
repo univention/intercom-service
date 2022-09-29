@@ -6,7 +6,7 @@
 set -e
 set -x
 
-APP_VERSION="5.0/intercom-service=1.1"
+APP_VERSION="5.0/intercom-service=1.2"
 
 selfservice () {
 	local uri="https://provider-portal.software-univention.de/appcenter-selfservice/univention-appcenter-control"
