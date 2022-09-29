@@ -8,6 +8,9 @@ services:
       - intercom
     dns:
 @!@
+from univention.config_registry import ConfigRegistry
+ucr = ConfigRegistry()
+ucr.load()
 for nameserverUcrName in ('nameserver1', 'nameserver2', 'nameserver3'):
     nameserverIp = ucr.get(nameserverUcrName)
     if nameserverIp and set(nameserverIp):
