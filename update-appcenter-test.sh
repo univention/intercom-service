@@ -39,7 +39,7 @@ cp appcenter/preinst.tmpl appcenter/preinst
 
 ## Now we can upload the files for the app to the provider-portal:
 ## The order of the arguments doesn't matter, the univention-appcenter-control script recongnizes the filenames and file extensions.
-selfservice upload "$APP_VERSION" appcenter/compose appcenter/settings appcenter/preinst appcenter/configure_host appcenter/inst appcenter/env appcenter/test appcenter/ini
+selfservice upload "$APP_VERSION" appcenter/compose appcenter/settings appcenter/preinst appcenter/configure_host appcenter/inst appcenter/env appcenter/test appcenter/ini appcenter/meta
 
 ## There are more "magic" files that can be uploaded for specific purposes:
 # selfservice upload "$APP_VERSION" app/compose app/settings app/preinst app/configure_host app/inst app/uinst app/env app/test app/setup README_*

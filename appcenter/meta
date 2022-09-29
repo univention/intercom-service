@@ -1,0 +1,4 @@
+[Application]
+ID = intercom-service
+Detailpageoncatalogue = True
+Teaserpageoncatalogue = True
