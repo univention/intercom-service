@@ -8,6 +8,35 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.2
+===
+
+Released: 29. September 2022
+
+Added
+-----
+
+* Various debug logs
+
+Changed
+-------
+
+* Apply firewall rules during installation to make |ICS| accessible from outside of |UCS|
+* Set Docker DNS based on the *UCR* variables `nameserver1`, `nameserver2` and `nameserver3`
+
+Security
+--------
+
+* The *Filepicker* functionality of |ICS| now fetches a separate token for authenticating with the file hosting application *Nextcloud*. The *OX* OIDC-client in the IdP must be allowed, to fetch a token for the *Nextcloud* OIDC-client. This was always intended, but not correctly enforced in earlier versions.
+
+Fixed
+-----
+
+* Update deprecated usage of `express.urlencoded`
+* |ICS| health check failed because of *Nordeck* URL returning `404`
+* Video conferences created as the wrong user
+* Central navigation returning `navigation.json` for the wrong user under certain circumstances
+
 1.1
 ===
 
