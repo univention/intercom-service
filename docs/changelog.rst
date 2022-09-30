@@ -21,21 +21,24 @@ Added
 Changed
 -------
 
-* Apply firewall rules during installation to make |ICS| accessible from outside of |UCS|
-* Set Docker DNS based on the *UCR* variables `nameserver1`, `nameserver2` and `nameserver3`
+* Apply firewall rules during installation to make |ICS| accessible from outside of |UCS|.
+* Set Docker DNS based on the *UCR* variables `nameserver1`, `nameserver2` and `nameserver3`.
 
 Security
 --------
 
-* The *Filepicker* functionality of |ICS| now fetches a separate token for authenticating with the file hosting application *Nextcloud*. The *OX* OIDC-client in the IdP must be allowed, to fetch a token for the *Nextcloud* OIDC-client. This was always intended, but not correctly enforced in earlier versions.
+* The *Filepicker* functionality of |ICS| now fetches a separate token for authenticating with
+  the file hosting application *Nextcloud*. The *OX* OIDC-client in the IdP must be allowed, to
+  fetch a token for the *Nextcloud* OIDC-client. This was always intended, but not correctly
+  enforced in earlier versions.
 
 Fixed
 -----
 
-* Update deprecated usage of `express.urlencoded`
-* |ICS| health check failed because of *Nordeck* URL returning `404`
-* Video conferences created as the wrong user
-* Central navigation returning `navigation.json` for the wrong user under certain circumstances
+* Update deprecated usage of `express.urlencoded`.
+* |ICS| health check failed because of *Nordeck* URL returning `404`.
+* Video conferences created as the wrong user.
+* Central navigation returning `navigation.json` for the wrong user under certain circumstances.
 
 1.1
 ===
@@ -96,6 +99,15 @@ Released: 22. August 2022
 Added
 -----
 
-* Initial Release
-* Endpoint for OIDC silent login on ``/silent```.
-* Session storage with redis.
+* Endpoint for OIDC silent login against :program:`Keycloak` on ``/silent``.
+
+* Endpoint to securely proxy requests from *Open-Xchange* to *Nordeck* on ``/nob``,
+  allowing the creation of Element videoconferences from *Open-Xchange*.
+
+* Endpoint to securely proxy requests from *Open-Xchange* to *Nextcloud* on ``/fs``,
+  allowing to use the email *Filepicker* with *Nextcloud*.
+
+* Endpoint to securely proxy requests from *Open-Xchange* to *UCS Portal* ``/navigation.json``,
+  allowing for use of *UCS Portal* central navigation from *Open-Xchange*.
+
+* Session storage with *Redis*.
