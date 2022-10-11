@@ -49,7 +49,6 @@ import os
 pwdfile="/etc/matrix.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
-      MATRIX_LOGIN_TYPE: @%@intercom-service/matrix/login-type@%@
 
       # PROXY
       PROXY: "@%@intercom-service/settings/proxy@%@"

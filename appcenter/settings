@@ -119,18 +119,6 @@ Description[de] = Name des Matrix-Servers
 Group = Administration
 Group[de] = Administration
 
-[intercom-service/matrix/login-type]
-Type = String
-Required = True
-Show = Install, Settings
-# ShowReadOnly = Settings
-InitialValue = uk.half-shot.msc2778.login.application_service
-Scope = outside
-Description = Login type for Matrix server
-Description[de] = Login Methode für Matrix Server
-Group = Administration
-Group[de] = Administration
-
 [intercom-service/matrix/nordeck-mode]
 Type = String
 Required = True

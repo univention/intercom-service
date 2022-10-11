@@ -25,6 +25,8 @@ router.use("/", createProxyMiddleware({
     // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
   
     if (req.appSession.matrix_access_token) {
+      // Provide access_token via authentication bearer token header
+      // https://spec.matrix.org/v1.4/client-server-api/#client-authentication
       proxyReq.setHeader(
         "authorization",
         `Bearer ${req.appSession.matrix_access_token}`
