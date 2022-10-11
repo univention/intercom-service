@@ -6,6 +6,8 @@ variables:
   DOCS_DIR: "docs"
   CI_REGISTRY: docker-registry.knut.univention.de
   CI_REGISTRY_IMAGE: phoenix/intercom
+  PUBLIC_CI_REGISTRY: quay.io
+  PUBLIC_CI_REGISTRY_IMAGE: univention/intercom-service
   SPHINX_DOC: $CI_REGISTRY/sphinx
   GIT_SYNC: docker-registry.knut.univention.de/knut/git-sync
   LANG: "C.UTF-8"
@@ -76,18 +78,18 @@ build_image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    # install KNUT CA
-    - install -m 644 "$KNUT_CA" /kaniko/ssl/certs/knut.pem
-    - cat /kaniko/ssl/certs/knut.pem >> /kaniko/ssl/certs/ca-certificates.crt
+    # install KNUT CA (not needed if publishing to quay.io)
+    # - install -m 644 "$KNUT_CA" /kaniko/ssl/certs/knut.pem
+    # - cat /kaniko/ssl/certs/knut.pem >> /kaniko/ssl/certs/ca-certificates.crt
     - if [ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ] ; then export DOCKER_TAG="develop"; else export DOCKER_TAG="latest" ; fi
     - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - echo "{\"auths\":{\"${PUBLIC_CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${PUBLIC_CI_REGISTRY_USER}" "${PUBLIC_CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
     - cd "${CI_PROJECT_DIR}/intercom"
     - /kaniko/executor
       --force
       --context "${CI_PROJECT_DIR}/intercom"
       --dockerfile "${CI_PROJECT_DIR}/intercom/Dockerfile"
-      --destination "${CI_REGISTRY}/${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
+      --destination "${PUBLIC_CI_REGISTRY}/${PUBLIC_CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
 
 docs-production:
   stage: production
