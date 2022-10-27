@@ -6,7 +6,7 @@
 set -e
 set -x
 
-APP_VERSION="5.0/intercom-service=1.2"
+APP_VERSION="5.0/intercom-service=1.3"
 
 selfservice () {
 	local uri="https://provider-portal.software-univention.de/appcenter-selfservice/univention-appcenter-control"
@@ -20,7 +20,7 @@ selfservice () {
 	# [ -e "$HOME/.univention-appcenter-pwd" ] && PWDFILE="$HOME/.univention-appcenter-pwd"
 
 	# curl -sSfL "$uri" | python2 - "$first" --username=${USERNAME} --pwdfile=${PWDFILE} "$@"
-    curl -sSfL "$uri" | python2 - "$first" "$@"
+    curl -sSfL "$uri" | python3 - "$first" "$@"
 }
 
 die () {
