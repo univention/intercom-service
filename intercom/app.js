@@ -76,10 +76,10 @@ app.use(
         }
 
         if(!("nc_access_token" in session)){
-              ret.nc_access_token = await fetchOIDCToken(
-              ret.ox_access_token,
-              `${process.env.OX_AUDIENCE}`
-            );
+          ret.nc_access_token = await fetchOIDCToken(
+            ret.ox_access_token,
+            `${process.env.OX_AUDIENCE}`
+          );
         }
 
         const { payload } = await jose.jwtVerify(session.id_token, JWKS, {
@@ -135,7 +135,7 @@ app.use(
  */
 app.use(
   "/nob",
-  requiresAuth(), refreshTokenIfNeeded, csrfProtection.validate, oidcVerifyDecodeAccessToken,
+  requiresAuth(), refreshTokenIfNeeded, csrfProtection.validate, oidcVerifyDecodeAccessToken(attemptSilentLogin),
   nob
 );
 
@@ -149,7 +149,7 @@ app.use(
  */
 app.use(
   "/fs",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken,
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin),
   fs
 );
 
@@ -161,7 +161,7 @@ app.use(
  */
 app.use(
   "/navigation.json",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken, oidcVerifyDecodeIdentityToken,
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin), oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   navigation
 );
 
@@ -175,7 +175,7 @@ app.use(
  */
 app.use(
   "/silent",
-  attemptSilentLogin(), oidcVerifyDecodeAccessToken,
+  attemptSilentLogin(), oidcVerifyDecodeAccessToken(attemptSilentLogin),
   silent);
 
 /**
@@ -184,7 +184,7 @@ app.use(
  */
 app.use(
   "/uuid",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeIdentityToken,
+  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   uuid);
 
 var server = app.listen(process.env.PORT, function () {
