@@ -8,6 +8,18 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.3
+===
+
+Released: 28, October 2022
+
+Changed
+-------
+
+* Treat expired refresh tokens as no token, triggering a silent login attempt.
+* Matrix login type set to `m.login.application_service` and is not configurable any more.
+* Switch to `v3` Matrix client API.
+
 1.2
 ===
 
