@@ -66,7 +66,7 @@ pdf:
   script:
     - make -C "$DOCS_DIR" latexpdf
     - mkdir -p "$CI_PROJECT_DIR"/out
-    - cp "$DOCS_DIR"/_build/latex/"$DOC_NAME"-app.pdf "$CI_PROJECT_DIR"/out/"$DOC_NAME"-app.pdf
+    - cp "$DOCS_DIR"/_build/latex/"$DOC_NAME".pdf "$CI_PROJECT_DIR"/out/"$DOC_NAME".pdf
   artifacts:
     paths:
       - $DOCS_DIR/_build/latex

@@ -108,7 +108,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-pdf_doc_base = f"{read_doc_name_from_ci()}-app"
+pdf_doc_base = read_doc_name_from_ci()
 
 html_theme = "univention_sphinx_book_theme"
 
