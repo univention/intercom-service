@@ -7,6 +7,7 @@ const updateSessionState = async (req, res, next) => {
       req.appSession &&
       "session_state" in req.appSession
   ) {
+    console.log("Update Session State");
     await redisClient.set(req.appSession["session_state"], req.cookies["appSession"]);
   }
   next();

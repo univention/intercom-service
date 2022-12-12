@@ -38,6 +38,7 @@ const {
   oidcVerifyDecodeAccessToken,
   oidcVerifyDecodeIdentityToken,
   refreshTokenIfNeeded,
+  refreshNextcloudTokenIfNeeded,
   updateSessionState,
 } = require("./middlewares");
 
@@ -47,7 +48,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   auth({
-    // TODO; move to environ
     issuerBaseURL,
     baseURL: process.env.BASE_URL,
     clientID: process.env.CLIENT_ID,
@@ -77,8 +77,8 @@ app.use(
 
         if(!("nc_access_token" in session)){
           ret.nc_access_token = await fetchOIDCToken(
-            ret.ox_access_token,
-            `${process.env.OX_AUDIENCE}`
+            session.access_token,
+            `${process.env.NC_AUDIENCE}`
           );
         }
 
@@ -149,7 +149,7 @@ app.use(
  */
 app.use(
   "/fs",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  requiresAuth(), refreshTokenIfNeeded, refreshNextcloudTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin),
   fs
 );
 
