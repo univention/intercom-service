@@ -8,10 +8,33 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.4
+===
+
+Released: 13. December 2022
+
+Changed
+-------
+
+* Refresh *Nextcloud* token when expired before proxying the request.
+* Improved logging messages with JSON formatting.
+
+Added
+-----
+
+* *UCR* variable to set the log level.
+* Logging to files and standard output.
+
+Security
+--------
+
+* Intercom service requests *Nextcloud* tokens with the *Nextcloud* audience,
+  instead of the audience of *OX App Suite*.
+
 1.3
 ===
 
-Released: 28, October 2022
+Released: 28. October 2022
 
 Changed
 -------

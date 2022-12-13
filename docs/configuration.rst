@@ -68,6 +68,8 @@ generated. Those secrets are:
    The secret to communicate with the UCS Portal navigation service. You can
    retrieve the secret from :file:`/etc/portal-navigation-service.secret`.
 
+:file:`/etc/intercom-redis.secret`
+   The secret to communicate with the app *Redis*, that stores the sessions.
 
 .. _app-settings:
 
@@ -77,7 +79,7 @@ Settings
 The following references show the available settings within the app
 |ICS_p|. Univention recommends to keep the default values.
 
-.. envvar:: intercom/settings/client-id
+.. envvar:: intercom-service/settings/client-id
 
     Defines the |OIDC| client name of |ICS| in *Keycloak*. The file
     :file:`/etc/ics_client.secret` stores the secret of this client.
@@ -94,7 +96,7 @@ The following references show the available settings within the app
           - ``intercom``
           - Only before installation
 
-.. envvar:: intercom/settings/intercom-url
+.. envvar:: intercom-service/settings/intercom-url
 
    Defines the URL where you can reach |ICS|. This needs to be a externally
    reachable address as it's used by the browser to connect to |ICS|.
@@ -112,11 +114,11 @@ The following references show the available settings within the app
          - Only before installation
 
 
-.. envvar:: intercom/settings/base-url
+.. envvar:: intercom-service/settings/base-url
 
    Defines the base URL used to identify with the :term:`IdP`. This URL must
    match the base URL defined in the |OIDC| client used on the :term:`IdP`. The
-   value should be the same as in :envvar:`intercom/settings/intercom-url`.
+   value should be the same as in :envvar:`intercom-service/settings/intercom-url`.
 
    .. list-table::
        :header-rows: 1
@@ -130,10 +132,10 @@ The following references show the available settings within the app
          - ``https://ics.@%@domainname@%@``
          - Only before installation
 
-.. envvar:: intercom/keycloak/url
+.. envvar:: intercom-service/keycloak/url
 
    URL of the *Keycloak* instance that |ICS| uses as :term:`IdP`. |ICS| ignores
-   this value, if :envvar:`intercom/settings/issuer-base-url` is defined.
+   this value, if :envvar:`intercom-service/settings/issuer-base-url` is defined.
 
    .. list-table::
        :header-rows: 1
@@ -147,10 +149,10 @@ The following references show the available settings within the app
          - ``https://id.@%@domainname@%@``
          - Only before installation
 
-.. envvar:: intercom/keycloak/realm-name
+.. envvar:: intercom-service/keycloak/realm-name
 
    Name of the realm containing the configured |OIDC| |ICS| client. |ICS| ignore
-   this value, if :envvar:`intercom/settings/issuer-base-url` is defined.
+   this value, if :envvar:`intercom-service/settings/issuer-base-url` is defined.
 
    .. list-table::
        :header-rows: 1
@@ -164,7 +166,7 @@ The following references show the available settings within the app
          - ``UCS``
          - Only before installation
 
-.. envvar:: intercom/settings/issuer-base-url
+.. envvar:: intercom-service/settings/issuer-base-url
 
     Defines a full base URL for the |OIDC| token issuer. Usually, the
     :term:`IdP` *Keycloak* issues |OIDC| tokens.
@@ -187,7 +189,7 @@ The following references show the available settings within the app
           - ``None``
           - Only before installation
 
-.. envvar:: intercom/settings/origin-regex
+.. envvar:: intercom-service/settings/origin-regex
 
    Defines the origin :term:`CORS` regular expression. Normally this will be the
    shared domain name. Changing this value may have security implications.
@@ -202,6 +204,22 @@ The following references show the available settings within the app
 
        * - Yes
          - ``@%@domainname@%@``
+         - Only before installation
+
+.. envvar:: intercom-service/settings/log-level
+
+   Logging level for the standard output, as well as, log file at ``intercom-service.log``.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``info``
          - Only before installation
 
 .. envvar:: intercom-service/settings/proxy
@@ -223,7 +241,7 @@ The following references show the available settings within the app
           - ``False``
           - Only before installation
 
-.. envvar:: intercom/matrix/url
+.. envvar:: intercom-service/matrix/url
 
     Defines the URL, where you can reach the *Matrix* server. The file
     :file:`/etc/ics_matrix_as.secret` stores the Matrix secret.
@@ -240,13 +258,13 @@ The following references show the available settings within the app
           - ``https://matrix.@%@domainname@%@``
           - Only before installation
 
-.. envvar:: intercom/matrix/server-name
+.. envvar:: intercom-service/matrix/server-name
 
     Defines the server name of the *Matrix* server, that is a
     unique identifier configured in *Matrix*. The server name must match the
     configured server name in *Matrix*.
 
-    It isn't necessarily the server name defined in :envvar:`intercom/matrix/url`.
+    It isn't necessarily the server name defined in :envvar:`intercom-service/matrix/url`.
 
     .. list-table::
         :header-rows: 1
@@ -260,7 +278,7 @@ The following references show the available settings within the app
           - ``matrix.@%@domainname@%@``
           - Only before installation
 
-.. envvar:: intercom/matrix/login-type
+.. envvar:: intercom-service/matrix/login-type
 
     Defines the login type that |ICS| uses for the *Matrix* server.
 
@@ -278,7 +296,7 @@ The following references show the available settings within the app
           - ``uk.half-shot.msc2778.login.application_service``
           - Only before installation
 
-.. envvar:: intercom/matrix/nordeck-mode
+.. envvar:: intercom-service/matrix/nordeck-mode
 
     Defines the connection mode of the *Nordeck* bot.
 
@@ -296,7 +314,7 @@ The following references show the available settings within the app
           - ``test``
           - Only before installation
 
-.. envvar:: intercom/matrix/nordeck-url
+.. envvar:: intercom-service/matrix/nordeck-url
 
     Defines the URL, where you can reach the *Nordeck* bot.
 
@@ -312,7 +330,7 @@ The following references show the available settings within the app
           - ``https://meetings-widget-bot.@%@domainname@%@``
           - Only before installation
 
-.. envvar:: intercom/portal/portal-url
+.. envvar:: intercom-service/portal/portal-url
 
     Defines the URL for the UCS portal. The file :file:`/etc/ics_portal.secret`
     stores the Portal API key.
@@ -329,7 +347,7 @@ The following references show the available settings within the app
           - ``@%@ucs/server/sso/fqdn@%@``
           - Only before installation
 
-.. envvar:: intercom/ox/ox-origin
+.. envvar:: intercom-service/ox/origin
 
    Defines the *OX App Suite* :term:`CORS` setting. Usually, this value is will be the same
    as the *OX App Suite* external address.
@@ -346,7 +364,7 @@ The following references show the available settings within the app
          - ``https://webmail.@%@domainname@%@``
          - Only before installation
 
-.. envvar:: intercom/ox/audience
+.. envvar:: intercom-service/ox/audience
 
    Defines the :term:`OIDC audience` setting for *OX App Suite* that *OX App
    Suite* uses in the :term:`IdP` *Keycloak*.
@@ -363,7 +381,7 @@ The following references show the available settings within the app
          - ``oxoidc``
          - Only before installation
 
-.. envvar:: intercom/nextcloud/audience
+.. envvar:: intercom-service/nextcloud/audience
 
    Defines the :term:`OIDC audience` setting for *Nextcloud* that *Nextcloud* uses in the :term:`IdP` *Keycloak*.
 

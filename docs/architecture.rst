@@ -161,14 +161,14 @@ General
    Silent |OIDC| login endpoint
 
 ``/backchannel-logout``
-   Endpoint for |OIDC| backchannel logout requests
+   Endpoint for |OIDC| back channel logout requests
 
 
 App specific
 ------------
 
 ``/fs``
-   Proxy for Nextcloud
+   Proxy for *Nextcloud*
 
 ``/navigation.json``
    Proxy to Univention-portal for central navigation data
