@@ -1,5 +1,6 @@
 const axios = require("axios");
 const qs = require("qs");
+const { logger } = require("./logger");
 
 const fetchOIDCToken = async (access_token, audience) => {
   var params = {
@@ -26,7 +27,10 @@ const fetchOIDCToken = async (access_token, audience) => {
     .then((res) => {
       return res.data.access_token;
     })
-    .catch(err => console.log("Error fetching OIDC token", err));
+    .catch((err) => {
+      logger.error(`Error fetching OIDC token for ${audience}`);
+      logger.debug(err);
+    });
 };
 
 module.exports = {

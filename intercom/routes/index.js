@@ -6,9 +6,6 @@ const silent = require("./silent");
 const uuid = require("./uuid");
 
 
-
-
-
 module.exports = {
   backchannelLogout,
   fs,

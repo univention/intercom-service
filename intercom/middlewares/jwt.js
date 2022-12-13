@@ -1,4 +1,4 @@
-const { verifyJWT, JWKS } = require("../utils");
+const { verifyJWT, JWKS, logger } = require("../utils");
 const { issuerBaseURL } = require("../config");
 
 const oidcVerifyDecodeAccessToken = (callback) => {
@@ -10,9 +10,9 @@ const oidcVerifyDecodeAccessToken = (callback) => {
         JWKS
       );
     } catch (error) {
-      console.warn("Error verifying OIDC Access Token", error);
-      console.info("Handling the error above: attempting silent login to replace expired token");
-      // res.redirect(302, "/silent");
+      logger.warn("Error verifying ICS OIDC access_token");
+      logger.debug(error);
+      logger.info("Handling the error above: attempting silent login to replace expired token");
       callback(req, res, next);
     } finally {
       next();
@@ -29,9 +29,9 @@ const oidcVerifyDecodeIdentityToken = (callback) => {
         JWKS
       );
     } catch (error) {
-      console.warn("Error verifying OIDC Access Token", error);
-      console.info("Handling the error above: attempting silent login to replace expired token");
-      // res.redirect(302, "/silent");
+      logger.warn("Error verifying ICS OIDC id_token");
+      logger.debug(error);
+      logger.info("Handling the error above: attempting silent login to replace expired token");
       callback(req, res, next);
     } finally {
       next();

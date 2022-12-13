@@ -23,7 +23,8 @@
     "express-openid-connect": "^2.7.1",
     "http-proxy-middleware": "^2.0.4",
     "jose": "^4.9.2",
-    "redis": "^4.2.0"
+    "redis": "^4.2.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.19.2",

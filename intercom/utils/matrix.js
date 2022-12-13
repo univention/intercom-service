@@ -1,6 +1,8 @@
 const https = require("https");
 const axios = require("axios");
 
+const { logger } = require("../utils");
+
 const fetchMatrixToken = async (user_id) => {
   const params = {
     // https://spec.matrix.org/v1.4/client-server-api/#appservice-login
@@ -29,7 +31,10 @@ const fetchMatrixToken = async (user_id) => {
     .then((res) => {
       return res.data.access_token;
     })
-    .catch(err => console.log("Error fetching Matrix token", err));
+    .catch(err => {
+      logger.error("Error fetching Matrix token");
+      logger.debug(err);
+    });
 };
 
 module.exports = {

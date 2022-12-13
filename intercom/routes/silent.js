@@ -1,4 +1,5 @@
 const express = require("express");
+const { logger } = require("../utils");
 const router = express.Router();
 
 /**
@@ -12,7 +13,7 @@ const router = express.Router();
 router.get("/", (req, res) => {
   // TODO: Do proper postMessage reporting
   const sessionStatus = "access_token" in req.appSession;
-  console.log(`Silent login, logged in ${sessionStatus}`);
+  logger.info(`Silent login, logged in ${sessionStatus}`);
   res.render("pages/silent", {
     sessionStatus,
     csrftoken: req.cookies["_csrf_token"],

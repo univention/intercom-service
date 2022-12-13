@@ -4,7 +4,7 @@ const router = express.Router();
 const jose = require("jose");
 
 const { issuerBaseURL } = require("../config");
-const { JWKS, redisClient } = require("../utils");
+const { JWKS, redisClient, logger } = require("../utils");
 
 /**
  * @name /backchannel-logout
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   redisClient.get(payload.sid, async (err, session_id) => {
     await redisClient.del("sess:" + session_id);
     await redisClient.del(payload.sid);
-    console.log("Backchannel logout");
+    logger.info("Backchannel logout");
     res.send("Done");
   });
 });

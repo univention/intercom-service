@@ -5,6 +5,7 @@ const { stripIntercomCookies } = require("./cookies");
 const { massageCors } = require("./cors");
 const { JWKS } = require("./keys");
 const { redisClient, redisStore } = require("./redis");
+const { logger } = require("./logger");
 
 module.exports = {
   verifyJWT,
@@ -15,4 +16,5 @@ module.exports = {
   JWKS,
   redisClient,
   redisStore,
+  logger,
 };

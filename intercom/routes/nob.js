@@ -14,7 +14,7 @@ const { corsOptions } = require("../config");
  */
 router.use("/", createProxyMiddleware({
   target: process.env.NORDECK_URL,
-  logLevel: "info",
+  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase(),
   changeOrigin: true,
   pathRewrite: { "^/nob": "" },
   secure: false,

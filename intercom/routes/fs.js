@@ -16,7 +16,7 @@ const { corsOptions } = require("../config");
  */
 router.use("/", createProxyMiddleware({
   target: process.env.NC_URL,
-  logLevel: "info",
+  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase(),
   changeOrigin: true,
   pathRewrite: {
     "^/fs": "",

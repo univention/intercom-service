@@ -95,6 +95,18 @@ Description[de] = Einstellung die an die node-axios Bibliothek übergeben wird u
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/settings/log-level]
+Type = String 
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = info
+Scope = outside
+Description = Log level in the following options: debug, info, warn, error, fatal
+Description[de] = 
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/matrix/url]
 Type = String
 Required = True

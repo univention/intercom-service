@@ -35,6 +35,7 @@ with open(pwdfile, 'r') as fd:
       INTERCOM_URL: @%@intercom-service/settings/intercom-url@%@
       BASE_URL: @%@intercom-service/settings/base-url@%@
       PORT: 8008
+      LOG_LEVEL: @%@intercom-service/settings/log-level@%@
 
       # ISSUER  
       ISSUER_BASE_URL: @%@intercom-service/settings/issuer-base-url@%@

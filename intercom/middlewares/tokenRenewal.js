@@ -1,4 +1,4 @@
-const { verifyJWT, JWKS, fetchOIDCToken } = require("../utils");
+const { verifyJWT, JWKS, fetchOIDCToken, logger } = require("../utils");
 const { issuerBaseURL } = require("../config");
 
 
@@ -8,10 +8,10 @@ const refreshTokenIfNeeded = async (req, res, next) => {
     if (isExpired()) {
       ({ access_token } = await refresh());
       req.appSession.access_token = access_token;
-      console.log("Refreshing expired token");
+      logger.debug("Refreshing ICS expired access_token");
     }
   } catch (err) {
-    console.error("Refreshing expired token failed", err);
+    logger.error("Refreshing ICS expired access_token failed");
   }
   next();
 };
@@ -23,16 +23,16 @@ const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
       issuerBaseURL,
       JWKS
     );
-    console.log("NC Access Token is valid", nc_access_token);
+    logger.debug("Nextcloud access_token is valid");
   } catch (error) {
     if (error.code == "ERR_JWT_EXPIRED") {
-      console.warn("NC Access Token expired, refreshing", error);
+      logger.warn("Nextcloud access_token expired, refreshing", error);
       req.appSession.nc_access_token = await fetchOIDCToken(
         req.appSession.access_token,
         `${process.env.NC_AUDIENCE}`
       );
-      console.log(req.appSession.nc_access_token);
-    } 
+      logger.info("Refreshed successfully");
+    }  
   } finally {
     next();
   }
