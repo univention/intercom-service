@@ -23,6 +23,7 @@ const {
   fetchOIDCToken,
   JWKS,
   redisStore,
+  logger
 } = require("./utils");
 
 const {
@@ -88,17 +89,17 @@ app.use(
         let uid = payload["entryuuid"];
 
         if (!uid) {
-          console.log(
+          logger.warn(
             "Sorry can't find the preferred username/uuid, maybe the mapping is missing?"
           );
         }
 
         if (!("matrix_access_token" in session)) {
-          console.log("fetching matrix token");
+          logger.debug("Fetching Matrix access_token");
           ret.matrix_access_token = await fetchMatrixToken(uid);
         }
       } catch (error) {
-        console.log("Error fetching Tokens: " + error);
+        logger.error("Error fetching tokens: " + error);
       }
       return { ...session, ...ret };
     },
