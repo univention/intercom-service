@@ -1,7 +1,7 @@
 const https = require("https");
 const axios = require("axios");
 
-const { logger } = require("../utils");
+const { logger } = require("./logger");
 
 const fetchMatrixToken = async (user_id) => {
   const params = {

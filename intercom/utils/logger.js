@@ -1,6 +1,6 @@
-const winston = require('winston');
+const winston = require("winston");
 
-const level = `${process.env.LOG_LEVEL}`.toLowerCase();
+const level = `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info";
 
 const logger = winston.createLogger({
   level,
@@ -8,7 +8,7 @@ const logger = winston.createLogger({
   defaultMeta: { service: "intercom-service" },
   transports: [
     new winston.transports.Console({ level }),
-    new winston.transports.File({ filename: 'intercom-service.log', level}),
+    new winston.transports.File({ filename: "intercom-service.log", level}),
   ],
 });
 

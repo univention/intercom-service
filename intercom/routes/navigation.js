@@ -15,7 +15,7 @@ const { corsOptions } = require("../config");
 // TODO: https://127.0.0.1/univention/portal/navigation.json?lang=de_DE -H "Authorization: Basic username:MyPortalSecretFromBMIUXAnsibleHostINI"
 router.use("/", createProxyMiddleware({
   target: process.env.PORTAL_URL,
-  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase(),
+  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
   changeOrigin: true,
   pathRewrite: { "^/navigation.json": "/univention/portal/navigation.json" },
   onProxyReq: function onProxyReq(proxyReq, req, res) {
