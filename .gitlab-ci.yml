@@ -16,19 +16,14 @@ stages:
 
 variables:
   DOCS_DIR: "docs"
-  CI_REGISTRY: docker-registry.knut.univention.de
-  CI_REGISTRY_IMAGE: phoenix/intercom
   PUBLIC_CI_REGISTRY: quay.io
   PUBLIC_CI_REGISTRY_IMAGE: univention/intercom-service
-  SPHINX_DOC: $CI_REGISTRY/sphinx
-  GIT_SYNC: docker-registry.knut.univention.de/knut/git-sync
   LANG: "C.UTF-8"
   DEBIAN_FRONTEND: noninteractive
   UNIVENTION_BASECONF: /dev/null
   DOC_TARGET_VERSION: "1.4"
   DOC_TARGET_NAME: "intercom-service"
   DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
-  DOC_NAME: "intercom-service"
 
 services:
   - docker:dind
