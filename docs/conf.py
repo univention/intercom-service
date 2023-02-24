@@ -131,15 +131,14 @@ numfig_format = {
     "section": _("Section %s"),
 }
 
+# Warnings may come up by sphinx-last-updated-by-git. Shall be suppressed to
+# avoid the warnings from failing the pipeline.
+suppress_warnings = ["git.too_shallow"]
+
 if "spelling" in sys.argv:
     spelling_lang = "en"
     spelling_show_suggestions = True
     spelling_word_list_filename = ["spelling_wordlist"]
-    suppress_warnings = ["git.too_shallow"]
-
-
-if "linkcheck" in sys.argv:
-    suppress_warnings = ["git.too_shallow"]
 
 linkcheck_ignore = [
     r"https://ucs-sso-ng.example.com/admin/",
