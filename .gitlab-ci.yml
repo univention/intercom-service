@@ -25,9 +25,6 @@ variables:
   DOC_TARGET_NAME: "intercom-service"
   DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
 
-services:
-  - docker:dind
-
 docs-linkcheck:
   extends: .sphinx-linkcheck-template
   rules:
