@@ -50,7 +50,7 @@ def read_doc_name_from_ci() -> str:
 
     with open("../.gitlab-ci.yml", "r") as f:
         ci = yaml.safe_load(f)
-        return ci.get("variables", {"DOC_NAME": "intercom-service"}).get("DOC_NAME")
+        return ci.get("variables", {"DOC_TARGET_NAME": "intercom-service"}).get("DOC_TARGET_NAME")
 
 
 release = read_version_from_ci()
