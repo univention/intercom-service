@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022-2023 Univention GmbH
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -112,8 +116,9 @@ pdf_doc_base = read_doc_name_from_ci()
 
 html_theme = "univention_sphinx_book_theme"
 
-html_context = {
+html_theme_options = {
     "pdf_download_filename": f"{pdf_doc_base}.pdf",
+    "show_source_license": True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -164,8 +169,10 @@ latex_elements = {
     "papersize": "a4paper",
 }
 
-# See Univention Sphinx Extension for its options and information about the
-# feedback link.
+# See Univention Sphinx Extension for its options.
 # https://git.knut.univention.de/univention/documentation/univention_sphinx_extension
+# Information about the feedback link.
 univention_feedback = True
+# Information about the license statement for the source files
+univention_pdf_show_source_license = True
 univention_doc_basename = "intercom-service"

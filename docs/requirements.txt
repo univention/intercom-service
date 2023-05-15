@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022-2023 Univention GmbH
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 sphinx-copybutton>=0.3.1
 sphinx-inline-tabs>=2022.1.2b11
 sphinx-last-updated-by-git>=0.3.2
