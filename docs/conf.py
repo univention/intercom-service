@@ -129,12 +129,6 @@ html_static_path = []  # value is usally ['_static']
 html_last_updated_fmt = "%a, %d. %b %Y at %H:%m (UTC%z)"
 
 numfig = True
-numfig_format = {
-    "figure": _("Figure %s"),
-    "table": _("Table %s"),
-    "code-block": _("Listing %s"),
-    "section": _("Section %s"),
-}
 
 # Warnings may come up by sphinx-last-updated-by-git. Shall be suppressed to
 # avoid the warnings from failing the pipeline.
