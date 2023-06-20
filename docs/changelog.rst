@@ -12,6 +12,22 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.5
+===
+
+Released: 20. June 2023
+
+
+Added
+-----
+
+* *UCR* variables to set the path to external self-signed certificates.
+
+Security
+--------
+
+* Updated dependencies.
+
 1.4
 ===
 

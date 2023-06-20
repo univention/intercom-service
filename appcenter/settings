@@ -226,3 +226,26 @@ Description = CORS origin settings for Nextcloud requests
 Description[de] = CORS Origin Wert für Nextcloud Anfragen
 Group = Administration
 Group[de] = Administration
+
+[intercom-service/certificates/external/root-ca-pem]
+Type = String
+Required = False
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Full path to the root CA certificate in PEM format for self-signed certificates of Keycloak, Matrix, Nextcloud and OX.
+Description[de] = Vollständiger Pfad zum Root-CA-Zertifikat im PEM-Format für selbstsignierte Zertifikate von Keycloak, Matrix, Nextcloud und OX.
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/certificates/external/root-ca-crt]
+Type = String
+Required = False
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Full path to the root CA certificate in CRT format for self-signed certificates of Keycloak, Matrix, Nextcloud and OX.
+Description[de] = Vollständiger Pfad zum Root-CA-Zertifikat im CRT-Format für die selbstsignierten Zertifikate von Keycloak, Matrix, Nextcloud und OX.
+Group = Administration
+Group[de] = Administration
+

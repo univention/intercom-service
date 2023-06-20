@@ -433,3 +433,40 @@ The following references show the available settings within the app
        * - Yes
          - ``https://fs.@%@domainname@%@``
          - Only before installation
+
+.. envvar:: intercom-service/certificates/external/root-ca-pem
+
+   Defines the host path to self-signed external certificates, allowing for
+   secure communication with *Nextcloud*, *Matrix* and *OX App Suite*. The file
+   must be in |PEM| format, allowing for multiple certificates in one
+   file.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - No
+         - ``Empty``
+         - Only before installation
+
+.. envvar:: intercom-service/certificates/external/root-ca-crt
+
+   Defines the host path to self-signed external certificates, allowing for
+   secure communication with *Nextcloud*, *Matrix* and *OX App Suite*. The file
+   must be in |CRT| format.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - No
+         - ``Empty``
+         - Only before installation

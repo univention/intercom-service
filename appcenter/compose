@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: quay.io/univention/intercom-service:1.4
+    image: quay.io/univention/intercom-service:1.5
     restart: unless-stopped
     networks:
       - intercom
@@ -17,6 +17,18 @@ for nameserverUcrName in ('nameserver1', 'nameserver2', 'nameserver3'):
         print("      - {}".format(nameserverIp))@!@
     ports:
       - 8008:8008
+@!@
+from univention.config_registry import ConfigRegistry
+ucr = ConfigRegistry()
+ucr.load()
+cert_pem_path = ucr.get('intercom-service/certificates/external/root-ca-pem')
+cert_crt_path = ucr.get('intercom-service/certificates/external/root-ca-crt')
+if cert_pem_path or cert_crt_path:
+    print("    volumes:")
+if cert_pem_path:
+    print("      - {}:/etc/ssl/certs/rootca.pem:ro".format(cert_pem_path))
+if cert_crt_path:
+    print("      - {}:/usr/local/share/ca-certificates/rootca.crt:ro".format(cert_crt_path))@!@
     environment:
       # CLIENT
       CLIENT_ID: @%@intercom-service/settings/client-id@%@
@@ -84,6 +96,15 @@ with open(pwdfile, 'r') as fd:
 
       # ORIGIN
       ORIGIN_REGEX: @%@intercom-service/settings/origin-regex@%@
+
+      # EXTERNAL CERTIFICATES
+@!@
+from univention.config_registry import ConfigRegistry
+ucr = ConfigRegistry()
+ucr.load()
+cert_pem_path = ucr.get('intercom-service/certificates/external/root-ca-pem')
+if cert_pem_path:
+    print('      NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rootca.pem"')@!@
 
   redis-intercom:
     image: redis:6.2-alpine

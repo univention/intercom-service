@@ -10,3 +10,5 @@
 .. |OIDC| replace:: :abbr:`OIDC (OpenID Connect)`
 .. |SAML| replace:: :abbr:`SAML (Security Assertion Markup Language)`
 .. |UCS| replace:: :abbr:`UCS (Univention Corporate Server)`
+.. |PEM| replace:: :abbr:`PEM (Privacy Enhanced Mail)`
+.. |CRT| replace:: :abbr:`CRT (Certificate)`
