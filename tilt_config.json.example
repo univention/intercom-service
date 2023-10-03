@@ -1,0 +1,5 @@
+{
+  "helmchart-path": "../ics-helmchart/charts/intercom-service/",
+  "univention-project-username": "someuser",
+  "gitlab-access-token": "some-token"
+}
