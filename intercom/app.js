@@ -23,7 +23,7 @@ const {
   fetchOIDCToken,
   JWKS,
   redisStore,
-  logger
+  logger,
 } = require("./utils");
 
 const {
@@ -35,7 +35,7 @@ const {
   uuid,
 } = require("./routes");
 
-const { 
+const {
   oidcVerifyDecodeAccessToken,
   oidcVerifyDecodeIdentityToken,
   refreshTokenIfNeeded,
@@ -76,7 +76,7 @@ app.use(
           );
         }
 
-        if(!("nc_access_token" in session)){
+        if (!("nc_access_token" in session)) {
           ret.nc_access_token = await fetchOIDCToken(
             session.access_token,
             `${process.env.NC_AUDIENCE}`
@@ -123,10 +123,7 @@ app.get("/", function (req, res) {
  * @desc
  * OpenID Connect Backchannel Logout implementation to delete the session from the store
  */
-app.use(
-  "/backchannel-logout",
-  backchannelLogout
-);
+app.use("/backchannel-logout", backchannelLogout);
 
 /**
  * @name /nob/
@@ -136,7 +133,10 @@ app.use(
  */
 app.use(
   "/nob",
-  requiresAuth(), refreshTokenIfNeeded, csrfProtection.validate, oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  requiresAuth(),
+  refreshTokenIfNeeded,
+  csrfProtection.validate,
+  oidcVerifyDecodeAccessToken(attemptSilentLogin),
   nob
 );
 
@@ -150,7 +150,10 @@ app.use(
  */
 app.use(
   "/fs",
-  requiresAuth(), refreshTokenIfNeeded, refreshNextcloudTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  requiresAuth(),
+  refreshTokenIfNeeded,
+  refreshNextcloudTokenIfNeeded,
+  oidcVerifyDecodeAccessToken(attemptSilentLogin),
   fs
 );
 
@@ -162,7 +165,10 @@ app.use(
  */
 app.use(
   "/navigation.json",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeAccessToken(attemptSilentLogin), oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  requiresAuth(),
+  refreshTokenIfNeeded,
+  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   navigation
 );
 
@@ -176,8 +182,10 @@ app.use(
  */
 app.use(
   "/silent",
-  attemptSilentLogin(), oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  silent);
+  attemptSilentLogin(),
+  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  silent
+);
 
 /**
  * @name /uuid
@@ -185,8 +193,11 @@ app.use(
  */
 app.use(
   "/uuid",
-  requiresAuth(), refreshTokenIfNeeded, oidcVerifyDecodeIdentityToken(attemptSilentLogin),
-  uuid);
+  requiresAuth(),
+  refreshTokenIfNeeded,
+  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  uuid
+);
 
 var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;

@@ -4,6 +4,10 @@ const axios = require("axios");
 const { logger } = require("./logger");
 
 const fetchMatrixToken = async (user_id) => {
+  if (!process.env.MATRIX_URL) {
+    logger.warning("Matrix integration not configured");
+    return;
+  }
   const params = {
     // https://spec.matrix.org/v1.4/client-server-api/#appservice-login
     type: "m.login.application_service",
@@ -12,18 +16,18 @@ const fetchMatrixToken = async (user_id) => {
       user: user_id,
     },
   };
-  
+
   // https://spec.matrix.org/v1.4/application-service-api/#registration
   const headers = {
     Authorization: "Bearer " + process.env.MATRIX_AS_SECRET,
     "Content-Type": "application/json",
   };
-  
+
   return axios
     .request({
       url: process.env.MATRIX_URL + "/_matrix/client/v3/login",
       headers,
-      method: "POST", 
+      method: "POST",
       data: params,
       proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
@@ -31,7 +35,7 @@ const fetchMatrixToken = async (user_id) => {
     .then((res) => {
       return res.data.access_token;
     })
-    .catch(err => {
+    .catch((err) => {
       logger.error("Error fetching Matrix token");
       logger.debug(err);
     });
