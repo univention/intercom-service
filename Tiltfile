@@ -47,7 +47,7 @@ docker_build(
 )
 
 local("""
-    kubectl get secret -n {namespace} | grep souvap-gitlab || \
+    kubectl get secret --namespace {namespace} | grep souvap-gitlab || \
     kubectl create secret docker-registry souvap-gitlab --docker-server=registry.souvap-univention.de --docker-username={univention_project_username} --docker-password={gitlab_access_token} -n {namespace}
     """.format(
     univention_project_username=univention_project_username,
@@ -58,15 +58,13 @@ local("""
 # Helm charts are provided by DevOps, therefore they are not in this repository.
 # Recommended setup is to clone in parallel folder to this repository.
 
-local("helm get values intercom-service -n {namespace} > ics-values.yaml".format(namespace=namespace))
+local("helm get values intercom-service --namespace {namespace} > ics-values.yaml".format(namespace=namespace))
 
 k8s_yaml(
     helm(
         helmchart_path,
         name='intercom-service',
         namespace=namespace,
-        # Can be pulled from the cluster with:
-        # `helm get values intercom-service -n your-namespace > values.yaml`
         values='ics-values.yaml',
         set=[
             'global.imagePullSecrets[0]=souvap-gitlab',

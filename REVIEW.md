@@ -14,6 +14,8 @@ It is important to test that functionality is still there. Thus, please start yo
 
 ##### Videoconference
 
+> Please login into Element before trying this use-case for the first time in an environment.
+
 1. Log into OX.
 2. Go to the calendar.
 3. Schedule a meeting which includes a videoconference room.
@@ -32,15 +34,20 @@ It is important to test that functionality is still there. Thus, please start yo
 
 
 ##### Refresh token
-1. Go to the Keycloak admin interface. Select the realm containing OX, Nextcloud, ICS and Element. Go to `Realm Settings`, select the tab `Tokens` and set the `SSO Session Idle` to 5 minutes. Undo these settings at the end of this QA-step.
+1. Go to the Keycloak admin interface. Select the realm containing OX, Nextcloud, ICS and Element. Go to `Realm Settings`, select the tab `Sessions` and set the `SSO Session Idle` to 5 minutes. Undo these settings at the end of this QA-step.
 2. Leave a session open for more than 5 minutes
 3. Then try to use any of the first two use cases.
+4. Undo the changes.
 
 
 ##### Backchannel-logout
 1. Make sure to have triggered the silent login into ICS, for example by opening OX.
-2. Track the docker logs with `docker logs -f intercom-service`.
-3. Go to the Keycloak-admin interface, navigate to `Users`, search for the user you are logged in as in ICS, click the user, go to the `Sessions` tab and manually log out the session.
+2. Track the docker logs with `docker logs -f intercom-service` or `l` on k9s.
+3. Go to the Keycloak-admin interface and login.
+4. Select the `Souvap` realm.
+5. Navigate to `Sessions`.
+6. Search for the user you are logged in as in ICS (and the Portal and others)
+7. Manually log out the session by clicking `Sign out` in the three dots menu.
 
 
 
