@@ -30,7 +30,7 @@ the just changed settings.
 Intercom Service
 ================
 
-The app |ICS_p| provides the back end for inter-app
+The app |ICS_p| provides the backend for inter-app
 communication of *Nextcloud*, the *UCS Portal*, *UMC*, *Matrix* through the
 *Nordeck* bot and *OX App Suite*.
 
@@ -54,11 +54,11 @@ generated. Those secrets are:
    of the *intercom-client*.
 
 :file:`/etc/matrix.secret`
-   The secret for back end communication with the *Matrix* server. You can
+   The secret for backend communication with the *Matrix* server. You can
    retrieve it from the automatic join app service on the system running
    *Matrix*.
 
-   The following command shows how to retrieve the secret for the back end
+   The following command shows how to retrieve the secret for the backend
    communication with the *Matrix* server:
 
    .. code-block:: console
@@ -231,7 +231,7 @@ The following references show the available settings within the app
     This setting is passed to *node-axios* within the container. It allows or
     disallows connections through a proxy server between |ICS| and apps like
     *Matrix*, *Nextcloud*, or *OX App Suite*, instead of a direct connection to
-    the back ends.
+    the backends.
 
     .. list-table::
         :header-rows: 1

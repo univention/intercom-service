@@ -36,7 +36,7 @@ Design decisions
 ================
 
 The app |ICS_p| aims to provide a way to facilitate :term:`CORS` conform communication
-to different back ends directly from the browser. It can proxy, modify, and
+to different backends directly from the browser. It can proxy, modify, and
 authenticate requests and use *Keycloak* as :term:`IdP` and its own session storage to
 hold |OIDC| sessions. It acquires those sessions through a silent background
 login, provided a valid |OIDC| cookie is already available in the browser.
@@ -57,7 +57,7 @@ and sessions for now, this is how |ICS| works on a basic level.
    browser needs communication to a separate app.
 
 #. |ICS| acts as a middleware to modify and forward those requests appropriately
-   to the relevant, second app using a back end communication channel.
+   to the relevant, second app using a backend communication channel.
 
 #. |ICS| receives the response and finally sends an appropriately modified
    response to the browser.
@@ -77,7 +77,7 @@ scheme. See also :numref:`figure-overview-detail`.
 #. The browser requests an action, for example to create a video conference, as
    part of a calendar entry. The browser requests an interaction from *OX App
    Suite* to *Matrix*. In detail, the browser requests the *Nordeck* bot that
-   runs in the Matrix user front end *Element*.
+   runs in the Matrix user frontend *Element*.
 
 #. A silent login happens in the background, that uses the information stored in
    the browser to authenticate |ICS| with the :term:`IdP` *Keycloak* through a
@@ -86,13 +86,13 @@ scheme. See also :numref:`figure-overview-detail`.
 #. The functional interaction begins as displayed in
    :numref:`figure-overview-simple`.
 
-#. |ICS| sends a requests to the back end, usually another app on UCS. |ICS|
-   acts as a middleware between the browser and back ends, for example apps.
+#. |ICS| sends a requests to the backend, usually another app on UCS. |ICS|
+   acts as a middleware between the browser and backends, for example apps.
 
 .. note::
 
    |ICS| may use shared secrets rather than relying on |OIDC| authentication when
-   communicating with back ends.
+   communicating with backends.
 
 .. warning::
 
@@ -201,7 +201,7 @@ list provides context and explanation.
    IdP
       stands for *Identity Provider*. An IdP offers user authentication as
       service. In the context of the app |ICS_p| the software *Keycloak* offers
-      the IdP service to |ICS| and its app back ends.
+      the IdP service to |ICS| and its app backends.
 
    OIDC audience
       The |OIDC| audience is a required claim within the ID Token for all OAuth
