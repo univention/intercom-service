@@ -12,6 +12,22 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.6
+===
+
+Released: 17. November 2023
+
+
+Added
+-----
+
+* Reconnect to *Redis* after the service was down.
+
+Changed
+-------
+
+* Image is now based on *UCS* base image.
+
 1.5
 ===
 
