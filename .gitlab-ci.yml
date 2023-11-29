@@ -12,14 +12,11 @@ include:
       - "jobs/check-debian-updates.yaml"
       - "jobs/container-build-souvap.yaml"
       - "jobs/lint-commit-messages.yaml"
-      - "jobs/lint-pre-commit.yaml"
+      - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
 
 variables:
   IMAGE_NAME: "intercom-service"
-
-lint-pre-commit:
-  allow_failure: true
 
 trigger-docs:
   stage: trigger
