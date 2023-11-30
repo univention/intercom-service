@@ -1,0 +1,52 @@
+---
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+include:
+  - project: "univention/documentation/sphinx-docker"
+    file: "pipeline/sphinx.yml"
+
+docs-linkcheck:
+  stage: "docs-build"
+  extends: ".sphinx-linkcheck-template"
+
+docs-spelling:
+  stage: "docs-build"
+  extends: ".sphinx-spelling-template"
+
+docs-html:
+  stage: "docs-build"
+  extends: ".sphinx-html-template"
+
+docs-pdf:
+  stage: "docs-build"
+  extends: ".sphinx-pdf-template"
+
+docs-warnings:
+  stage: "docs-build"
+  extends: ".sphinx-warnings-template"
+
+docs-merge-to-one-artifact:
+  stage: "docs-merge"
+  extends: ".sphinx-merge-template"
+  needs:
+    - job: "docs-html"
+    - job: "docs-pdf"
+    - job: "docs-spelling"
+      artifacts: false
+    - job: "docs-linkcheck"
+      artifacts: false
+  rules:
+    - if: "$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH"
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+      when: "manual"
+
+docs-create-production-merge-request:
+  stage: "docs-production"
+  extends: ".sphinx-docs-merge-request-template"
+  needs:
+    - job: "docs-merge-to-one-artifact"
+  rules:
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+...
