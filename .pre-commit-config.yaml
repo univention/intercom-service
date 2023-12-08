@@ -1,0 +1,57 @@
+---
+
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: "v4.5.0"
+    hooks:
+      - id: "check-added-large-files"
+        name: "check for added large files"
+      - id: "check-merge-conflict"
+        name: "check for merge conflicts"
+      - id: "check-yaml"
+        name: "check yaml"
+        args:
+          # Needed for ".gitlab-ci.yml"
+          - "--unsafe"
+      - id: "end-of-file-fixer"
+        name: "fix end of files"
+      - id: "trailing-whitespace"
+        name: "trim trailing whitespace"
+
+  - repo: "https://github.com/compilerla/conventional-pre-commit"
+    rev: "v3.0.0"
+    hooks:
+      - id: "conventional-pre-commit"
+        name: "Conventional Commit"
+        stages: ["commit-msg"]
+
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell"
+    rev: "v1.0.6+uv1"
+    hooks:
+      - id: "shell-lint"
+        name: "Shell Syntax Check"
+
+  # Cloned from github.com/pryorda/dockerfilelint-precommit-hooks
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/dockerfilelint-precommit-hooks"
+    rev: "v0.1.0"
+    hooks:
+      - id: "dockerfilelint"
+        name: "Dockerfile linter"
+
+  - repo: "https://github.com/hadolint/hadolint"
+    rev: "v2.12.0"
+    hooks:
+      - id: "hadolint"
+        name: "Lint Dockerfiles"
+
+  # Uses `GITLAB_SERVER`, `GITLAB_PROJECT_ID` and `GITLAB_PRIVATE_TOKEN`
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/gitlab-ci-linter"
+    rev: "v1.0.6+uv2"
+    hooks:
+      - id: "gitlab-ci-linter"
+        name: ".gitlab-ci.yml linter"
+
+...

@@ -1,12 +1,13 @@
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.9.9"
+    ref: "v1.11.1"
     file:
       - "defaults/stages.yaml"
-      - "defaults/souvap-workflow.yaml"
-      - "templates/souvap.yaml"
+      - "jobs/lint-pre-commit.yaml"
+      - "jobs/lint-commit-messages.yaml"
+      - "jobs/lint-pre-commit.yaml"
       - "jobs/semantic-release-env.yaml"
-      - "jobs/container-build.yaml"
+      - "jobs/container-build-souvap.yaml"
 
 variables:
   PUBLIC_CI_REGISTRY: quay.io
@@ -14,6 +15,9 @@ variables:
   IMAGE_NAME: "intercom-service"
   DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
   KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+
+lint-pre-commit:
+  allow_failure: true
 
 trigger-docs:
   stage: trigger
