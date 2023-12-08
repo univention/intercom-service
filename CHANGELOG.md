@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.1...v0.0.2) (2023-12-08)
+
+
+### Bug Fixes
+
+* **ci:** reference common-ci v1.11.0 to push sbom and signature to souvap ([d1f74ef](https://git.knut.univention.de/univention/components/intercom-service/commit/d1f74ef1ac50a117f30f20a000362d79a3d2385f))
+
 ## 0.0.1 (2023-11-30)
 
 
