@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.3...v0.0.4) (2023-12-13)
+
+
+### Bug Fixes
+
+* **ci:** fix move variables to where they are expected by docs/conf.py ([27facdd](https://git.knut.univention.de/univention/components/intercom-service/commit/27facdd0d1f38af6b5d8099c7d9a198466b6a191))
+
 ## [0.0.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.2...v0.0.3) (2023-12-13)
 
 
