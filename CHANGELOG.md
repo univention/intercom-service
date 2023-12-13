@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.2...v0.0.3) (2023-12-13)
+
+
+### Bug Fixes
+
+* **ci:** fixed stages for docs jobs ([058e070](https://git.knut.univention.de/univention/components/intercom-service/commit/058e07001b49e8f684ac3ce59ec2b6f6dbe1ede2))
+
 ## [0.0.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.1...v0.0.2) (2023-12-08)
 
 
