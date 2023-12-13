@@ -15,6 +15,8 @@ variables:
   IMAGE_NAME: "intercom-service"
   DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
   KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+  DOC_TARGET_VERSION: "1.5"
+  DOC_TARGET_NAME: "intercom-service"
 
 lint-pre-commit:
   allow_failure: true
@@ -27,8 +29,6 @@ trigger-docs:
     LANG: "C.UTF-8"
     DEBIAN_FRONTEND: noninteractive
     UNIVENTION_BASECONF: /dev/null
-    DOC_TARGET_VERSION: "1.5"
-    DOC_TARGET_NAME: "intercom-service"
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
   trigger:
     strategy: depend
