@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.4...v0.0.5) (2023-12-20)
+
+
+### Bug Fixes
+
+* **docker:** update ucs-base 5.2-0 from v0.7.5 ro v0.10.0 ([d5beebf](https://git.knut.univention.de/univention/components/intercom-service/commit/d5beebf45bf8dd43097c65ec1718666f055242c6))
+
 ## [0.0.4](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.3...v0.0.4) (2023-12-13)
 
 
