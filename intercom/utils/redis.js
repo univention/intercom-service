@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const { auth } = require("express-openid-connect");
 const { createClient } = require("redis");
 const RedisStore = require("connect-redis")(auth);

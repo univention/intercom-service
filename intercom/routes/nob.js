@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const express = require("express");
 const router = express.Router();
 
@@ -23,7 +28,7 @@ router.use("/", createProxyMiddleware({
     // TODO: Build Switch for Nordeck Live Mode
     // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
     // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
-  
+
     if (req.appSession.matrix_access_token) {
       // Provide access_token via authentication bearer token header
       // https://spec.matrix.org/v1.4/client-server-api/#client-authentication

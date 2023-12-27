@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 ARG UCS_BASE_IMAGE_TAG=0.10.0
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
@@ -27,7 +30,7 @@ FROM common AS final
 
 COPY . .
 
-RUN \ 
+RUN \
   apt-get purge -y yarnpkg \
   && apt-get clean autoclean \
   && apt-get autoremove --yes

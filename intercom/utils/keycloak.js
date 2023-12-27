@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const axios = require("axios");
 const qs = require("qs");
 const { logger } = require("./logger");
@@ -10,7 +15,7 @@ const fetchOIDCToken = async (access_token, audience) => {
     client_secret: process.env.CLIENT_SECRET,
     audience: audience,
   };
-  
+
   return axios
     .request({
       url:

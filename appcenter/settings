@@ -39,7 +39,7 @@ Type = String
 Required = False
 Show = Install, Settings
 # ShowReadOnly = Settings
-InitialValue = 
+InitialValue =
 Scope = outside
 Description = Alternative overwrite for defined keycloak_url and realm_name if necessary
 Description[de] = Alternative Variable um keycloak_url und realm_name wenn notwendig zu überschreiben
@@ -84,7 +84,7 @@ Group = Administration
 Group[de] = Administration
 
 [intercom-service/settings/proxy]
-Type = String 
+Type = String
 Required = True
 Show = Install, Settings
 # ShowReadOnly = Settings
@@ -96,14 +96,14 @@ Group = Administration
 Group[de] = Administration
 
 [intercom-service/settings/log-level]
-Type = String 
+Type = String
 Required = True
 Show = Install, Settings
 # ShowReadOnly = Settings
 InitialValue = info
 Scope = outside
 Description = Log level in the following options: debug, info, warn, error, fatal
-Description[de] = 
+Description[de] =
 Group = Administration
 Group[de] = Administration
 
@@ -248,4 +248,3 @@ Description = Full path to the root CA certificate in CRT format for self-signed
 Description[de] = Vollständiger Pfad zum Root-CA-Zertifikat im CRT-Format für die selbstsignierten Zertifikate von Keycloak, Matrix, Nextcloud und OX.
 Group = Administration
 Group[de] = Administration
-

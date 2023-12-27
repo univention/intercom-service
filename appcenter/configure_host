@@ -11,7 +11,7 @@ ERROR_FILE="$4"
 
 
 
-if [ -n "$action" ] && [ "$action" = "remove" ]; then 
+if [ -n "$action" ] && [ "$action" = "remove" ]; then
     exit 0
 fi
 
@@ -22,4 +22,3 @@ if [ "$action" = "update" ] || [ "$action" = "install" ]; then
         echo "UCR variable intercom-service/settings/proxy is neither 'true' or 'false'"
     fi
 fi
-

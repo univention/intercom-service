@@ -4,20 +4,20 @@ Since every App is running on different subdomains, we have to deal with braking
 
 The user logs in once, is logged-in in every App and these Apps can interact with each other
 (for example attach files from nextcloud to ox emails). The Single Login is achieved via OIDC but OIDC gives no provisions
-for the interaction of services[^2]. 
+for the interaction of services[^2].
 
-Further Tokens are normally obtained via the Authorization Code Flow since all other flows are considered insecure 
-(for web applications)[^3] This flow is based on redirects, which do pose difficult challenges for most Frontends, 
+Further Tokens are normally obtained via the Authorization Code Flow since all other flows are considered insecure
+(for web applications)[^3] This flow is based on redirects, which do pose difficult challenges for most Frontends,
 for example OX can't handle redirects after the login.
 
-Another Problem are SPAs (Single Page Apps) without a dedicated backend. Secure, httponly cookies are currently the 
+Another Problem are SPAs (Single Page Apps) without a dedicated backend. Secure, httponly cookies are currently the
 only secure way to store tokens in the Browser. There are different possibilities to "hide" the Credentials in JS but
-none of these is considered secure. To remedy this Problem, the BFF (Backend for Frontend) oder Token Handler Pattern 
+none of these is considered secure. To remedy this Problem, the BFF (Backend for Frontend) oder Token Handler Pattern
 can be used[^5]
 
 Phoenix is set to grow and incorporate different Apps, including 3rd Party Vendors which can't be totally trusted / bring
 GDPR issues. So the Applications can't use a master key which gives global access but have to get individual credentials
-and give permissions/consent on a user based level. With a growing number of interactions, this means more work for all 
+and give permissions/consent on a user based level. With a growing number of interactions, this means more work for all
 Vendors.
 
 possible categories:
@@ -67,7 +67,7 @@ A list of allowed response headers
 ### Access-Control-Allow-Headers
 A list of allowed request headers
 
-	
+
 [^1]: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 
 [^2]: There is an access Token provided but this is only intended for the client to access to IdPs Userinfo endpoint.

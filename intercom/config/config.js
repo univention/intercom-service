@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const issuerBaseURL = process.env.ISSUER_BASE_URL ??
 `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`;
 

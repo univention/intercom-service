@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const { verifyJWT, JWKS, logger } = require("../utils");
 const { issuerBaseURL } = require("../config");
 
@@ -19,7 +24,7 @@ const oidcVerifyDecodeAccessToken = (callback) => {
     }
   };
 };
-  
+
 const oidcVerifyDecodeIdentityToken = (callback) => {
   return async (req, res, next) => {
     try {

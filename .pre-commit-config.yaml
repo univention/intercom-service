@@ -1,5 +1,7 @@
----
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
 
+---
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
@@ -54,4 +56,9 @@ repos:
       - id: "gitlab-ci-linter"
         name: ".gitlab-ci.yml linter"
 
+  - repo: "https://git.knut.univention.de/univention/dist/pre-commit-hooks/addlicense"
+    rev: "v1.0.1"
+    hooks:
+      - id: "addlicense"
+        name: "Check or add license headers to files"
 ...

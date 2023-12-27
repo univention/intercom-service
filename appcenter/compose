@@ -49,7 +49,7 @@ with open(pwdfile, 'r') as fd:
       PORT: 8008
       LOG_LEVEL: @%@intercom-service/settings/log-level@%@
 
-      # ISSUER  
+      # ISSUER
       ISSUER_BASE_URL: @%@intercom-service/settings/issuer-base-url@%@
       KEYCLOAK_URL: @%@intercom-service/keycloak/url@%@
       REALM_NAME: @%@intercom-service/keycloak/realm-name@%@
