@@ -34,7 +34,6 @@ trigger-docs:
     UNIVENTION_BASECONF: /dev/null
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
   trigger:
-    strategy: depend
     include:
       - local: ".gitlab-ci.docs.yml"
   rules:
