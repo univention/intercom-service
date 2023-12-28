@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.6](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.5...v0.0.6) (2023-12-28)
+
+
+### Bug Fixes
+
+* **ci:** make trigger-docs non-blocking ([8c1588a](https://git.knut.univention.de/univention/components/intercom-service/commit/8c1588ab20ac72e1c4758fe663f3cf45194a6b7f))
+* **licensing/ci:** add spdx license headers, add license header checking pre-commit ([02e6114](https://git.knut.univention.de/univention/components/intercom-service/commit/02e61145b8eb8f722735bb770db0725c39781897))
+
 ## [0.0.5](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.4...v0.0.5) (2023-12-20)
 
 
