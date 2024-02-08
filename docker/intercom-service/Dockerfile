@@ -6,10 +6,12 @@ ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS common
 
-RUN apt-get update && apt-get install -y \
-    "curl=7.88.1-10+deb12u4" \
-    "nodejs=18.13.0+dfsg1-1" \
-    "yarnpkg=1.22.19+~cs24.27.18-2"
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    "curl" \
+    "nodejs" \
+    "yarnpkg" \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY . /app
 WORKDIR /app
