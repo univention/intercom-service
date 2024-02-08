@@ -1,25 +1,22 @@
+---
+
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.14.0"
+    ref: "v1.20.0"
     file:
       - "defaults/stages.yaml"
-      - "jobs/lint-pre-commit.yaml"
+      - "defaults/souvap-workflow.yaml"
+      - "jobs/check-debian-updates.yaml"
+      - "jobs/container-build-souvap.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit.yaml"
       - "jobs/semantic-release-env.yaml"
-      - "jobs/container-build-souvap.yaml"
 
 variables:
-  PUBLIC_CI_REGISTRY: quay.io
-  PUBLIC_CI_REGISTRY_IMAGE: univention/intercom-service
   IMAGE_NAME: "intercom-service"
-  DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
-  KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
-  DOC_TARGET_VERSION: "1.5"
-  DOC_TARGET_NAME: "intercom-service"
 
 lint-pre-commit:
   allow_failure: true
@@ -32,7 +29,9 @@ trigger-docs:
     LANG: "C.UTF-8"
     DEBIAN_FRONTEND: noninteractive
     UNIVENTION_BASECONF: /dev/null
+    DOC_TARGET_NAME: "intercom-service"
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
+    DOC_TARGET_VERSION: "1.5"
   trigger:
     include:
       - local: ".gitlab-ci.docs.yml"
@@ -40,11 +39,22 @@ trigger-docs:
     - changes:
         - "$DOCS_DIR/**/*"
 
+container-build:
+  variables:
+    DOCKERFILE_PATH: "$CI_PROJECT_DIR/docker/intercom-service/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
+
 build_image:
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
+  variables:
+    PUBLIC_CI_REGISTRY: quay.io
+    PUBLIC_CI_REGISTRY_IMAGE: univention/intercom-service
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
   script:
     # install KNUT CA (not needed if publishing to quay.io)
     # - install -m 644 "$KNUT_CA" /kaniko/ssl/certs/knut.pem
@@ -58,4 +68,5 @@ build_image:
       --context "${CI_PROJECT_DIR}/intercom"
       --dockerfile "${CI_PROJECT_DIR}/docker/intercom-service/Dockerfile"
       --destination "${PUBLIC_CI_REGISTRY}/${PUBLIC_CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
+
 ...
