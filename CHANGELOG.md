@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.6...v0.1.0) (2024-02-09)
+
+
+### Features
+
+* **ci:** add debian-update-check and fix context ([eb24ca9](https://git.knut.univention.de/univention/components/intercom-service/commit/eb24ca914be3eda83b5937ffa037d3d3c7b395ab))
+
+
+### Bug Fixes
+
+* **deps:** add renovate.json ([a8cc691](https://git.knut.univention.de/univention/components/intercom-service/commit/a8cc6918979060856a5653fa4749b36fd77d9119))
+* **docker:** remove version-pinning for apt-get ([d00309f](https://git.knut.univention.de/univention/components/intercom-service/commit/d00309f5a18c42857101515396c6260d7aef4ee2))
+
 ## [0.0.6](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.5...v0.0.6) (2023-12-28)
 
 
