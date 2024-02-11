@@ -33,6 +33,8 @@ trigger-docs:
     include:
       - local: ".gitlab-ci.docs.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - changes:
         - "$DOCS_DIR/**/*"
 

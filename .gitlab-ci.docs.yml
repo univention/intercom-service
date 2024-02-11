@@ -1,7 +1,8 @@
+---
+
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
----
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
@@ -52,4 +53,5 @@ docs-create-production-merge-request:
     - job: "docs-merge-to-one-artifact"
   rules:
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+
 ...
