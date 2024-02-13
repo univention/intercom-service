@@ -8,25 +8,27 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup --------------------------------------------------------------
+# included
+from datetime import date
+import os
+import sys
 
+# 3rd-party
+import yaml
+
+# -- Path setup --------------------------------------------------------------
+#
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-import sys
 
 # sys.path.insert(0, os.path.abspath('.'))
-
-from datetime import date
-from sphinx.locale import _
 
 # -- Project information -----------------------------------------------------
 
 
-def read_version_from_ci() -> str:
-    """Read the version for the documentation from the pipeline definition
+def read_gitlab_config(name: str, default: str) -> str:
+    """Read a variable for the documentation from the gitlab trigger definition
 
     To not maintain the documentation version in different places, just define
     at one place and use it in different places.
@@ -34,30 +36,37 @@ def read_version_from_ci() -> str:
     The documentation version influences the version shown in the content of
     the document and the path of the published documentation.
 
-    :returns: The version number for the documentation as defined in the CI/CD
+    :returns: The the value for the documentation as defined in the CI/CD
         pipeline.
 
     :rtype: str
     """
 
-    import yaml
-
-    with open("../.gitlab-ci.yml", "r") as f:
-        ci = yaml.safe_load(f)
-        return ci.get("variables", {"DOC_TARGET_VERSION": "1.1"}).get(
-            "DOC_TARGET_VERSION"
-        )
-
-
-def read_doc_name_from_ci() -> str:
-    import yaml
-
-    with open("../.gitlab-ci.yml", "r") as f:
-        ci = yaml.safe_load(f)
-        return ci.get("variables", {"DOC_TARGET_NAME": "intercom-service"}).get("DOC_TARGET_NAME")
+    with open("../.gitlab-ci.yml", "r", encoding="utf-8") as file_handler:
+        ci_config = yaml.safe_load(file_handler)
+        try:
+            value = ci_config["trigger-docs"]["variables"][name]
+        except KeyError:
+            value = default
+    return value
 
 
-release = read_version_from_ci()
+def get_doc_variable(name: str, default: str) -> str:
+    """Read a variable from the environment and
+    as a fallback from the gitlab trigger definition
+
+    :returns: The the value for the documentation.
+
+    :rtype: str
+    """
+
+    try:
+        return os.environ[name]
+    except KeyError:
+        return read_gitlab_config(name, default)
+
+
+release = get_doc_variable("DOC_TARGET_VERSION", None)
 version = release
 
 project = f"UCS Intercom Service app {release}"
@@ -112,7 +121,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-pdf_doc_base = read_doc_name_from_ci()
+pdf_doc_base = get_doc_variable("DOC_TARGET_NAME", "intercom-service")
 
 html_theme = "univention_sphinx_book_theme"
 
@@ -123,14 +132,13 @@ html_theme_options = {
     "typesense_document": pdf_doc_base,
     "typesense_document_version": version,
     "univention_matomo_tracking": True,
+    "univention_docs_deployment": True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []  # value is usally ['_static']
-
-html_last_updated_fmt = "%a, %d. %b %Y at %H:%m (UTC%z)"
 
 numfig = True
 
@@ -173,4 +181,7 @@ latex_elements = {
 univention_feedback = True
 # Information about the license statement for the source files
 univention_pdf_show_source_license = True
-univention_doc_basename = "intercom-service"
+univention_doc_basename = pdf_doc_base
+univention_use_doc_base = True
+univention_project_basename = pdf_doc_base
+univention_release_language_scheme = "{release}"
