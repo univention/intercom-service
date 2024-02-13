@@ -72,16 +72,12 @@ repos:
     hooks:
       - id: "yapf"
         name: "yapf"
-        # TODO: remove exclude
-        exclude: "^docs/conf.py$"
 
   - repo: "https://github.com/astral-sh/ruff-pre-commit"
     rev: "v0.1.9"
     hooks:
       - id: "ruff"
         name: "ruff"
-        # TODO: remove exclude
-        exclude: "^docs/conf.py$"
         args:
           - "--fix"
           - "--show-source"
@@ -93,8 +89,6 @@ repos:
     hooks:
       - id: "autopep8"
         name: "autopep8"
-        # TODO: remove exclude
-        exclude: "^docs/conf.py$"
         args:
           - "--in-place"
 
@@ -103,16 +97,12 @@ repos:
     hooks:
       - id: "flake8"
         name: "flake8"
-        # TODO: remove exclude
-        exclude: "^docs/conf.py$"
 
   - repo: "https://github.com/pylint-dev/pylint"
     rev: "v3.0.3"
     hooks:
       - id: "pylint"
         name: "pylint"
-        # TODO: remove exclude
-        exclude: "^docs/conf.py$"
 
   - repo: "https://github.com/hadolint/hadolint"
     rev: "v2.12.0"
