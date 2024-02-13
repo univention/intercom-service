@@ -1,12 +1,15 @@
-# SPDX-FileCopyrightText: 2022-2023 Univention GmbH
-#
+#!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2022-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
-# Configuration file for the Sphinx documentation builder.
-#
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""
+Configuration file for the Sphinx documentation builder.
+
+This file only contains a selection of the most common options. For a full
+list see the documentation:
+https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""
 
 # included
 from datetime import date
@@ -72,12 +75,12 @@ version = release
 project = f"UCS Intercom Service app {release}"
 
 if "latexpdf" in sys.argv:
-    project = "UCS Intercom Service app"
+    project = "UCS Intercom Service app"  # pylint: disable=invalid-name
 
-copyright = "{}, Univention GmbH".format(date.today().year)
-author = "Univention GmbH"
-html_show_copyright = True
-language = "en"
+copyright = f"{date.today().year}, Univention GmbH"  # pylint: disable=redefined-builtin
+author = "Univention GmbH"  # pylint: disable=invalid-name
+html_show_copyright = True  # pylint: disable=invalid-name
+language = "en"  # pylint: disable=invalid-name
 
 html_title = project
 
@@ -99,14 +102,14 @@ extensions = [
 ]
 
 bibtex_bibfiles = ["bibliography.bib"]
-bibtex_encoding = "utf-8"
-bibtex_default_style = "unsrt"
-bibtex_reference_style = "label"
+bibtex_encoding = "utf-8"  # pylint: disable=invalid-name
+bibtex_default_style = "unsrt"  # pylint: disable=invalid-name
+bibtex_reference_style = "label"  # pylint: disable=invalid-name
 
 # For more configuration options of Sphinx-copybutton, see the documentation
 # https://sphinx-copybutton.readthedocs.io/en/latest/index.html
-copybutton_prompt_text = r"\$ |> "
-copybutton_prompt_is_regexp = True
+copybutton_prompt_text = r"\$ |> "  # pylint: disable=invalid-name
+copybutton_prompt_is_regexp = True  # pylint: disable=invalid-name
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -123,7 +126,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 pdf_doc_base = get_doc_variable("DOC_TARGET_NAME", "intercom-service")
 
-html_theme = "univention_sphinx_book_theme"
+html_theme = "univention_sphinx_book_theme"  # pylint: disable=invalid-name
 
 html_theme_options = {
     "pdf_download_filename": f"{pdf_doc_base}.pdf",
@@ -140,23 +143,24 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []  # value is usally ['_static']
 
-numfig = True
+numfig = True  # pylint: disable=invalid-name
 
 # Warnings may come up by sphinx-last-updated-by-git. Shall be suppressed to
 # avoid the warnings from failing the pipeline.
 suppress_warnings = ["git.too_shallow"]
 
 if "spelling" in sys.argv:
-    spelling_lang = "en"
-    spelling_show_suggestions = True
+    spelling_lang = "en"  # pylint: disable=invalid-name
+    spelling_show_suggestions = True  # pylint: disable=invalid-name
     spelling_word_list_filename = ["spelling_wordlist"]
 
 linkcheck_ignore = [
     r"https://ucs-sso-ng.example.com/admin/",
 ]
 
-root_doc = "index"
+root_doc = "index"  # pylint: disable=invalid-name
 
+# pylint: disable-next=invalid-name
 rst_epilog = """
 .. include:: /links.txt
 
@@ -164,13 +168,20 @@ rst_epilog = """
 """
 
 intersphinx_mapping = {
-    "uv-manual": ("https://docs.software-univention.de/manual/5.0/en", None)
+    "uv-manual": ("https://docs.software-univention.de/manual/5.0/en", None),
 }
 
-latex_engine = "lualatex"
-latex_show_pagerefs = True
-latex_show_urls = "footnote"
-latex_documents = [(root_doc, f"{pdf_doc_base}.tex", project, author, "manual", False)]
+latex_engine = "lualatex"  # pylint: disable=invalid-name
+latex_show_pagerefs = True  # pylint: disable=invalid-name
+latex_show_urls = "footnote"  # pylint: disable=invalid-name
+latex_documents = [(
+    root_doc,
+    f"{pdf_doc_base}.tex",
+    project,
+    author,
+    "manual",
+    False,
+)]
 latex_elements = {
     "papersize": "a4paper",
 }
@@ -178,10 +189,10 @@ latex_elements = {
 # See Univention Sphinx Extension for its options.
 # https://git.knut.univention.de/univention/documentation/univention_sphinx_extension
 # Information about the feedback link.
-univention_feedback = True
+univention_feedback = True  # pylint: disable=invalid-name
 # Information about the license statement for the source files
-univention_pdf_show_source_license = True
+univention_pdf_show_source_license = True  # pylint: disable=invalid-name
 univention_doc_basename = pdf_doc_base
-univention_use_doc_base = True
+univention_use_doc_base = True  # pylint: disable=invalid-name
 univention_project_basename = pdf_doc_base
-univention_release_language_scheme = "{release}"
+univention_release_language_scheme = "{release}"  # pylint: disable=invalid-name
