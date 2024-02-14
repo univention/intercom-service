@@ -1,0 +1,5 @@
+
+line-length = 100
+
+[pydocstyle]
+convention = "google"

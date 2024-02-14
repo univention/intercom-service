@@ -1,6 +1,6 @@
 ---
 
-# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # See https://pre-commit.com for more information
@@ -65,7 +65,10 @@ repos:
         # TODO: remove exclude
         exclude: "^(.gitlab-ci.yml|.gitlab-ci.docs.yml)$"
         args:
-          - "-c=.yamllint"
+          - "--config-file=.yamllint"
+          - "--format=parsable"
+          # TODO: enable strict-mode
+          # - "--strict"
 
   - repo: "https://github.com/google/yapf"
     rev: "v0.40.2"
@@ -84,13 +87,16 @@ repos:
           - "--exit-non-zero-on-fix"
           - "--extend-select=COM"
 
-  - repo: "https://github.com/pre-commit/mirrors-autopep8"
+  - repo: "https://github.com/hhatto/autopep8"
     rev: "v2.0.4"
     hooks:
       - id: "autopep8"
         name: "autopep8"
         args:
           - "--in-place"
+          - "--aggressive"
+          - "--aggressive"
+          - "--experimental"
 
   - repo: "https://github.com/PyCQA/flake8"
     rev: "6.1.0"
@@ -143,6 +149,7 @@ repos:
         exclude: "^(intercom/healthcheck.sh|update-appcenter-test.sh)$"
         args:
           - "--enable=all"
+          - "--external-sources"
 
   - repo: "https://github.com/gruntwork-io/pre-commit"
     rev: "v0.1.23"
