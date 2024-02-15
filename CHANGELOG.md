@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.1.0...v0.1.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **debian:** update debian packages ([7f9e094](https://git.knut.univention.de/univention/components/intercom-service/commit/7f9e09488a44281d3fbdab1aaf7e01ed39a66b4d))
+
 ## [0.1.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.0.6...v0.1.0) (2024-02-09)
 
 
