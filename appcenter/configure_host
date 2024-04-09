@@ -4,10 +4,10 @@
 [ -e /usr/share/univention-lib/ucr.sh ] && . /usr/share/univention-lib/ucr.sh
 
 
-ACTION="$1"
-APP_ID="$2"  # intercom-service
-APP_VERSION="$3"
-ERROR_FILE="$4"
+action="$1"
+app_id="$2"  # intercom-service
+app_version="$3"
+error_file="$4"
 
 
 
@@ -20,5 +20,11 @@ if [ "$action" = "update" ] || [ "$action" = "install" ]; then
     eval "$(ucr shell)"
     if ! [[ "$intercom_service_settings_proxy" =~ (true|false) ]]; then
         echo "UCR variable intercom-service/settings/proxy is neither 'true' or 'false'"
+        exit 1
     fi
+fi
+
+if [ "$action" = "settings" ]; then
+  univention-app reinitialize intercom-service
+  exit 0
 fi

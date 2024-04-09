@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-FileCopyrightText: 2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.10.0
+ARG UCS_BASE_IMAGE_TAG=0.11.2
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS common
@@ -13,14 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     "yarnpkg" \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /app
 WORKDIR /app
+COPY . /app
 
 RUN yarnpkg install
 ###############################################################################
 FROM common AS dev
-
-COPY . .
 
 EXPOSE 8008
 
@@ -29,8 +27,6 @@ CMD ["nodejs", "app.js"]
 
 ###############################################################################
 FROM common AS final
-
-COPY . .
 
 RUN \
   apt-get purge -y yarnpkg \
@@ -43,6 +39,9 @@ RUN \
      /usr/share/info /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old
 
 EXPOSE 8008
+
+RUN adduser app
+USER app
 
 HEALTHCHECK --interval=60s --timeout=10s --start-period=10s CMD ./healthcheck.sh
 

@@ -83,6 +83,39 @@ Description[de] = CORS Origin Regex falls verschiedene Domains genutzt werden
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/redis/user]
+Type = String
+Required = False
+Show = Install, Settings
+InitialValue = default
+Scope = outside
+Description = Username for the Redis server
+Description[de] = Benutzername für den Redis-Server
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/redis/host]
+Type = String
+Required = False
+Show = Install, Settings
+InitialValue = redis-intercom
+Scope = outside
+Description = Hostname of the Redis server
+Description[de] = Hostname des Redis-Servers
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/redis/port]
+Type = Int
+Required = False
+Show = Install, Settings
+InitialValue = 6379
+Scope = outside
+Description = Port of the Redis server
+Description[de] = Port des Redis-Servers
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/proxy]
 Type = String
 Required = True

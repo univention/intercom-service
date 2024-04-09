@@ -2,7 +2,7 @@
 #
 # App join script
 #
-# Copyright 2022 Univention GmbH
+# Copyright 2024 Univention GmbH
 #
 # http://www.univention.de/
 #
@@ -44,7 +44,7 @@ joinscript_init
 
 ucs_addServiceToLocalhost "$APP_ID" "$@"
 
-eval "$(ucr shell)"
+eval "$(ucr shell)" || exit 1
 # domainname="$(ucr get domainname)"
 keycloak_url="$intercom_service_keycloak_url"
 realm_name="$intercom_service_keycloak_realm_name"

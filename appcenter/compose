@@ -4,6 +4,8 @@ services:
     container_name: intercom-service
     image: quay.io/univention/intercom-service:1.6
     restart: unless-stopped
+    security_opt:
+      - seccomp:/etc/docker/seccomp-systemd.json
     networks:
       - intercom
     dns:
@@ -67,6 +69,9 @@ with open(pwdfile, 'r') as fd:
       PROXY: "@%@intercom-service/settings/proxy@%@"
 
       # REDIS
+      REDIS_USER: @%@intercom-service/redis/user@%@
+      REDIS_HOST: @%@intercom-service/redis/host@%@
+      REDIS_PORT: @%@intercom-service/redis/port@%@
       REDIS_PASSWORD: @!@
 import os
 pwdfile="/etc/intercom-redis.secret"

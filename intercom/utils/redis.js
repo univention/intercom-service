@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2023 Univention GmbH
+ * SPDX-FileCopyrightText: 2024 Univention GmbH
  */
 
 const { auth } = require("express-openid-connect");
@@ -11,9 +11,7 @@ const { logger } = require("./logger");
 
 const redisClient = createClient({
   legacyMode: true,
-  url: `redis://default:${process.env.REDIS_PASSWORD}@${
-    process.env.REDIS_HOST ?? "redis-intercom"
-  }:6379`,
+  url: `redis://${process.env.REDIS_USER ?? "default"}:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST ?? "redis-intercom"}:${process.env.REDIS_PORT ?? 6379}`,
 })
   .on("error", (err) => {
     logger.error("Redis error: ", err);
