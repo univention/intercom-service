@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.1.1...v0.2.0) (2024-04-09)
+
+
+### Features
+
+* **intercom:** make redis configurable as a external service ([fa6d24e](https://git.knut.univention.de/univention/components/intercom-service/commit/fa6d24edbaf92b4e34d43a10abee46a86cd38c7e))
+
+
+### Bug Fixes
+
+* **docs:** drop unused files ([4760347](https://git.knut.univention.de/univention/components/intercom-service/commit/4760347d834178a4fad2d60aaebafed70b45a992))
+* **intercom:** copyright headers ([6a857ac](https://git.knut.univention.de/univention/components/intercom-service/commit/6a857ac2c2fc758705f202a90115142d8ed6ed11))
+
 ## [0.1.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.1.0...v0.1.1) (2024-02-15)
 
 
