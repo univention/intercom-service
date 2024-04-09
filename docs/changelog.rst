@@ -15,18 +15,24 @@ project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 1.6
 ===
 
-Released: 17. November 2023
+Released: 11. April 2024
 
 
 Added
 -----
 
 * Reconnect to *Redis* after the service was down.
+* *UCR* variables to allow users to configure an external *Redis* server.
 
 Changed
 -------
 
 * Image is now based on *UCS* base image.
+
+Fixed
+-----
+
+* AppCenter settings are now correctly applied during after installation.
 
 1.5
 ===

@@ -68,7 +68,7 @@ generated. Those secrets are:
           | grep as_token \
           | sed -e 's/as_token. \(.\+\)/\1/'"
 
-:file:`/etc/portal.secret`
+:file:`/etc/intercom-portal.secret`
    The secret to communicate with the UCS Portal navigation service. You can
    retrieve the secret from :file:`/etc/portal-navigation-service.secret`.
 
@@ -234,16 +234,65 @@ The following references show the available settings within the app
     the backends.
 
     .. list-table::
-        :header-rows: 1
-        :widths: 2 5 5
+       :header-rows: 1
+       :widths: 2 5 5
 
-        * - Required
-          - Default value
-          - Set
+       * - Required
+         - Default value
+         - Set
 
-        * - Yes
-          - ``False``
-          - Only before installation
+       * - Yes
+         - ``False``
+         - Before installation or application settings afterwards.
+
+.. envvar:: intercom-service/redis/host
+
+   Defines the host name of the *Redis* server. By default |ICS| uses the
+   bundled *Redis* server.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``redis-intercom``
+         - Before installation or application settings afterwards.
+
+.. envvar:: intercom-service/redis/port
+
+   Port where the *Redis* server is available.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``6379``
+         - Before installation or application settings afterwards.
+
+.. envvar:: intercom-service/redis/user
+
+   The user name for the *Redis* server. By default |ICS| uses the `default` user.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``default``
+         - Before installation or application settings afterwards.
 
 .. envvar:: intercom-service/matrix/url
 
