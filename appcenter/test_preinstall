@@ -1,0 +1,13 @@
+#!/bin/bash
+
+files=("/etc/matrix.secret" "/etc/intercom-client.secret" "/etc/intercom-portal.secret")
+
+for file in "${files[@]}"; do
+    if [[ ! -e "${file}" ]]; then
+        makepasswd --chars 20 > "${file}"
+        chmod 600 "${file}"
+        echo "Secret generated for ${file}"
+    else
+        echo "File ${file} already exists, skipping..."
+    fi
+done
