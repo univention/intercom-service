@@ -19,6 +19,7 @@ PortsRedirection = 8008:8008
 PortsExclusive = 8008
 Maintainer = Univention GmbH
 Description = Single Sign-On helper service for secure backend communication.
+ShopURL = https://appcenter.univention.com/intercom-service.html
 WebsiteMaintainer = https://www.univention.de/
 AppCategories = Identity Management, Infrastructure
 LongDescription = <div>
@@ -45,6 +46,7 @@ Maintainer = Univention GmbH
 WebsiteMaintainer = https://www.univention.de/
 Name = UCS Intercom Service
 Description = Service für sichere Backend-Kommunikation in Single Sign-On Szenarien.
+ShopURL = https://appcenter.univention.com/intercom-service.html
 LongDescription = <div>
 		<div>
 			Der UCS Intercom Service (ICS) ist ein Backend-Dienst, der als Vermittler für die sichere Kommunikation und Single Sign-On zwischen anderen Diensten fungiert. Der ICS ermöglicht es Webservice-Backends, auf der Grundlage der Single Sign-On-Sitzung des aktuellen Endbenutzers miteinander zu kommunizieren und gleichzeitig die Sitzungssicherheit zu gewährleisten.
