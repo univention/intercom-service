@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.2.0...v0.3.0) (2024-04-19)
+
+
+### Features
+
+* **appcenter:** add files before executing jenkins tests ([7f14db0](https://git.knut.univention.de/univention/components/intercom-service/commit/7f14db06403705696bebd211f618cd0c4289f1d3))
+
+
+### Bug Fixes
+
+* **appcenter:** missing ShopURL field ([0a8edf3](https://git.knut.univention.de/univention/components/intercom-service/commit/0a8edf37105537a830ddad0e2feb10d2826e5749))
+
 ## [0.2.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.1.1...v0.2.0) (2024-04-09)
 
 
