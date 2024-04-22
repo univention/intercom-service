@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.3.0...v0.4.0) (2024-04-22)
+
+
+### Features
+
+* **appcenter:** ShopURL update ([65a1f4d](https://git.knut.univention.de/univention/components/intercom-service/commit/65a1f4dc30c1b43661d7972e3ae70851d18b7d85))
+
 ## [0.3.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.2.0...v0.3.0) (2024-04-19)
 
 
