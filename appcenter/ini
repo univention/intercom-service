@@ -19,7 +19,7 @@ PortsRedirection = 8008:8008
 PortsExclusive = 8008
 Maintainer = Univention GmbH
 Description = Single Sign-On helper service for secure backend communication.
-ShopURL = https://appcenter.univention.com/intercom-service.html
+ShopURL = https://www.univention.com/products/app-catalog/intercom-service/
 WebsiteMaintainer = https://www.univention.de/
 AppCategories = Identity Management, Infrastructure
 LongDescription = <div>
@@ -32,7 +32,7 @@ LongDescription = <div>
 		The ICS is very specific for dedicated use cases, currently in the interaction between Open-Xchange, Nextcloud and elements/matrix. Details are outlined in the documentation.
 		<br>
 		<br>
-		The App can only be installed successfully if some prerequisites are fullfilled. <b>Please consult the documentation before installation!</b>
+		The App can only be installed successfully if some prerequisites are fullfilled. <b>Please consult the <a href="https://docs.software-univention.de/intercom-service/latest/">documentation</a> before installation!</b>
 		<br>
 		&nbsp;
 		<br>
@@ -46,7 +46,7 @@ Maintainer = Univention GmbH
 WebsiteMaintainer = https://www.univention.de/
 Name = UCS Intercom Service
 Description = Service für sichere Backend-Kommunikation in Single Sign-On Szenarien.
-ShopURL = https://appcenter.univention.com/intercom-service.html
+ShopURL = https://www.univention.de/produkte/app-katalog/intercom-service/
 LongDescription = <div>
 		<div>
 			Der UCS Intercom Service (ICS) ist ein Backend-Dienst, der als Vermittler für die sichere Kommunikation und Single Sign-On zwischen anderen Diensten fungiert. Der ICS ermöglicht es Webservice-Backends, auf der Grundlage der Single Sign-On-Sitzung des aktuellen Endbenutzers miteinander zu kommunizieren und gleichzeitig die Sitzungssicherheit zu gewährleisten.
@@ -61,7 +61,7 @@ LongDescription = <div>
 			<br>
 		</div>
 		<div>
-			Die App kann nur erfolgreich installiert werden, wenn einige Voraussetzungen erfüllt sind. B<b>itte konsultieren Sie vor der Installation die Dokumentation!</b>
+			Die App kann nur erfolgreich installiert werden, wenn einige Voraussetzungen erfüllt sind. <b>Bitte konsultieren Sie vor der Installation die <a href="https://docs.software-univention.de/intercom-service/latest/">Dokumentation!</a></b>
 		</div>
 		<div>
 			<br>
