@@ -73,7 +73,9 @@ generated. Those secrets are:
    retrieve the secret from :file:`/etc/portal-navigation-service.secret`.
 
 :file:`/etc/intercom-redis.secret`
-   The secret to communicate with the app *Redis*, that stores the sessions.
+   The secret to communicate with the app *Redis*, that stores the sessions. It
+   is only needed if you use an external *Redis* server. Otherwise, it will be
+   generated during installation.
 
 .. _app-settings:
 
