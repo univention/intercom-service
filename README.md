@@ -4,6 +4,7 @@ ICS is an intermediary for communication between applications like Nextcloud,
 OX App Suite and Matrix. The functionalities File-picker, Video conference,
 create and accessing the Univention-Portal navigation endpoint from other apps
 require the app UCS Intercom Service.
+You can think of it as an authentication reverse-proxy.
 
 ## Documentation
 
