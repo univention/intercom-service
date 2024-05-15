@@ -12,27 +12,18 @@ include:
     file: "pipeline/sphinx.yml"
 
 docs-linkcheck:
-  stage: "build"
   extends: ".sphinx-linkcheck-template"
 
 docs-spelling:
-  stage: "build"
   extends: ".sphinx-spelling-template"
 
 docs-html:
-  stage: "build"
   extends: ".sphinx-html-template"
 
 docs-pdf:
-  stage: "build"
   extends: ".sphinx-pdf-template"
 
-docs-warnings:
-  stage: "build"
-  extends: ".sphinx-warnings-template"
-
 docs-merge-to-one-artifact:
-  stage: "merge"
   extends: ".sphinx-merge-template"
   needs:
     - job: "docs-html"
