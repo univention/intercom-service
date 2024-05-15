@@ -25,8 +25,6 @@ import yaml
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-# sys.path.insert(0, os.path.abspath('.'))
-
 # -- Project information -----------------------------------------------------
 
 
@@ -124,15 +122,15 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-pdf_doc_base = get_doc_variable("DOC_TARGET_NAME", "intercom-service")
+doc_base = get_doc_variable("DOC_TARGET_NAME", "intercom-service")
 
 html_theme = "univention_sphinx_book_theme"  # pylint: disable=invalid-name
 
 html_theme_options = {
-    "pdf_download_filename": f"{pdf_doc_base}.pdf",
+    "pdf_download_filename": f"{doc_base}.pdf",
     "show_source_license": True,
     "typesense_search": True,
-    "typesense_document": pdf_doc_base,
+    "typesense_document": doc_base,
     "typesense_document_version": version,
     "univention_matomo_tracking": True,
     "univention_docs_deployment": True,
@@ -176,7 +174,7 @@ latex_show_pagerefs = True  # pylint: disable=invalid-name
 latex_show_urls = "footnote"  # pylint: disable=invalid-name
 latex_documents = [(
     root_doc,
-    f"{pdf_doc_base}.tex",
+    f"{doc_base}.tex",
     project,
     author,
     "manual",
@@ -192,7 +190,7 @@ latex_elements = {
 univention_feedback = True  # pylint: disable=invalid-name
 # Information about the license statement for the source files
 univention_pdf_show_source_license = True  # pylint: disable=invalid-name
-univention_doc_basename = pdf_doc_base
+univention_doc_basename = doc_base
 univention_use_doc_base = True  # pylint: disable=invalid-name
-univention_project_basename = pdf_doc_base
+univention_project_basename = doc_base
 univention_release_language_scheme = "{release}"  # pylint: disable=invalid-name
