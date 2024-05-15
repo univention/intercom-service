@@ -37,6 +37,11 @@ docs-merge-to-one-artifact:
     - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
       when: "manual"
 
+docs-review:
+  extends: ".sphinx-review-template"
+  needs:
+    - job: "docs-merge-to-one-artifact"
+
 docs-create-production-merge-request:
   stage: "production"
   extends: ".sphinx-docs-merge-request-template"
