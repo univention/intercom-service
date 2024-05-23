@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.4.0...v0.5.0) (2024-05-23)
+
+
+### Features
+
+* push to harbor ([27db2a7](https://git.knut.univention.de/univention/components/intercom-service/commit/27db2a7c285f4973300e87a33b8aa937c366eeef))
+
 ## [0.4.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.3.0...v0.4.0) (2024-04-22)
 
 
