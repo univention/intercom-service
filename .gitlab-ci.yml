@@ -5,27 +5,24 @@
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.20.0"
+    ref: "v1.30.5"
     file:
       - "defaults/stages.yaml"
-      - "defaults/souvap-workflow.yaml"
+      - "defaults/nubus-workflow.yaml"
       - "jobs/check-debian-updates.yaml"
-      - "jobs/container-build-souvap.yaml"
+      - "jobs/container-build-external.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
 
-variables:
-  IMAGE_NAME: "intercom-service"
-
 trigger-docs:
-  stage: trigger
+  stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
     DOCS_DIR: "docs"
     LANG: "C.UTF-8"
-    DEBIAN_FRONTEND: noninteractive
-    UNIVENTION_BASECONF: /dev/null
+    DEBIAN_FRONTEND: "noninteractive"
+    UNIVENTION_BASECONF: "/dev/null"
     DOC_TARGET_NAME: "intercom-service"
     DOC_TARGET_VERSION: "1.6"
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
@@ -38,34 +35,26 @@ trigger-docs:
     - changes:
         - "$DOCS_DIR/**/*"
 
-container-build:
-  variables:
-    DOCKERFILE_PATH: "$CI_PROJECT_DIR/docker/intercom-service/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
+.build-matrix: &build-matrix
+  - IMAGE_NAME:
+      - "intercom-service"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
 
-build_image:
-  stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  variables:
-    PUBLIC_CI_REGISTRY: quay.io
-    PUBLIC_CI_REGISTRY_IMAGE: univention/intercom-service
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: "never"
-  script:
-    # install KNUT CA (not needed if publishing to quay.io)
-    # - install -m 644 "$KNUT_CA" /kaniko/ssl/certs/knut.pem
-    # - cat /kaniko/ssl/certs/knut.pem >> /kaniko/ssl/certs/ca-certificates.crt
-    - if [ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ] ; then export DOCKER_TAG="develop"; else export DOCKER_TAG="latest" ; fi
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"${PUBLIC_CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${PUBLIC_CI_REGISTRY_USER}" "${PUBLIC_CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - cd "${CI_PROJECT_DIR}/intercom"
-    - /kaniko/executor
-      --force
-      --context "${CI_PROJECT_DIR}/intercom"
-      --dockerfile "${CI_PROJECT_DIR}/docker/intercom-service/Dockerfile"
-      --destination "${PUBLIC_CI_REGISTRY}/${PUBLIC_CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
+container-build:
+  parallel:
+    matrix: *build-matrix
+
+container-generate-sbom:
+  parallel:
+    matrix: *build-matrix
+
+container-sign-external:
+  parallel:
+    matrix: *build-matrix
+
+push-image-external:
+  parallel:
+    matrix: *build-matrix
 
 ...
