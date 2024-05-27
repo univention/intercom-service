@@ -172,14 +172,16 @@ intersphinx_mapping = {
 latex_engine = "lualatex"  # pylint: disable=invalid-name
 latex_show_pagerefs = True  # pylint: disable=invalid-name
 latex_show_urls = "footnote"  # pylint: disable=invalid-name
-latex_documents = [(
-    root_doc,
-    f"{doc_base}.tex",
-    project,
-    author,
-    "manual",
-    False,
-)]
+latex_documents = [
+    (
+        root_doc,
+        f"{doc_base}.tex",
+        project,
+        author,
+        "manual",
+        False,
+    )
+]
 latex_elements = {
     "papersize": "a4paper",
 }
