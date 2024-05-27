@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.5.0...v0.6.0) (2024-05-27)
+
+
+### Features
+
+* add helm chart ([7e98068](https://git.knut.univention.de/univention/components/intercom-service/commit/7e98068ea2ad48bce4e8822af413297946c2485f))
+
+
+### Bug Fixes
+
+* update pre-commit configuration ([0a3c2c4](https://git.knut.univention.de/univention/components/intercom-service/commit/0a3c2c40eb59633fc1e58c873dec0be0f7f2a585))
+
 ## [0.5.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.4.0...v0.5.0) (2024-05-23)
 
 
