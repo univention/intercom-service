@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+---
+apiVersion: "v2"
+name: "intercom-service"
+description: "intercom service, short ICS, is used to allow inter component API usage from the user's webbrowser"
+type: "application"
+version: "2.0.1"
+appVersion: "1.4"
+
+dependencies:
+  - name: "common"
+    repository: "https://charts.bitnami.com/bitnami"
+    version: "^2.2.2"
+
+maintainers:
+  - name: "Univention"
+    url: "https://www.univention.de/"
+
+keywords:
+  - "ics"
+  - "intercom"
+...

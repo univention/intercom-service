@@ -1,0 +1,463 @@
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+---
+# The global properties are used to configure multiple charts at once.
+global:
+  # -- Container registry address.
+  imageRegistry: "artifacts.software-univention.de"
+
+  # -- Credentials to fetch images from private registry.
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  # imagePullSecrets:
+  #   - "docker-registry"
+  #
+  imagePullSecrets: []
+
+# -- Additional custom annotations to add to all deployed objects.
+additionalAnnotations: {}
+
+# -- Additional custom labels to add to all deployed objects.
+additionalLabels: {}
+
+# -- Affinity for pod assignment.
+# Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+# Note: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set.
+affinity: {}
+
+# Security Context.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+containerSecurityContext:
+  # -- Enable container privileged escalation.
+  allowPrivilegeEscalation: false
+
+  # -- Security capabilities for container.
+  capabilities:
+    drop:
+      - "ALL"
+
+  # -- Enable security context.
+  enabled: true
+
+  # -- Process user id.
+  runAsUser: 1000
+
+  # -- Process group id.
+  runAsGroup: 1000
+
+  # Set Seccomp profile.
+  seccompProfile:
+    # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
+    type: "RuntimeDefault"
+
+  # -- Mounts the container's root filesystem as read-only.
+  readOnlyRootFilesystem: true
+
+  # -- Run container as a user.
+  runAsNonRoot: true
+
+# -- Array with extra environment variables to add to containers.
+#
+# extraEnvVars:
+#   - name: FOO
+#     value: "bar"
+#
+extraEnvVars: []
+
+# -- Provide a name to substitute for the full names of resources.
+fullnameOverride: ""
+
+# Container image section.
+image:
+  # -- Container registry address. This setting has higher precedence than global.registry.
+  registry: ""
+
+  # -- Container repository string.
+  repository: "nubus-dev/images/intercom-service"
+
+  # -- Define an ImagePullPolicy.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  #
+  # "IfNotPresent" => The image is pulled only if it is not already present locally.
+  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
+  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
+  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
+  #             digest, and uses that image to launch the container.
+  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
+  #            kubelet attempts to start the container; otherwise, startup fails.
+  #
+  imagePullPolicy: "IfNotPresent"
+
+  # -- Define image tag.
+  tag: "latest"
+
+# -- Credentials to fetch images from private registry.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+#
+# imagePullSecrets:
+#   - "docker-registry"
+#
+imagePullSecrets: []
+
+# Provide intercom service specific settings:
+ics:
+  # -- Base URL of issuer.
+  issuerBaseUrl: ""
+
+  # -- Origin Regex settings.
+  originRegex: ""
+
+  # -- Proxy settings.
+  proxy: false
+
+  # -- Log level.
+  logLevel: "DEBUG"
+
+  # Default settings which are used for all services.
+  default:
+    # -- Domain which will be added for all subdomains for apps.
+    domain: "example.com"
+
+    # -- Protocol which will be used to connect to apps.
+    protocol: "https"
+
+  # Intercom Service OIDC settings.
+  oidc:
+    # -- OIDC ClientID.
+    id: "intercom"
+
+    # -- OIDC Client Secret
+    secret: ""
+
+  # Keycloak connection settings.
+  keycloak:
+    enabled: true
+
+    # -- Subdomain with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "id"
+
+    # -- URL as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- Configured Realm for authentication.
+    realm: "souvap"
+
+  # Matrix connection settings.
+  matrix:
+    # -- Enable Matrix.
+    enabled: true
+
+    # -- Subdomain with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "matrix"
+
+    # -- URL as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- Name of matrix server.
+    serverName: "matrix"
+
+    # -- AS application secret.
+    asSecret: ""
+
+  # Nordeck's meeting widget bot connection settings.
+  nordeck:
+    # -- Enable Nordeck's meeting widget bot.
+    enabled: true
+
+    # -- Widget mode.
+    mode: "test"
+
+    # -- Subdomain with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "meetings-widget-bot"
+
+    # -- URL as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+  # Univention Portal connection settings.
+  portal:
+    # -- Enable Univention Portal integration.
+    enabled: true
+
+    # -- Subdomain with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "portal"
+
+    # -- Origin of Univention Portal as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- API Key.
+    apiKey: ""
+
+  # Open-Xchange's connection settings.
+  openxchange:
+    # -- Enable Open-Xchange integration.
+    enabled: true
+
+    # -- Subdomain of Open-Xchange with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "webmail"
+
+    # -- URL of Open-Xchange as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- Audience.
+    audience: "as8oidc"
+
+  # Nextcloud file service connection settings.
+  nextcloud:
+    # -- Enable Nextcloud integration.
+    enabled: true
+
+    # -- Origin of nextcloud with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "originUrl".
+    origin: "fs"
+
+    # -- Origin of Nextcloud as FQDN.
+    # Mutual exclusive with "origin".
+    originUrl: ""
+
+    # -- Subdomain of Nextcloud with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "fs"
+
+    # -- URL of Nextcloud as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- Audience.
+    audience: "ncoidc"
+
+  # Redis related settings.
+  redis:
+    # -- Redis cache service host.
+    host: "redis-headless"
+
+    # -- Redis cache service port.
+    port: "6379"
+
+    # -- Redis cache service password.
+    password: ""
+
+# Define and create Kubernetes Ingress.
+#
+# Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  # -- Enable creation of Ingress.
+  enabled: true
+
+  # -- The Ingress controller class name.
+  ingressClassName: "nginx"
+
+  # -- Define custom ingress annotations.
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
+
+  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
+  host: "ics.example.com"
+
+  # -- Define the Ingress path.
+  path: "/"
+
+  # -- Each path in an Ingress is required to have a corresponding path type.
+  # Paths that do not include an explicit pathType will fail validation.
+  # There are three supported path types:
+  #
+  # "ImplementationSpecific" => With this path type, matching is up to the IngressClass. Implementations can treat this
+  #                             as a separate pathType or treat it identically to Prefix or Exact path types.
+  # "Exact" => Matches the URL path exactly and with case sensitivity.
+  # "Prefix" => Matches based on a URL path prefix split by /.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
+  pathType: "Prefix"
+
+  # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+  tls:
+    # -- Enable TLS/SSL/HTTPS for Ingress.
+    enabled: true
+
+    # -- The name of the kubernetes secret which contains a TLS private key and certificate.
+    # Hint: This secret is not created by this chart and must be provided.
+    secretName: ""
+
+# -- Lifecycle to automate configuration before or after startup.
+lifecycleHooks: {}
+
+# -- String to partially override release name.
+nameOverride: ""
+
+# -- Node labels for pod assignment.
+# Ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector: {}
+
+#  Configure extra options for containers probes.
+livenessProbe:
+  # -- Enables kubernetes LivenessProbe.
+  enabled: true
+  # -- Number of failed executions until container is terminated.
+  failureThreshold: 3
+  # -- Delay after container start until LivenessProbe is executed.
+  initialDelaySeconds: 15
+  # -- Time between probe executions.
+  periodSeconds: 5
+  # -- Number of successful executions after failed ones until container is marked healthy.
+  successThreshold: 1
+  # -- Timeout for command return.
+  timeoutSeconds: 2
+
+# -- Pod Annotations.
+# Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+
+# -- Pod Labels.
+# Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+# Pod Security Context.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+podSecurityContext:
+  # -- Enable security context.
+  enabled: true
+
+  # -- If specified, all processes of the container are also part of the supplementary group.
+  fsGroup: 1000
+
+  # -- Change ownership and permission of the volume before being exposed inside a Pod.
+  fsGroupChangePolicy: "Always"
+
+#  Configure extra options for containers probes.
+readinessProbe:
+  # -- Enables kubernetes ReadinessProbe.
+  enabled: true
+  # -- Delay after container start until ReadinessProbe is executed.
+  initialDelaySeconds: 5
+  # -- Number of failed executions until container is terminated.
+  failureThreshold: 15
+  # -- Time between probe executions.
+  periodSeconds: 2
+  # -- Number of successful executions after failed ones until container is marked healthy.
+  successThreshold: 1
+  # -- Timeout for command return.
+  timeoutSeconds: 1
+
+# -- Set the amount of replicas of deployment.
+replicaCount: 1
+
+# Configure resource requests and limits.
+#
+# Ref: https://kubernetes.io/docs/user-guide/compute-resources/
+resources:
+  requests:
+    # -- The number of RAM which has to be available on the scheduled node.
+    memory: "32Mi"
+    # -- The number of CPUs which has to be available on the scheduled node.
+    cpu: "10m"
+  limits:
+    # -- The max number of RAM to consume.
+    memory: "128Mi"
+    # -- The max number of CPUs to consume.
+    cpu: "500m"
+
+# Define and create Kubernetes Service.
+#
+# Ref.: https://kubernetes.io/docs/concepts/services-networking/service
+service:
+  # -- Additional custom annotations.
+  annotations: {}
+
+  # -- Enable kubernetes service creation.
+  enabled: true
+
+  # "ClusterIP" => Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable
+  #                from within the cluster. This is the default that is used if you don't explicitly specify a type for
+  #                a Service.
+  # "NodePort" => Exposes the Service on each Node's IP at a static port (the NodePort). To make the node port
+  #               available, Kubernetes sets up a cluster IP address, the same as if you had requested a Service of
+  #               type: ClusterIP.
+  # "LoadBalancer" => Exposes the Service externally using a cloud provider's load balancer.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+
+  # -- Choose the kind of Service, one of "ClusterIP", "NodePort" or "LoadBalancer".
+  type: "ClusterIP"
+
+  # Define the ports of Service.
+  # You can set the port value to an arbitrary value, it will map the container port by name.
+  ports:
+    http:
+      # -- Internal port.
+      containerPort: 8008
+      # -- Accessible port.
+      port: 8008
+      # -- service protocol.
+      protocol: "TCP"
+
+  # -- Configure session affinity for to hit the same backend for the period specified in `timeoutSeconds`.
+  #
+  # Ref.: https://kubernetes.io/docs/reference/networking/virtual-ips/#session-affinity
+  sessionAffinity:
+    # -- Whether to enable session affinity or not.
+    enabled: false
+
+    # -- The session duration in seconds.
+    timeoutSeconds: 10800
+
+# Service account to use.
+# Ref.: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+  # -- Additional custom annotations for the ServiceAccount.
+  annotations: {}
+
+  # -- Allows auto mount of ServiceAccountToken on the serviceAccount created. Can be set to false if pods using this
+  # serviceAccount do not need to use K8s API.
+  automountServiceAccountToken: false
+
+  # -- Enable creation of ServiceAccount for pod.
+  create: true
+
+  # -- Additional custom labels for the ServiceAccount.
+  labels: {}
+
+# -- In seconds, time the given to the pod needs to terminate gracefully.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+terminationGracePeriodSeconds: ""
+
+# -- Tolerations for pod assignment.
+# Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+tolerations: []
+
+# -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+#
+# topologySpreadConstraints:
+#   - maxSkew: 1
+#     topologyKey: failure-domain.beta.kubernetes.io/zone
+#     whenUnsatisfiable: DoNotSchedule
+topologySpreadConstraints: []
+
+# Set up update strategy.
+#
+# Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+#
+# Example:
+# updateStrategy:
+#  type: RollingUpdate
+#  rollingUpdate:
+#    maxSurge: 25%
+#    maxUnavailable: 25%
+updateStrategy:
+  # -- Set to Recreate if you use persistent volume that cannot be mounted by more than one pods to make sure the pods
+  # are destroyed first.
+  type: "RollingUpdate"
+...

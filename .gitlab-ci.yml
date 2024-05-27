@@ -5,7 +5,7 @@
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.30.5"
+    ref: "v1.31.1"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -14,6 +14,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
+      - "jobs/package-and-publish-helm-charts-external.yaml"
 
 trigger-docs:
   stage: "trigger"
