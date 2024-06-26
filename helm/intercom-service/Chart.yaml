@@ -5,7 +5,7 @@ apiVersion: "v2"
 name: "intercom-service"
 description: "intercom service, short ICS, is used to allow inter component API usage from the user's webbrowser"
 type: "application"
-version: "2.0.1"
+version: "2.1.0"
 appVersion: "1.4"
 
 dependencies:

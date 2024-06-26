@@ -5,3 +5,4 @@ builds/
 appcenter/preinst
 ics-values.yaml
 tilt_config.json
+helm/intercom-service/charts
