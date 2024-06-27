@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.6.0...v0.7.0) (2024-06-27)
+
+
+### Features
+
+* **helm/intercom-service:** Add extraVolumes and extraVolumeMounts option ([4887e51](https://git.knut.univention.de/univention/components/intercom-service/commit/4887e51783e3f4b38b6cdc0edc8b2f4c4fdb0a47))
+
 ## [0.6.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.5.0...v0.6.0) (2024-05-27)
 
 
