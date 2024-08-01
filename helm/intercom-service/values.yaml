@@ -6,6 +6,11 @@ global:
   # -- Container registry address.
   imageRegistry: "artifacts.software-univention.de"
 
+  domain: ""
+  subDomains:
+    keycloak: ""
+    portal: "portal"
+
   # -- Credentials to fetch images from private registry.
   # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #
@@ -108,6 +113,8 @@ imagePullSecrets: []
 
 # Provide intercom service specific settings:
 ics:
+  # -- Intercom service secret shared other services
+  secrets: ""
   # -- Base URL of issuer.
   issuerBaseUrl: ""
 
@@ -466,4 +473,75 @@ updateStrategy:
   # -- Set to Recreate if you use persistent volume that cannot be mounted by more than one pods to make sure the pods
   # are destroyed first.
   type: "RollingUpdate"
+
+# -- The Intercom Service Keycloak provisioning job
+provisioning:
+
+  image:
+    imagePullSecrets: []
+
+    registry: "artifacts.software-univention.de"
+    repository: "nubus/images/wait-for-dependency"
+    tag: "0.25.0"
+    # -- Define image sha256 as an alternative to `tag`
+    # sha256: null
+
+  provisioningImage:
+    imagePullSecrets: []
+
+    registry: "artifacts.software-univention.de"
+    repository: "nubus/images/keycloak-bootstrap"
+    tag: "0.1.2"
+    imagePullPolicy: "IfNotPresent"
+
+  config:
+    # -- Base URL for setting in Keycloak application URL without backslash.
+    # Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud"
+    nubusBaseUrl: ""
+    # -- Keycloak specific settings.
+    keycloak:
+      # -- Keycloak user.
+      username: ""
+      # -- Keycloak password.
+      password: ""
+      # -- Keycloak realm.
+      realm: ""
+      # -- Keycloak password secret reference.
+      credentialSecret:
+        name: ""
+        key: "password"
+      # -- Connection parameters.
+      connection:
+        # -- Keycloak host.
+        host: ""
+        # -- Keycloak port.
+        port: ""
+
+    ics_client:
+      # -- Specify this only if you do not want to use a secret (see below).
+      clientSecret: ""
+      credentialSecret:
+        key: ""
+
+
+    # Debugging related settings
+    debug:
+      # -- Enable debug output of included Ansible scripts
+      enabled: false
+      # -- Seconds for the job to pause before starting the actual bootstrapping.
+      pauseBeforeScriptStart: 0
+
+  # -- Optionally specify an extra list of additional volumeMounts.
+  extraVolumeMounts: []
+
+  # -- Array with extra environment variables to add to containers.
+  #
+  # extraEnvVars:
+  #   - name: FOO
+  #     value: "bar"
+  extraEnvVars: []
+
+
+
+
 ...

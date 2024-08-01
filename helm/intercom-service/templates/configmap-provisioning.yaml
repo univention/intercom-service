@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2024 Univention GmbH
+
+{{- if .Values.provisioning.enabled }}
+---
+
+apiVersion: "v1"
+kind: ConfigMap
+metadata:
+  name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.provisioning.extraLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.extraLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.provisioning.extraAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.extraAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+
+data:
+  KEYCLOAK_URL: {{ include "intercom-service.provisioning.config.keycloak.url" . | quote }}
+  wait-for-keycloak.py: |
+    #!/usr/bin/python3
+    import requests
+    import time
+    import sys
+    import os
+
+    keycloak_url = os.environ.get('KEYCLOAK_URL')
+    max_retries = 60
+    retries = 0
+
+    while True:
+        try:
+            response = requests.get(keycloak_url)
+            if response.status_code == 200:
+                print('Keycloak is available')
+                sys.exit(0)
+        except requests.exceptions.ConnectionError:
+            print('Could not reach keycloak, retrying...')
+            pass
+        time.sleep(1)
+
+...
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-provisioning-env" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.provisioning.additionalLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels.additionalLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.provisioning.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+data:
+  DEBUG: {{ .Values.provisioning.config.debug.enabled | quote }}
+  DOMAIN: {{ .Values.global.domain | quote }}
+  KEYCLOAK_USERNAME: {{ include "intercom-service.provisioning.config.keycloak.username" . | quote }}
+  KEYCLOAK_HOST: {{ include "intercom-service.provisioning.config.keycloak.connection.host" . | quote }}
+  KEYCLOAK_REALM: {{ include "intercom-service.provisioning.config.keycloak.realm" . | quote }}
+  KEYCLOAK_URL: {{ include "intercom-service.provisioning.config.keycloak.connection.baseUrl" . | quote }}
+  UNIVENTION_KEYCLOAK_BOOTSTRAP_TEMP_DIR: "/tmp"
+  UNIVENTION_KEYCLOAK_BOOTSTRAP_DEBUG_PAUSE_BEFORE_SCRIPT_START: {{ .Values.provisioning.config.debug.pauseBeforeScriptStart  | quote }}
+  KEYCLOAK_APP_BASE_URL: {{ include "intercom-service.provisioning.config.nubusBaseUrl" . | quote }}
+...
+
+{{- end }}

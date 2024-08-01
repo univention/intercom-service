@@ -35,8 +35,11 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
 | extraVolumes | list | `[]` | Optionally specify an extra list of additional volumes. |
 | fullnameOverride | string | `""` | Provide a name to substitute for the full names of resources. |
+| global.domain | string | `""` |  |
 | global.imagePullSecrets | list | `[]` | Credentials to fetch images from private registry. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"  |
 | global.imageRegistry | string | `"artifacts.software-univention.de"` | Container registry address. |
+| global.subDomains.keycloak | string | `""` |  |
+| global.subDomains.portal | string | `"portal"` |  |
 | ics.default.domain | string | `"example.com"` | Domain which will be added for all subdomains for apps. |
 | ics.default.protocol | string | `"https"` | Protocol which will be used to connect to apps. |
 | ics.issuerBaseUrl | string | `""` | Base URL of issuer. |
@@ -75,6 +78,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.redis.host | string | `"redis-headless"` | Redis cache service host. |
 | ics.redis.password | string | `""` | Redis cache service password. |
 | ics.redis.port | string | `"6379"` | Redis cache service port. |
+| ics.secrets | string | `""` | Intercom service secret shared other services |
 | image.imagePullPolicy | string | `"IfNotPresent"` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.  |
 | image.registry | string | `""` | Container registry address. This setting has higher precedence than global.registry. |
 | image.repository | string | `"nubus-dev/images/intercom-service"` | Container repository string. |
@@ -103,6 +107,21 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | podSecurityContext.enabled | bool | `true` | Enable security context. |
 | podSecurityContext.fsGroup | int | `1000` | If specified, all processes of the container are also part of the supplementary group. |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Change ownership and permission of the volume before being exposed inside a Pod. |
+| provisioning | object | `{"config":{"debug":{"enabled":false,"pauseBeforeScriptStart":0},"ics_client":{"clientSecret":"","credentialSecret":{"key":""}},"keycloak":{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""},"nubusBaseUrl":""},"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.25.0"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.1.2"}}` | The Intercom Service Keycloak provisioning job |
+| provisioning.config.debug.enabled | bool | `false` | Enable debug output of included Ansible scripts |
+| provisioning.config.debug.pauseBeforeScriptStart | int | `0` | Seconds for the job to pause before starting the actual bootstrapping. |
+| provisioning.config.ics_client.clientSecret | string | `""` | Specify this only if you do not want to use a secret (see below). |
+| provisioning.config.keycloak | object | `{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""}` | Keycloak specific settings. |
+| provisioning.config.keycloak.connection | object | `{"host":"","port":""}` | Connection parameters. |
+| provisioning.config.keycloak.connection.host | string | `""` | Keycloak host. |
+| provisioning.config.keycloak.connection.port | string | `""` | Keycloak port. |
+| provisioning.config.keycloak.credentialSecret | object | `{"key":"password","name":""}` | Keycloak password secret reference. |
+| provisioning.config.keycloak.password | string | `""` | Keycloak password. |
+| provisioning.config.keycloak.realm | string | `""` | Keycloak realm. |
+| provisioning.config.keycloak.username | string | `""` | Keycloak user. |
+| provisioning.config.nubusBaseUrl | string | `""` | Base URL for setting in Keycloak application URL without backslash. Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud" |
+| provisioning.extraEnvVars | list | `[]` | Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar" |
+| provisioning.extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
 | readinessProbe.enabled | bool | `true` | Enables kubernetes ReadinessProbe. |
 | readinessProbe.failureThreshold | int | `15` | Number of failed executions until container is terminated. |
 | readinessProbe.initialDelaySeconds | int | `5` | Delay after container start until ReadinessProbe is executed. |
@@ -133,4 +152,4 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | updateStrategy.type | string | `"RollingUpdate"` | Set to Recreate if you use persistent volume that cannot be mounted by more than one pods to make sure the pods are destroyed first. |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.11.2](https://github.com/norwoodj/helm-docs/releases/v1.11.2)
+Autogenerated from chart metadata using [helm-docs v1.13.1](https://github.com/norwoodj/helm-docs/releases/v1.13.1)

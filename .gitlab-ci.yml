@@ -39,7 +39,7 @@ trigger-docs:
 .build-matrix: &build-matrix
   - IMAGE_NAME:
       - "intercom-service"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
     DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
 
 container-build:
