@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.7.0...v0.8.0) (2024-08-16)
+
+
+### Features
+
+* added initContainer for Keycloak boostraping ([120f73f](https://git.knut.univention.de/univention/components/intercom-service/commit/120f73feda24cf451b575ce857aa1e1eb3a605d1))
+
 ## [0.7.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.6.0...v0.7.0) (2024-06-27)
 
 
