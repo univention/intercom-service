@@ -37,6 +37,9 @@ data:
             if response.status_code == 200:
                 print('Keycloak is available')
                 sys.exit(0)
+            elif response.status_code == 404:
+                print('Realm not ready')
+                pass
         except requests.exceptions.ConnectionError:
             print('Could not reach keycloak, retrying...')
             pass

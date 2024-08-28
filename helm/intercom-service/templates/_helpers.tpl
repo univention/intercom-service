@@ -18,7 +18,7 @@ PROVISIONING Keycloak
 {{- if .Values.provisioning.config.keycloak.url -}}
 {{ .Values.provisioning.config.keycloak.url -}}
 {{- else if .Values.global.nubusDeployment -}}
-{{ printf "http://%s-keycloak:8080" .Release.Name }}
+{{ printf "http://%s-keycloak:8080/realms/%s" .Release.Name  (include "intercom-service.provisioning.config.keycloak.realm" .) }}
 {{- else -}}
 {{ required ".Values.provisioning.config.keycloak.url is required" .Values.provisioning.config.keycloak.url -}}
 {{- end -}}
