@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.8.0...v0.8.1) (2024-09-03)
+
+
+### Bug Fixes
+
+* fix kc init race condition ([41eb103](https://git.knut.univention.de/univention/components/intercom-service/commit/41eb103915c717194d701107db5eb262a895f1b5))
+
 ## [0.8.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.7.0...v0.8.0) (2024-08-16)
 
 
