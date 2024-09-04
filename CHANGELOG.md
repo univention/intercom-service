@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.1.0...v2.1.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* **ci:** bump version ([8bc4483](https://git.knut.univention.de/univention/components/intercom-service/commit/8bc4483057a8cf5f135007dcfc47cb109765e6b6))
+
 ## [0.8.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v0.8.0...v0.8.1) (2024-09-03)
 
 
