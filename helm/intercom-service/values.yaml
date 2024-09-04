@@ -383,7 +383,7 @@ resources:
     cpu: "500m"
 
 # Define and create Kubernetes Service.
-#
+# 
 # Ref.: https://kubernetes.io/docs/concepts/services-networking/service
 service:
   # -- Additional custom annotations.
