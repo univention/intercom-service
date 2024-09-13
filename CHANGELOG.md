@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.1.1...v2.2.0) (2024-09-13)
+
+
+### Features
+
+* update UCS base image to 2024-09-09 ([0847b5b](https://git.knut.univention.de/univention/components/intercom-service/commit/0847b5ba463fd073980f80800d0cd7db6df4814d))
+* upgrade wait-for-dependency ([4f8a030](https://git.knut.univention.de/univention/components/intercom-service/commit/4f8a030aa6d6f4dfa6276d9449898c97bd6df76f))
+
 ## [2.1.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.1.0...v2.1.1) (2024-09-04)
 
 
