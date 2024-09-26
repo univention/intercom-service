@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.2.0...v2.3.0) (2024-09-26)
+
+
+### Features
+
+* **ci:** enable malware scanning, disable sbom generation ([2ffcbd6](https://git.knut.univention.de/univention/components/intercom-service/commit/2ffcbd6325cc98ba14586c25d4b8916c96e52e24))
+
 ## [2.2.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.1.1...v2.2.0) (2024-09-13)
 
 
