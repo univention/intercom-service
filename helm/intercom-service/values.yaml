@@ -127,6 +127,12 @@ ics:
   # -- Log level.
   logLevel: "DEBUG"
 
+  # -- Mapper claim name for the Intercom Service client. The field must be
+  # unique along users. If not set, the default value is "entryuuid", which is
+  # provisioned by the Intercom Service initContainer. Any other value that
+  # "entryuuid" is not guaranteed to be unique on Nubus.
+  userUniqueMapper: "entryuuid"
+
   # Default settings which are used for all services.
   default:
     # -- Domain which will be added for all subdomains for apps.
@@ -142,6 +148,7 @@ ics:
 
     # -- OIDC Client Secret
     secret: ""
+
 
   # Keycloak connection settings.
   keycloak:

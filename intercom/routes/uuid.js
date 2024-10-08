@@ -9,10 +9,11 @@ const router = express.Router();
 /**
  * @name /uuid
  * @desc returns the uuid of the logged in user
+ * @example GET http://ics.domain.test/uuid
  */
 router.get("/", (req, res) => {
-  // TODO: wrong field, use username?
-  let entryUUID = req.decodedIdToken["entryuuid"];
+  let entryUUID =
+    req.decodedIdToken[process.env.USER_UNIQUE_MAPPER ?? "entryuuid"];
   res.send(entryUUID);
 });
 

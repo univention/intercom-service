@@ -10,6 +10,18 @@ Description[de] = OIDC Client-ID des Intercom-Clients im Identity Provider
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/settings/user-unique-mapper]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = entryuuid
+Scope = outside
+Description = OIDC Intercom client claim name for the user attribute that is unique for each user. Any other value that "entryuuid" is not guaranteed to be unique on Nubus.
+Description[de] = OIDC Intercom-Client-Claim-Name für das Benutzerattribut, das für jeden Benutzer eindeutig ist. Jeder andere Wert als "entryuuid" ist nicht garantiert eindeutig auf Nubus.
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/intercom-url]
 Type = String
 Required = True

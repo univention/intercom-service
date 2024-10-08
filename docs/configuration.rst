@@ -102,6 +102,25 @@ The following references show the available settings within the app
           - ``intercom``
           - Only before installation
 
+.. envvar:: intercom-service/settings/user-unique-mapper
+
+    Defines the *Keycloak* |ICS| client token claim name mapper configured. The
+    field must uniquely identify the user across *Matrix*, *Nextcloud*,
+    *OX App Suite*, and the *Nubus*. Only the value ``entryuuid`` is guaranteed
+    to be unique in Nubus.
+
+    .. list-table::
+        :header-rows: 1
+        :widths: 2 5 5
+
+        * - Required
+          - Default value
+          - Set
+
+        * - Yes
+          - ``entryuuid``
+          - Only before installation
+
 .. envvar:: intercom-service/settings/intercom-url
 
    Defines the URL where you can reach |ICS|. This needs to be a externally

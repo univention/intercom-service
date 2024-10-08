@@ -77,25 +77,25 @@ app.use(
         if (!("ox_access_token" in session)) {
           ret.ox_access_token = await fetchOIDCToken(
             session.access_token,
-            `${process.env.OX_AUDIENCE}`
+            `${process.env.OX_AUDIENCE}`,
           );
         }
 
         if (!("nc_access_token" in session)) {
           ret.nc_access_token = await fetchOIDCToken(
             session.access_token,
-            `${process.env.NC_AUDIENCE}`
+            `${process.env.NC_AUDIENCE}`,
           );
         }
 
         const { payload } = await jose.jwtVerify(session.id_token, JWKS, {
           issuer: issuerBaseURL,
         });
-        let uid = payload["entryuuid"];
+        let uid = payload[process.env.USER_UNIQUE_MAPPER ?? "entryuuid"];
 
         if (!uid) {
           logger.warn(
-            "Sorry can't find the preferred username/uuid, maybe the mapping is missing?"
+            "Sorry can't find the preferred username/uuid, maybe the mapping is missing?",
           );
         }
 
@@ -108,7 +108,7 @@ app.use(
       }
       return { ...session, ...ret };
     },
-  })
+  }),
 );
 
 app.use(cors(corsOptions));
@@ -142,7 +142,7 @@ app.use(
   refreshTokenIfNeeded,
   csrfProtection.validate,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  nob
+  nob,
 );
 
 /**
@@ -150,7 +150,7 @@ app.use(
  * @desc
  * Proxy for Nextcloud.
  * Adds the proper Authorization Header
- * @example PROPFIND http://ic.p.test/fs/remote.php/dav/files/usera1/Photos
+ * @example PROPFIND http://ics.domain.test/fs/remote.php/dav/files/usera1/Photos
  *
  */
 app.use(
@@ -159,7 +159,7 @@ app.use(
   refreshTokenIfNeeded,
   refreshNextcloudTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  fs
+  fs,
 );
 
 /**
@@ -174,7 +174,7 @@ app.use(
   refreshTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
   oidcVerifyDecodeIdentityToken(attemptSilentLogin),
-  navigation
+  navigation,
 );
 
 /**
@@ -189,19 +189,19 @@ app.use(
   "/silent",
   attemptSilentLogin(),
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  silent
+  silent,
 );
 
 /**
  * @name /uuid
- * @desc returns the uuid of the logged in user
+ * @desc returns the unique identifier claim of the logged in user
  */
 app.use(
   "/uuid",
   requiresAuth(),
   refreshTokenIfNeeded,
   oidcVerifyDecodeIdentityToken(attemptSilentLogin),
-  uuid
+  uuid,
 );
 
 var server = app.listen(process.env.PORT, function () {

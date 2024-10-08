@@ -16,27 +16,28 @@ const { corsOptions } = require("../config");
  * @desc
  * Proxy for Nextcloud.
  * Adds the proper Authorization Header
- * @example PROPFIND http://ic.p.test/fs/remote.php/dav/files/usera1/Photos
- *
+ * @example PROPFIND http://ics.domain.test/fs/remote.php/dav/files/usera1/Photos
  */
-router.use("/", createProxyMiddleware({
-  target: process.env.NC_URL,
-  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
-  changeOrigin: true,
-  pathRewrite: {
-    "^/fs": "",
-  },
-  onProxyReq: function onProxyReq(proxyReq, req, res) {
-    stripIntercomCookies(proxyReq);
-    proxyReq.setHeader(
-      "authorization",
-      `Bearer ${req.appSession.nc_access_token}`
-    );
-  },
-  onProxyRes: function (proxyRes, req, res) {
-    massageCors(req, proxyRes, corsOptions.origin);
-  },
-})
+router.use(
+  "/",
+  createProxyMiddleware({
+    target: process.env.NC_URL,
+    logLevel: process.env.LOG_LEVEL?.toLowerCase() ?? "info",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/fs": "",
+    },
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+      stripIntercomCookies(proxyReq);
+      proxyReq.setHeader(
+        "authorization",
+        `Bearer ${req.appSession.nc_access_token}`,
+      );
+    },
+    onProxyRes: function (proxyRes, req, res) {
+      massageCors(req, proxyRes, corsOptions.origin);
+    },
+  }),
 );
 
 module.exports = router;

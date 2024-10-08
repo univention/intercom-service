@@ -39,6 +39,7 @@ import os
 pwdfile="/etc/intercom-client.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
+      USER_UNIQUE_MAPPER: @%@intercom-service/settings/user-unique-mapper@%@
 
       # INTERCOM
       SECRET: @!@
