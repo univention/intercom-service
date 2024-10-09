@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.3.0...v2.4.0) (2024-10-09)
+
+
+### Features
+
+* **intercom:** make unique claim key customizable ([da547f5](https://git.knut.univention.de/univention/components/intercom-service/commit/da547f5b0ff41d3fd130101bb3010c0942175464)), closes [univention/customers/dataport/team-souvap#875](https://git.knut.univention.de/univention/customers/dataport/team-souvap/issues/875)
+
 ## [2.3.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.2.0...v2.3.0) (2024-09-26)
 
 
