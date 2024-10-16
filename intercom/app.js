@@ -157,8 +157,8 @@ app.use(
   "/fs",
   requiresAuth(),
   refreshTokenIfNeeded,
-  refreshNextcloudTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  refreshNextcloudTokenIfNeeded,
   fs,
 );
 

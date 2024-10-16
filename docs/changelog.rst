@@ -15,13 +15,18 @@ project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 1.7
 ===
 
-Released: 16. October 2024
+Released: 15. November 2024
 
 
 Added
 -----
 
 * *UCR* variable to configure the unique user claim name for the *Keycloak* OIDC client.
+
+Changed
+-------
+
+* Order of middlewares for *Nextcloud* proxying caused authentication prompts in some cases.
 
 1.6
 ===

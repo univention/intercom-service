@@ -25,7 +25,7 @@ const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
     const nc_access_token = await verifyJWT(
       req.appSession.nc_access_token,
       issuerBaseURL,
-      JWKS
+      JWKS,
     );
     logger.debug("Nextcloud access_token is valid");
   } catch (error) {
@@ -34,7 +34,7 @@ const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
       logger.warn("Catched info:", error);
       req.appSession.nc_access_token = await fetchOIDCToken(
         req.appSession.access_token,
-        `${process.env.NC_AUDIENCE}`
+        `${process.env.NC_AUDIENCE}`,
       );
       logger.info("Refreshed successfully");
     }
