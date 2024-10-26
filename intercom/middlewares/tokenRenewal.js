@@ -3,8 +3,14 @@
  * SPDX-FileCopyrightText: 2024 Univention GmbH
  */
 
-const { verifyJWT, JWKS, fetchOIDCToken, logger } = require("../utils");
-const { issuerBaseUrl } = require("../config");
+const {
+  verifyJWT,
+  JWKS,
+  fetchOIDCToken,
+  fetchMatrixToken,
+  logger,
+} = require("../utils");
+const { issuerBaseUrl, userUniqueMapper, matrix } = require("../config");
 
 const refreshIntercomTokenIfNeeded = async (req, _, next) => {
   try {
@@ -16,8 +22,9 @@ const refreshIntercomTokenIfNeeded = async (req, _, next) => {
     }
   } catch (err) {
     logger.error("Refreshing ICS expired access_token failed");
+  } finally {
+    next();
   }
-  next();
 };
 
 const refreshOIDCTokenIfNeeded = (config) => {
@@ -38,7 +45,7 @@ const refreshOIDCTokenIfNeeded = (config) => {
       );
       logger.debug("%s access_token is valid", config.name);
     } catch (error) {
-      if (error.code == "ERR_JWT_EXPIRED") {
+      if (error.code == "ERR_JWT_EXPIRED" || error.code == "ERR_JWS_INVALID") {
         logger.warn("%s access_token expired, refreshing", config.name);
         logger.warn("Catched info:", error);
         req.appSession[config.session_storage_key] = await fetchOIDCToken(
@@ -53,7 +60,41 @@ const refreshOIDCTokenIfNeeded = (config) => {
   };
 };
 
+const refreshMatrixTokenIfNeeded = async (req, _, next) => {
+  if (!req.appSession[matrix.session_storage_key]) {
+    logger.debug(
+      "%s access_token not found in session, not renewing",
+      matrix.name,
+    );
+    next();
+    return;
+  }
+  try {
+    _ = await verifyJWT(
+      req.appSession[matrix.session_storage_key],
+      issuerBaseUrl,
+      JWKS,
+    );
+    logger.debug("%s access_token is valid", matrix.name);
+  } catch (error) {
+    if (error.code == "ERR_JWT_EXPIRED" || error.code == "ERR_JWS_INVALID") {
+      logger.warn(
+        "%s access_token expired or invalid, refreshing",
+        matrix.name,
+      );
+      logger.warn("Catched info:", error);
+      let entryUUID = req.decodedAccessToken[userUniqueMapper];
+      req.appSession[matrix.session_storage_key] =
+        await fetchMatrixToken(entryUUID);
+      logger.info("Refreshed successfully");
+    }
+  } finally {
+    next();
+  }
+};
+
 module.exports = {
   refreshIntercomTokenIfNeeded,
   refreshOIDCTokenIfNeeded,
+  refreshMatrixTokenIfNeeded,
 };

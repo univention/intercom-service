@@ -10,6 +10,7 @@ const {
 const {
   refreshIntercomTokenIfNeeded,
   refreshOIDCTokenIfNeeded,
+  refreshMatrixTokenIfNeeded,
 } = require("./tokenRenewal");
 const { updateSessionState } = require("./sessionState");
 
@@ -18,5 +19,6 @@ module.exports = {
   oidcVerifyDecodeIdentityToken,
   refreshIntercomTokenIfNeeded,
   refreshOIDCTokenIfNeeded,
+  refreshMatrixTokenIfNeeded,
   updateSessionState,
 };
