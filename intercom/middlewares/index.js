@@ -4,7 +4,7 @@
  */
 
 const { oidcVerifyDecodeAccessToken, oidcVerifyDecodeIdentityToken } = require("./jwt");
-const { refreshTokenIfNeeded, refreshNextcloudTokenIfNeeded } = require("./tokenRenewal");
+const { refreshTokenIfNeeded, refreshNextcloudTokenIfNeeded, refreshMatrixTokenIfNeeded } = require("./tokenRenewal");
 const { updateSessionState } = require("./sessionState");
 
 module.exports = {
@@ -12,5 +12,6 @@ module.exports = {
   oidcVerifyDecodeIdentityToken,
   refreshTokenIfNeeded,
   refreshNextcloudTokenIfNeeded,
+  refreshMatrixTokenIfNeeded,
   updateSessionState,
 };

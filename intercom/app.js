@@ -46,6 +46,7 @@ const {
   refreshTokenIfNeeded,
   refreshNextcloudTokenIfNeeded,
   updateSessionState,
+  refreshMatrixTokenIfNeeded,
 } = require("./middlewares");
 
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
@@ -142,6 +143,7 @@ app.use(
   refreshTokenIfNeeded,
   csrfProtection.validate,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  refreshMatrixTokenIfNeeded,
   nob,
 );
 
