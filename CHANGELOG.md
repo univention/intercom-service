@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.0...v2.4.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* middleware order in fs path ([8c364e2](https://git.knut.univention.de/univention/components/intercom-service/commit/8c364e2baddb1239e7915b0ad575783850e425c8))
+
 ## [2.4.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.3.0...v2.4.0) (2024-10-09)
 
 
