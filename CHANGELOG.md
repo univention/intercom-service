@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.1...v2.4.2) (2024-11-14)
+
+
+### Bug Fixes
+
+* **appcenter:** bump AppCenter docker image ([f3cdc09](https://git.knut.univention.de/univention/components/intercom-service/commit/f3cdc096c148acd71bbeb80ec22228aa462858db))
+
 ## [2.4.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.0...v2.4.1) (2024-11-13)
 
 
