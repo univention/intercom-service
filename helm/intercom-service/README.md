@@ -26,6 +26,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | containerSecurityContext.allowPrivilegeEscalation | bool | `false` | Enable container privileged escalation. |
 | containerSecurityContext.capabilities | object | `{"drop":["ALL"]}` | Security capabilities for container. |
 | containerSecurityContext.enabled | bool | `true` | Enable security context. |
+| containerSecurityContext.privileged | bool | `false` |  |
 | containerSecurityContext.readOnlyRootFilesystem | bool | `true` | Mounts the container's root filesystem as read-only. |
 | containerSecurityContext.runAsGroup | int | `1000` | Process group id. |
 | containerSecurityContext.runAsNonRoot | bool | `true` | Run container as a user. |
@@ -78,7 +79,8 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.redis.host | string | `"redis-headless"` | Redis cache service host. |
 | ics.redis.password | string | `""` | Redis cache service password. |
 | ics.redis.port | string | `"6379"` | Redis cache service port. |
-| ics.secrets | string | `""` | Intercom service secret shared other services |
+| ics.secret | string | `""` | Intercom service secret shared other services |
+| ics.userUniqueMapper | string | `"entryuuid"` | Mapper claim name for the Intercom Service client. The field must be unique along users. If not set, the default value is "entryuuid", which is provisioned by the Intercom Service initContainer. Any other value that "entryuuid" is not guaranteed to be unique on Nubus. |
 | image.imagePullPolicy | string | `"IfNotPresent"` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.  |
 | image.registry | string | `""` | Container registry address. This setting has higher precedence than global.registry. |
 | image.repository | string | `"nubus-dev/images/intercom-service"` | Container repository string. |
@@ -107,7 +109,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | podSecurityContext.enabled | bool | `true` | Enable security context. |
 | podSecurityContext.fsGroup | int | `1000` | If specified, all processes of the container are also part of the supplementary group. |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Change ownership and permission of the volume before being exposed inside a Pod. |
-| provisioning | object | `{"config":{"debug":{"enabled":false,"pauseBeforeScriptStart":0},"ics_client":{"clientSecret":"","credentialSecret":{"key":""}},"keycloak":{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""},"nubusBaseUrl":""},"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.25.0"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.1.2"}}` | The Intercom Service Keycloak provisioning job |
+| provisioning | object | `{"config":{"debug":{"enabled":false,"pauseBeforeScriptStart":0},"ics_client":{"clientSecret":"","credentialSecret":{"key":""}},"keycloak":{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""},"nubusBaseUrl":""},"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.26.0"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.1.2"},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | The Intercom Service Keycloak provisioning job |
 | provisioning.config.debug.enabled | bool | `false` | Enable debug output of included Ansible scripts |
 | provisioning.config.debug.pauseBeforeScriptStart | int | `0` | Seconds for the job to pause before starting the actual bootstrapping. |
 | provisioning.config.ics_client.clientSecret | string | `""` | Specify this only if you do not want to use a secret (see below). |
@@ -122,6 +124,14 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | provisioning.config.nubusBaseUrl | string | `""` | Base URL for setting in Keycloak application URL without backslash. Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud" |
 | provisioning.extraEnvVars | list | `[]` | Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar" |
 | provisioning.extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
+| provisioning.securityContext.allowPrivilegeEscalation | bool | `false` | Enable container privileged escalation. |
+| provisioning.securityContext.capabilities | object | `{"drop":["ALL"]}` | Security capabilities for container. |
+| provisioning.securityContext.enabled | bool | `true` | Enable security context. |
+| provisioning.securityContext.readOnlyRootFilesystem | bool | `true` | Mounts the container's root filesystem as read-only. |
+| provisioning.securityContext.runAsGroup | int | `1000` | Process group id. |
+| provisioning.securityContext.runAsNonRoot | bool | `true` | Run container as a user. |
+| provisioning.securityContext.runAsUser | int | `1000` | Process user id. |
+| provisioning.securityContext.seccompProfile.type | string | `"RuntimeDefault"` | Disallow custom Seccomp profile by setting it to RuntimeDefault. |
 | readinessProbe.enabled | bool | `true` | Enables kubernetes ReadinessProbe. |
 | readinessProbe.failureThreshold | int | `15` | Number of failed executions until container is terminated. |
 | readinessProbe.initialDelaySeconds | int | `5` | Delay after container start until ReadinessProbe is executed. |
@@ -151,5 +161,3 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | topologySpreadConstraints | list | `[]` | Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in. Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/  topologySpreadConstraints:   - maxSkew: 1     topologyKey: failure-domain.beta.kubernetes.io/zone     whenUnsatisfiable: DoNotSchedule |
 | updateStrategy.type | string | `"RollingUpdate"` | Set to Recreate if you use persistent volume that cannot be mounted by more than one pods to make sure the pods are destroyed first. |
 
-----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.13.1](https://github.com/norwoodj/helm-docs/releases/v1.13.1)

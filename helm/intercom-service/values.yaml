@@ -33,6 +33,7 @@ affinity: {}
 # Security Context.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 containerSecurityContext:
+  privileged: false
   # -- Enable container privileged escalation.
   allowPrivilegeEscalation: false
 
@@ -114,7 +115,7 @@ imagePullSecrets: []
 # Provide intercom service specific settings:
 ics:
   # -- Intercom service secret shared other services
-  secrets: ""
+  secret: ""
   # -- Base URL of issuer.
   issuerBaseUrl: ""
 
@@ -390,7 +391,7 @@ resources:
     cpu: "500m"
 
 # Define and create Kubernetes Service.
-# 
+#
 # Ref.: https://kubernetes.io/docs/concepts/services-networking/service
 service:
   # -- Additional custom annotations.
@@ -548,7 +549,34 @@ provisioning:
   #     value: "bar"
   extraEnvVars: []
 
+  securityContext:
+    privileged: false
+    # -- Enable container privileged escalation.
+    allowPrivilegeEscalation: false
 
+    # -- Security capabilities for container.
+    capabilities:
+      drop:
+        - "ALL"
 
+    # -- Enable security context.
+    enabled: true
+
+    # -- Process user id.
+    runAsUser: 1000
+
+    # -- Process group id.
+    runAsGroup: 1000
+
+    # Set Seccomp profile.
+    seccompProfile:
+      # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
+      type: "RuntimeDefault"
+
+    # -- Mounts the container's root filesystem as read-only.
+    readOnlyRootFilesystem: true
+
+    # -- Run container as a user.
+    runAsNonRoot: true
 
 ...

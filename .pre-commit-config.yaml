@@ -35,8 +35,6 @@ repos:
         name: "check for broken symlinks"
       - id: "detect-private-key"
         name: "detect private key"
-      - id: "end-of-file-fixer"
-        name: "fix end of files"
       - id: "fix-byte-order-marker"
         name: "fix utf-8 byte order marker"
       - id: "trailing-whitespace"

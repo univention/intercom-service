@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2024 Univention GmbH
+---
+
+ics:
+  secret: "secret"
+
+provisioning:
+  config:
+    keycloak:
+      password: "keycloak"
+    ics_client:
+      clientSecret: "secret"
+...
