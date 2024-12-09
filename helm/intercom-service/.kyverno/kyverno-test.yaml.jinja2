@@ -98,3 +98,9 @@ results:
     kind: "Deployment"
     rule: "template-replicas"
     result: "pass"
+  - resources:
+      - "release-name-intercom-service"
+    policy: "require-requests-limits"
+    kind: "Deployment"
+    rule: "validate-resources"
+    result: "pass"
