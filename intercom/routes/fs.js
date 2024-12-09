@@ -9,7 +9,7 @@ const router = express.Router();
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const { stripIntercomCookies, massageCors } = require("../utils");
-const { corsOptions } = require("../config");
+const { corsOptions, logLevel, nextcloud } = require("../config");
 
 /**
  * @name /fs/
@@ -21,8 +21,8 @@ const { corsOptions } = require("../config");
 router.use(
   "/",
   createProxyMiddleware({
-    target: process.env.NC_URL,
-    logLevel: process.env.LOG_LEVEL?.toLowerCase() ?? "info",
+    target: nextcloud.url,
+    logLevel,
     changeOrigin: true,
     pathRewrite: {
       "^/fs": "",

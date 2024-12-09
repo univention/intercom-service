@@ -5,18 +5,21 @@
 
 const winston = require("winston");
 
-const level = `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info";
+const { logLevel } = require("../config");
 
 const logger = winston.createLogger({
-  level,
+  level: logLevel,
   format: winston.format.json(),
   defaultMeta: { service: "intercom-service" },
   transports: [
-    new winston.transports.Console({ level }),
-    new winston.transports.File({ filename: "intercom-service.log", level}),
+    new winston.transports.Console({ level: logLevel }),
+    new winston.transports.File({
+      filename: "intercom-service.log",
+      level: logLevel,
+    }),
   ],
 });
 
 module.exports = {
-  logger
+  logger,
 };

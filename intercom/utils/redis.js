@@ -8,10 +8,11 @@ const { createClient } = require("redis");
 const RedisStore = require("connect-redis")(auth);
 
 const { logger } = require("./logger");
+const { redis } = require("../config");
 
 const redisClient = createClient({
   legacyMode: true,
-  url: `redis://${process.env.REDIS_USER ?? "default"}:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST ?? "redis-intercom"}:${process.env.REDIS_PORT ?? 6379}`,
+  url: `redis://${redis.user}:${redis.password}@${redis.host}:${redis.port}`,
 })
   .on("error", (err) => {
     logger.error("Redis error: ", err);

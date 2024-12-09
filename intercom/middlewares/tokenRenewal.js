@@ -4,7 +4,7 @@
  */
 
 const { verifyJWT, JWKS, fetchOIDCToken, logger } = require("../utils");
-const { issuerBaseURL } = require("../config");
+const { issuerBaseUrl, nextcloud } = require("../config");
 
 const refreshTokenIfNeeded = async (req, res, next) => {
   try {
@@ -24,7 +24,7 @@ const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
   try {
     const nc_access_token = await verifyJWT(
       req.appSession.nc_access_token,
-      issuerBaseURL,
+      issuerBaseUrl,
       JWKS,
     );
     logger.debug("Nextcloud access_token is valid");
@@ -34,7 +34,7 @@ const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
       logger.warn("Catched info:", error);
       req.appSession.nc_access_token = await fetchOIDCToken(
         req.appSession.access_token,
-        `${process.env.NC_AUDIENCE}`,
+        nextcloud.audience,
       );
       logger.info("Refreshed successfully");
     }

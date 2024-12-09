@@ -21,7 +21,12 @@ const jose = require("jose");
 
 var cors = require("cors");
 
-const { corsOptions, issuerBaseURL } = require("./config");
+const {
+  corsOptions,
+  issuerBaseUrl,
+  intercom,
+  userUniqueMapper,
+} = require("./config");
 
 const {
   fetchMatrixToken,
@@ -54,12 +59,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   auth({
-    issuerBaseURL,
-    baseURL: process.env.BASE_URL,
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    issuerBaseURL: issuerBaseUrl,
+    baseURL: intercom.baseUrl,
+    clientID: intercom.clientId,
+    clientSecret: intercom.clientSecret,
     authRequired: false,
-    secret: process.env.SECRET,
+    secret: intercom.secret,
     idpLogout: true,
     authorizationParams: {
       response_type: "code",
@@ -77,21 +82,21 @@ app.use(
         if (!("ox_access_token" in session)) {
           ret.ox_access_token = await fetchOIDCToken(
             session.access_token,
-            `${process.env.OX_AUDIENCE}`,
+            ox.audience,
           );
         }
 
         if (!("nc_access_token" in session)) {
           ret.nc_access_token = await fetchOIDCToken(
             session.access_token,
-            `${process.env.NC_AUDIENCE}`,
+            nextcloud.audience,
           );
         }
 
         const { payload } = await jose.jwtVerify(session.id_token, JWKS, {
-          issuer: issuerBaseURL,
+          issuer: issuerBaseUrl,
         });
-        let uid = payload[process.env.USER_UNIQUE_MAPPER ?? "entryuuid"];
+        let uid = payload[userUniqueMapper];
 
         if (!uid) {
           logger.warn(

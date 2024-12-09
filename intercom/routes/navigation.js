@@ -9,7 +9,7 @@ const router = express.Router();
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const { stripIntercomCookies, massageCors } = require("../utils");
-const { corsOptions } = require("../config");
+const { corsOptions, logLevel, portal } = require("../config");
 
 /**
  * @name "/portal.json (without silly quotes for jsdoc)"
@@ -18,27 +18,27 @@ const { corsOptions } = require("../config");
  * Adds the proper Authorization Header
  */
 // TODO: https://127.0.0.1/univention/portal/navigation.json?lang=de_DE -H "Authorization: Basic username:MyPortalSecretFromBMIUXAnsibleHostINI"
-router.use("/", createProxyMiddleware({
-  target: process.env.PORTAL_URL,
-  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
-  changeOrigin: true,
-  pathRewrite: { "^/navigation.json": "/univention/portal/navigation.json" },
-  onProxyReq: function onProxyReq(proxyReq, req, res) {
-    stripIntercomCookies(proxyReq);
-    proxyReq.setHeader(
-      "Authorization",
-      "Basic " +
-            btoa(
-              req.decodedIdToken["phoenixusername"] +
-                ":" +
-                process.env.PORTAL_API_KEY
-            )
-    );
-  },
-  onProxyRes: function (proxyRes, req, res) {
-    massageCors(req, proxyRes, corsOptions.origin);
-  },
-})
+router.use(
+  "/",
+  createProxyMiddleware({
+    target: portal.url,
+    logLevel,
+    changeOrigin: true,
+    pathRewrite: { "^/navigation.json": "/univention/portal/navigation.json" },
+    onProxyReq: function onProxyReq(proxyReq, req, res) {
+      stripIntercomCookies(proxyReq);
+      proxyReq.setHeader(
+        "Authorization",
+        "Basic " +
+          Buffer.from(
+            req.decodedIdToken["phoenixusername"] + ":" + portal.secret,
+          ).toString("base64"),
+      );
+    },
+    onProxyRes: function (proxyRes, req, res) {
+      massageCors(req, proxyRes, corsOptions.origin);
+    },
+  }),
 );
 
 module.exports = router;

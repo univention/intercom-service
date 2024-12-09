@@ -7,9 +7,10 @@ const https = require("https");
 const axios = require("axios");
 
 const { logger } = require("./logger");
+const { matrix, intercom } = require("../config");
 
 const fetchMatrixToken = async (user_id) => {
-  if (!process.env.MATRIX_URL) {
+  if (!matrix.url) {
     logger.warning("Matrix integration not configured");
     return;
   }
@@ -24,17 +25,17 @@ const fetchMatrixToken = async (user_id) => {
 
   // https://spec.matrix.org/v1.4/application-service-api/#registration
   const headers = {
-    Authorization: "Bearer " + process.env.MATRIX_AS_SECRET,
+    Authorization: "Bearer " + matrix.appServiceSecret,
     "Content-Type": "application/json",
   };
 
   return axios
     .request({
-      url: process.env.MATRIX_URL + "/_matrix/client/v3/login",
+      url: `${matrix.url}/_matrix/client/v3/login`,
       headers,
       method: "POST",
       data: params,
-      proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
+      proxy: intercom.proxy,
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     })
     .then((res) => {

@@ -5,15 +5,15 @@
 
 const jose = require("jose");
 const path = require("node:path");
-const { issuerBaseURL } = require("../config");
+const { issuerBaseUrl } = require("../config");
 
 const JWKS = jose.createRemoteJWKSet(
   new URL(
     path
-      .join(issuerBaseURL, "/protocol/openid-connect/certs")
+      .join(issuerBaseUrl, "/protocol/openid-connect/certs")
       .replace(/\\/g, "/")
-      .replace(":/", "://")
-  )
+      .replace(":/", "://"),
+  ),
 );
 
 module.exports = { JWKS };
