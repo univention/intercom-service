@@ -3,14 +3,20 @@
  * SPDX-FileCopyrightText: 2024 Univention GmbH
  */
 
-const { oidcVerifyDecodeAccessToken, oidcVerifyDecodeIdentityToken } = require("./jwt");
-const { refreshTokenIfNeeded, refreshNextcloudTokenIfNeeded } = require("./tokenRenewal");
+const {
+  oidcVerifyDecodeAccessToken,
+  oidcVerifyDecodeIdentityToken,
+} = require("./jwt");
+const {
+  refreshIntercomTokenIfNeeded,
+  refreshOIDCTokenIfNeeded,
+} = require("./tokenRenewal");
 const { updateSessionState } = require("./sessionState");
 
 module.exports = {
   oidcVerifyDecodeAccessToken,
   oidcVerifyDecodeIdentityToken,
-  refreshTokenIfNeeded,
-  refreshNextcloudTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
+  refreshOIDCTokenIfNeeded,
   updateSessionState,
 };

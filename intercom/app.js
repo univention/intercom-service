@@ -25,6 +25,9 @@ const {
   corsOptions,
   issuerBaseUrl,
   intercom,
+  xwiki,
+  nextcloud,
+  matrix,
   userUniqueMapper,
 } = require("./config");
 
@@ -39,6 +42,7 @@ const {
 const {
   backchannelLogout,
   fs,
+  wiki,
   nob,
   navigation,
   silent,
@@ -48,8 +52,8 @@ const {
 const {
   oidcVerifyDecodeAccessToken,
   oidcVerifyDecodeIdentityToken,
-  refreshTokenIfNeeded,
-  refreshNextcloudTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
+  refreshOIDCTokenIfNeeded,
   updateSessionState,
 } = require("./middlewares");
 
@@ -77,17 +81,17 @@ app.use(
       // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort
       try {
         var ret = {};
-        // fetch token for ox
-        // TODO: check also if it's valid
-        if (!("ox_access_token" in session)) {
-          ret.ox_access_token = await fetchOIDCToken(
+
+        // fetch token for xwiki
+        if (!(xwiki.session_storage_key in session)) {
+          ret[xwiki.session_storage_key] = await fetchOIDCToken(
             session.access_token,
-            ox.audience,
+            xwiki.audience,
           );
         }
 
-        if (!("nc_access_token" in session)) {
-          ret.nc_access_token = await fetchOIDCToken(
+        if (!(nextcloud.session_storage_key in session)) {
+          ret[nextcloud.session_storage_key] = await fetchOIDCToken(
             session.access_token,
             nextcloud.audience,
           );
@@ -104,9 +108,9 @@ app.use(
           );
         }
 
-        if (!("matrix_access_token" in session)) {
+        if (!(matrix.session_storage_key in session)) {
           logger.debug("Fetching Matrix access_token");
-          ret.matrix_access_token = await fetchMatrixToken(uid);
+          ret[matrix.session_storage_key] = await fetchMatrixToken(uid);
         }
       } catch (error) {
         logger.error("Error fetching tokens: " + error);
@@ -144,7 +148,7 @@ app.use("/backchannel-logout", backchannelLogout);
 app.use(
   "/nob",
   requiresAuth(),
-  refreshTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
   csrfProtection.validate,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
   nob,
@@ -161,10 +165,25 @@ app.use(
 app.use(
   "/fs",
   requiresAuth(),
-  refreshTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  refreshNextcloudTokenIfNeeded,
+  refreshOIDCTokenIfNeeded(nextcloud),
   fs,
+);
+
+/**
+ * @name /wiki/
+ * @desc
+ * Proxy for XWiki.
+ * Adds the proper Authorization Header
+ * @example GET http://ics.domain.test/wiki/bin/get/Blog/BlogRss?xpage=plain&blog=some.Newsfeed.WebHome
+ */
+app.use(
+  "/wiki",
+  requiresAuth(),
+  refreshIntercomTokenIfNeeded,
+  refreshOIDCTokenIfNeeded(xwiki),
+  wiki,
 );
 
 /**
@@ -176,7 +195,7 @@ app.use(
 app.use(
   "/navigation.json",
   requiresAuth(),
-  refreshTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
   oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   navigation,
@@ -204,7 +223,7 @@ app.use(
 app.use(
   "/uuid",
   requiresAuth(),
-  refreshTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
   oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   uuid,
 );

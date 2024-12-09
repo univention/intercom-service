@@ -233,7 +233,7 @@ ics:
     # -- Audience.
     audience: "as8oidc"
 
-  # Nextcloud file service connection settings.
+  # -- Nextcloud file service connection settings.
   nextcloud:
     # -- Enable Nextcloud integration.
     enabled: true
@@ -256,6 +256,23 @@ ics:
 
     # -- Audience.
     audience: "ncoidc"
+
+  # -- XWiki connection settings.
+  xwiki:
+    # -- Enable XWiki integration.
+    enabled: true
+
+    # -- Subdomain of XWiki with "ics.default.protocol" and "ics.default.domain".
+    # Mutual exclusive with "url".
+    subdomain: "wiki"
+
+    # -- URL of XWiki as FQDN.
+    # Mutual exclusive with "subdomain".
+    url: ""
+
+    # -- Audience. The audience is the target client ICS will request tokens for
+    # when using Token Exchange. More information at https://www.keycloak.org/securing-apps/token-exchange
+    audience: "xwikioidc"
 
   # Redis related settings.
   redis:

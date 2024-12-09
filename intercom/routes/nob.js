@@ -9,7 +9,7 @@ const router = express.Router();
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const { stripIntercomCookies, massageCors } = require("../utils");
-const { corsOptions, logLevel, nordeck } = require("../config");
+const { corsOptions, logLevel, nordeck, matrix } = require("../config");
 
 /**
  * @name /nob/
@@ -31,12 +31,12 @@ router.use(
       // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
       // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
 
-      if (req.appSession.matrix_access_token) {
+      if (req.appSession[matrix.session_storage_key]) {
         // Provide access_token via authentication bearer token header
         // https://spec.matrix.org/v1.4/client-server-api/#client-authentication
         proxyReq.setHeader(
           "authorization",
-          `Bearer ${req.appSession.matrix_access_token}`,
+          `Bearer ${req.appSession[matrix.session_storage_key]}`,
         );
       }
     },

@@ -9,29 +9,29 @@ const router = express.Router();
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const { stripIntercomCookies, massageCors } = require("../utils");
-const { corsOptions, logLevel, nextcloud } = require("../config");
+const { corsOptions, logLevel, xwiki } = require("../config");
 
 /**
- * @name /fs/
+ * @name /wiki/
  * @desc
- * Proxy for Nextcloud.
+ * Proxy for XWiki.
  * Adds the proper Authorization Header
- * @example PROPFIND http://ics.domain.test/fs/remote.php/dav/files/usera1/Photos
+ * @example GET http://ics.domain.test/wiki/bin/get/Blog/BlogRss?xpage=plain&blog=some.Newsfeed.WebHome
  */
 router.use(
   "/",
   createProxyMiddleware({
-    target: nextcloud.url,
+    target: xwiki.url,
     logLevel,
     changeOrigin: true,
     pathRewrite: {
-      "^/fs": "",
+      "^/wiki": "",
     },
     onProxyReq: function onProxyReq(proxyReq, req, res) {
       stripIntercomCookies(proxyReq);
       proxyReq.setHeader(
         "authorization",
-        `Bearer ${req.appSession[nextcloud.session_storage_key]}`,
+        `Bearer ${req.appSession[xwiki.session_storage_key]}`,
       );
     },
     onProxyRes: function (proxyRes, req, res) {

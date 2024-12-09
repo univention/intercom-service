@@ -34,12 +34,17 @@ const config = {
     url: process.env.PORTAL_URL,
     secret: process.env.PORTAL_API_KEY,
   },
-  ox: {
-    audience: process.env.OX_AUDIENCE,
+  xwiki: {
+    name: "XWiki",
+    url: process.env.XWIKI_URL,
+    audience: process.env.XWIKI_AUDIENCE,
+    session_storage_key: "xwiki_access_token",
   },
   nextcloud: {
+    name: "Nextcloud",
     url: process.env.NC_URL,
     audience: process.env.NC_AUDIENCE,
+    session_storage_key: "nc_access_token",
   },
   intercom: {
     clientId: process.env.CLIENT_ID,
@@ -49,8 +54,10 @@ const config = {
     baseUrl: process.env.BASE_URL,
   },
   matrix: {
+    name: "Matrix",
     url: process.env.MATRIX_URL,
     appServiceSecret: process.env.MATRIX_AS_SECRET,
+    session_storage_key: "matrix_access_token",
   },
   redis: {
     user: process.env.REDIS_USER ?? "default",

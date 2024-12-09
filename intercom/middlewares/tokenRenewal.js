@@ -4,11 +4,11 @@
  */
 
 const { verifyJWT, JWKS, fetchOIDCToken, logger } = require("../utils");
-const { issuerBaseUrl, nextcloud } = require("../config");
+const { issuerBaseUrl } = require("../config");
 
-const refreshTokenIfNeeded = async (req, res, next) => {
+const refreshIntercomTokenIfNeeded = async (req, _, next) => {
   try {
-    let { token_type, access_token, isExpired, refresh } = req.oidc.accessToken;
+    let { access_token, isExpired, refresh } = req.oidc.accessToken;
     if (isExpired()) {
       ({ access_token } = await refresh());
       req.appSession.access_token = access_token;
@@ -20,30 +20,32 @@ const refreshTokenIfNeeded = async (req, res, next) => {
   next();
 };
 
-const refreshNextcloudTokenIfNeeded = async (req, res, next) => {
-  try {
-    const nc_access_token = await verifyJWT(
-      req.appSession.nc_access_token,
-      issuerBaseUrl,
-      JWKS,
-    );
-    logger.debug("Nextcloud access_token is valid");
-  } catch (error) {
-    if (error.code == "ERR_JWT_EXPIRED") {
-      logger.warn("Nextcloud access_token expired, refreshing");
-      logger.warn("Catched info:", error);
-      req.appSession.nc_access_token = await fetchOIDCToken(
-        req.appSession.access_token,
-        nextcloud.audience,
+const refreshOIDCTokenIfNeeded = (config) => {
+  return async (req, _, next) => {
+    try {
+      await verifyJWT(
+        req.appSession[config.session_storage_key],
+        issuerBaseUrl,
+        JWKS,
       );
-      logger.info("Refreshed successfully");
+      logger.debug("%s access_token is valid", config.name);
+    } catch (error) {
+      if (error.code == "ERR_JWT_EXPIRED") {
+        logger.warn("%s access_token expired, refreshing", config.name);
+        logger.warn("Catched info:", error);
+        req.appSession[config.session_storage_key] = await fetchOIDCToken(
+          req.appSession.access_token,
+          config.audience,
+        );
+        logger.info("%s access_token refreshed successfully", config.name);
+      }
+    } finally {
+      next();
     }
-  } finally {
-    next();
-  }
+  };
 };
 
 module.exports = {
-  refreshTokenIfNeeded,
-  refreshNextcloudTokenIfNeeded,
+  refreshIntercomTokenIfNeeded,
+  refreshOIDCTokenIfNeeded,
 };
