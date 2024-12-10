@@ -41,19 +41,21 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | global.imageRegistry | string | `"artifacts.software-univention.de"` | Container registry address. |
 | global.subDomains.keycloak | string | `""` |  |
 | global.subDomains.portal | string | `"portal"` |  |
-| ics.default.domain | string | `"example.com"` | Domain which will be added for all subdomains for apps. |
-| ics.default.protocol | string | `"https"` | Protocol which will be used to connect to apps. |
+| ics.default | object | `{"domain":"example.com","protocol":"https"}` | Default settings which are used for all services if they are not overriden for a specific service. |
+| ics.default.domain | string | `"example.com"` | Domain which will be added for all subdomains for apps. It will be overriden by the specific service settings if set. |
+| ics.default.protocol | string | `"https"` | Protocol which will be used to connect to apps. It will be overriden by the specific service settings if set. |
 | ics.issuerBaseUrl | string | `""` | Base URL of issuer. |
 | ics.keycloak.enabled | bool | `true` |  |
 | ics.keycloak.realm | string | `"souvap"` | Configured Realm for authentication. |
 | ics.keycloak.subdomain | string | `"id"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.keycloak.url | string | `""` | URL as FQDN. Mutual exclusive with "subdomain". |
 | ics.logLevel | string | `"DEBUG"` | Log level. |
-| ics.matrix.asSecret | string | `""` | AS application secret. |
+| ics.matrix.asSecret | string | `""` | Application Service secret. |
 | ics.matrix.enabled | bool | `true` | Enable Matrix. |
 | ics.matrix.serverName | string | `"matrix"` | Name of matrix server. |
 | ics.matrix.subdomain | string | `"matrix"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.matrix.url | string | `""` | URL as FQDN. Mutual exclusive with "subdomain". |
+| ics.nextcloud | object | `{"audience":"ncoidc","enabled":true,"origin":"fs","originUrl":"","subdomain":"fs","url":""}` | Nextcloud file service connection settings. |
 | ics.nextcloud.audience | string | `"ncoidc"` | Audience. |
 | ics.nextcloud.enabled | bool | `true` | Enable Nextcloud integration. |
 | ics.nextcloud.origin | string | `"fs"` | Origin of nextcloud with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "originUrl". |
@@ -66,21 +68,30 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.nordeck.url | string | `""` | URL as FQDN. Mutual exclusive with "subdomain". |
 | ics.oidc.id | string | `"intercom"` | OIDC ClientID. |
 | ics.oidc.secret | string | `""` | OIDC Client Secret |
-| ics.openxchange.audience | string | `"as8oidc"` | Audience. |
-| ics.openxchange.enabled | bool | `true` | Enable Open-Xchange integration. |
-| ics.openxchange.subdomain | string | `"webmail"` | Subdomain of Open-Xchange with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
-| ics.openxchange.url | string | `""` | URL of Open-Xchange as FQDN. Mutual exclusive with "subdomain". |
-| ics.originRegex | string | `""` | Origin Regex settings. |
+| ics.originRegex | string | `""` | Origin Regex settings. The originRegex is used to validate the origin of the incoming requests. If the origin does not match the regex, ICS will not handle CORS correctly and will not set Access-Control-Allow-Origin header in the proxied request. |
 | ics.portal.apiKey | string | `""` | API Key. |
 | ics.portal.enabled | bool | `true` | Enable Univention Portal integration. |
 | ics.portal.subdomain | string | `"portal"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.portal.url | string | `""` | Origin of Univention Portal as FQDN. Mutual exclusive with "subdomain". |
 | ics.proxy | bool | `false` | Proxy settings. |
+| ics.redis.clientCert | string | `""` | Client certificate for the Redis connection |
+| ics.redis.clientKey | string | `""` | Client key for the Redis connection |
+| ics.redis.customca | string | `""` | CustomCA certificate for Redis |
 | ics.redis.host | string | `"redis-headless"` | Redis cache service host. |
+| ics.redis.mTLS | string | `"false"` | Flag to configure the Redis mTLS connection, this is necessary if the server requires mutual TLS. The following values are required in that case, clientCert and clientKey. |
 | ics.redis.password | string | `""` | Redis cache service password. |
+| ics.redis.pathCA | string | `"/etc/ssl/certs/redis-custom-CA.pem"` | Path to the Redis custom CA |
 | ics.redis.port | string | `"6379"` | Redis cache service port. |
+| ics.redis.ssl | string | `"false"` | Redis SSL flag |
+| ics.redis.username | string | `""` | Redis cache service username. |
 | ics.secret | string | `""` | Intercom service secret shared other services |
 | ics.userUniqueMapper | string | `"entryuuid"` | Mapper claim name for the Intercom Service client. The field must be unique along users. If not set, the default value is "entryuuid", which is provisioned by the Intercom Service initContainer. Any other value that "entryuuid" is not guaranteed to be unique on Nubus. |
+| ics.usernameClaim | string | `"phoenixusername"` | ID Token claim that contains the username for a user. Needs to be configured in Keycloak. |
+| ics.xwiki | object | `{"audience":"xwikioidc","enabled":true,"subdomain":"wiki","url":""}` | XWiki connection settings. |
+| ics.xwiki.audience | string | `"xwikioidc"` | Audience. The audience is the target client ICS will request tokens for when using Token Exchange. More information at https://www.keycloak.org/securing-apps/token-exchange |
+| ics.xwiki.enabled | bool | `true` | Enable XWiki integration. |
+| ics.xwiki.subdomain | string | `"wiki"` | Subdomain of XWiki with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
+| ics.xwiki.url | string | `""` | URL of XWiki as FQDN. Mutual exclusive with "subdomain". |
 | image.imagePullPolicy | string | `"IfNotPresent"` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.  |
 | image.registry | string | `""` | Container registry address. This setting has higher precedence than global.registry. |
 | image.repository | string | `"nubus-dev/images/intercom-service"` | Container repository string. |
