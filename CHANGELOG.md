@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.5](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.4...v2.4.5) (2024-12-10)
+
+
+### Bug Fixes
+
+* kyverno lint for intercom-service ([eb6ac88](https://git.knut.univention.de/univention/components/intercom-service/commit/eb6ac881ae56b17324bb5cb2de1d4586e9636b9a))
+
 ## [2.4.4](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.3...v2.4.4) (2024-11-27)
 
 
