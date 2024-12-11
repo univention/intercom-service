@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: artifacts.software-univention.de/nubus/images/intercom-service:2.4.1
+    image: artifacts.software-univention.de/nubus-dev/images/intercom-service:2.5.0-pre-jconde-wiki
     restart: unless-stopped
     security_opt:
       - seccomp:/etc/docker/seccomp-systemd.json
@@ -40,6 +40,7 @@ pwdfile="/etc/intercom-client.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
       USER_UNIQUE_MAPPER: @%@intercom-service/settings/user-unique-mapper@%@
+      USERNAME_CLAIM: @%@intercom-service/settings/username-claim@%@
 
       # INTERCOM
       SECRET: @!@
@@ -58,6 +59,7 @@ with open(pwdfile, 'r') as fd:
       REALM_NAME: @%@intercom-service/keycloak/realm-name@%@
 
       # MATRIX
+      MATRIX_ENABLED: "@%@intercom-service/matrix/enabled@%@"
       MATRIX_URL: @%@intercom-service/matrix/url@%@
       MATRIX_SERVER_NAME: @%@intercom-service/matrix/server-name@%@
       MATRIX_AS_SECRET: @!@
@@ -91,14 +93,16 @@ pwdfile="/etc/intercom-portal.secret"
 with open(pwdfile, 'r') as fd:
     print(fd.read().strip())@!@
 
-      # OX
-      OX_AUDIENCE: @%@intercom-service/ox/audience@%@
-      OX_ORIGIN: @%@intercom-service/ox/origin@%@
-
       # NC
+      NC_ENABLED: "@%@intercom-service/nextcloud/enabled@%@"
       NC_AUDIENCE: @%@intercom-service/nextcloud/audience@%@
       NC_URL: @%@intercom-service/nextcloud/url@%@
       NC_ORIGIN: @%@intercom-service/nextcloud/origin@%@
+
+      # XWIKI
+      XWIKI_ENABLED: "@%@intercom-service/xwiki/enabled@%@"
+      XWIKI_URL: @%@intercom-service/xwiki/url@%@
+      XWIKI_AUDIENCE: @%@intercom-service/xwiki/audience@%@
 
       # ORIGIN
       ORIGIN_REGEX: @%@intercom-service/settings/origin-regex@%@

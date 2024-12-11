@@ -29,6 +29,12 @@ router.use(
     },
     onProxyReq: function onProxyReq(proxyReq, req, res) {
       stripIntercomCookies(proxyReq);
+      if (!req.appSession[nextcloud.session_storage_key]) {
+        logger.info(
+          "No Nextcloud session found in appSession. Likely Nextcloud is not configured",
+        );
+        return;
+      }
       proxyReq.setHeader(
         "authorization",
         `Bearer ${req.appSession[nextcloud.session_storage_key]}`,

@@ -8,7 +8,7 @@ const router = express.Router();
 
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const { stripIntercomCookies, massageCors } = require("../utils");
+const { stripIntercomCookies, massageCors, logger } = require("../utils");
 const { corsOptions, logLevel, nordeck, matrix } = require("../config");
 
 /**
@@ -31,14 +31,18 @@ router.use(
       // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
       // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
 
-      if (req.appSession[matrix.session_storage_key]) {
-        // Provide access_token via authentication bearer token header
-        // https://spec.matrix.org/v1.4/client-server-api/#client-authentication
-        proxyReq.setHeader(
-          "authorization",
-          `Bearer ${req.appSession[matrix.session_storage_key]}`,
+      if (!req.appSession[matrix.session_storage_key]) {
+        logger.info(
+          "No Matrix session found in appSession. Likely Matrix is not configured",
         );
+        return;
       }
+      // Provide access_token via authentication bearer token header
+      // https://spec.matrix.org/v1.4/client-server-api/#client-authentication
+      proxyReq.setHeader(
+        "authorization",
+        `Bearer ${req.appSession[matrix.session_storage_key]}`,
+      );
     },
     onProxyRes: function (proxyRes, req, res) {
       // TODO: Matrix seems to be specific with it's headers, we have to decide whether to steamroll or to massage...

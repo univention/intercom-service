@@ -22,6 +22,18 @@ Description[de] = OIDC Intercom-Client-Claim-Name für das Benutzerattribut, das
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/settings/username-claim]
+Type = String
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+InitialValue = phoenixusername
+Scope = outside
+Description = OIDC Intercom client claim name for the user attribute that contains the username.
+Description[de] = OIDC Intercom-Client-Claim-Name für das Benutzerattribut, das den Benutzernamen enthält.
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/intercom-url]
 Type = String
 Required = True
@@ -164,6 +176,18 @@ Description[de] = Vollqualifizierte URL mit Protokoll des Matrix-Servers
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/matrix/enabled]
+Type = Bool
+InitialValue = True
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Activate or deactivate the Matrix integration
+Description[de] = Aktiviere oder deaktiviere die Matrix-Integration
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/matrix/server-name]
 Type = String
 Required = True
@@ -212,30 +236,6 @@ Description[de] = Vollqualifizierte URL mit Protokoll des Univention-Portals
 Group = Administration
 Group[de] = Administration
 
-[intercom-service/ox/origin]
-Type = String
-Required = True
-Show = Install, Settings
-# ShowReadOnly = Settings
-InitialValue = https://webmail.@%@domainname@%@
-Scope = outside
-Description = CORS origin settings for OX requests
-Description[de] = CORS Origin Wert für OX Anfragen
-Group = Administration
-Group[de] = Administration
-
-[intercom-service/ox/audience]
-Type = String
-Required = True
-Show = Install, Settings
-# ShowReadOnly = Settings
-InitialValue = oxoidc
-Scope = outside
-Description = OIDC audience parameter used in the token request for OX to the IdP
-Description[de] = OIDC 'audience'-Parameter der für die Token-Anfrage für OX an den IdP verwendet wird
-Group = Administration
-Group[de] = Administration
-
 [intercom-service/nextcloud/audience]
 Type = String
 Required = True
@@ -248,6 +248,18 @@ Description[de] = OIDC 'audience'-Parameter der für die Token-Anfrage für Next
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/nextcloud/enabled]
+Type = Bool
+InitialValue = True
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Activate or deactivate the Nextcloud integration
+Description[de] = Aktiviere oder deaktiviere die Nextcloud-Integration
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/nextcloud/url]
 Type = String
 Required = True
@@ -255,8 +267,8 @@ Show = Install, Settings
 # ShowReadOnly = Settings
 InitialValue = https://fs.@%@domainname@%@
 Scope = outside
-Description = Fully qualified URL with protocol of the connected Nextcloud instance
-Description[de] = Vollqualifizierte URL mit Protokoll der Ziel-Nextcloudinstanz
+Description = Fully qualified URL with protocol of the connected Nextcloud instance.
+Description[de] = Vollqualifizierte URL mit Protokoll der Ziel-Nextcloudinstanz.
 Group = Administration
 Group[de] = Administration
 
@@ -269,6 +281,40 @@ InitialValue = https://fs.@%@domainname@%@
 Scope = outside
 Description = CORS origin settings for Nextcloud requests
 Description[de] = CORS Origin Wert für Nextcloud Anfragen
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/xwiki/url]
+Type = String
+Required = True
+Show = Install, Settings
+InitialValue = https://xwiki.@%@domainname@%@
+Scope = outside
+Description = Fully qualified URL with protocol of the connected XWiki instance.
+Description[de] = Vollqualifizierte URL mit Protokoll der Ziel-XWikiinstanz.
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/xwiki/enabled]
+Type = Bool
+InitialValue = True
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Activate or deactivate the XWiki integration
+Description[de] = Aktiviere oder deaktiviere die XWiki-Integration
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/xwiki/audience]
+Type = String
+Required = False
+Show = Install, Settings
+InitialValue = xwiki
+Scope = outside
+Description = OIDC audience parameter used in the Token Exchange request for XWiki to the IdP
+Description[de] = OIDC 'audience'-Parameter der für die Token-Austauschanfrage für XWiki an den IdP verwendet wird
 Group = Administration
 Group[de] = Administration
 

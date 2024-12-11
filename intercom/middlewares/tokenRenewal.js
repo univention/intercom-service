@@ -22,6 +22,14 @@ const refreshIntercomTokenIfNeeded = async (req, _, next) => {
 
 const refreshOIDCTokenIfNeeded = (config) => {
   return async (req, _, next) => {
+    if (!req.appSession[config.session_storage_key]) {
+      logger.debug(
+        "%s access_token not found in session, not renewing",
+        config.name,
+      );
+      next();
+      return;
+    }
     try {
       await verifyJWT(
         req.appSession[config.session_storage_key],

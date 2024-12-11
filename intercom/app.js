@@ -83,14 +83,14 @@ app.use(
         var ret = {};
 
         // fetch token for xwiki
-        if (!(xwiki.session_storage_key in session)) {
+        if (!(xwiki.session_storage_key in session) && xwiki.enabled) {
           ret[xwiki.session_storage_key] = await fetchOIDCToken(
             session.access_token,
             xwiki.audience,
           );
         }
 
-        if (!(nextcloud.session_storage_key in session)) {
+        if (!(nextcloud.session_storage_key in session) && nextcloud.enabled) {
           ret[nextcloud.session_storage_key] = await fetchOIDCToken(
             session.access_token,
             nextcloud.audience,
@@ -108,7 +108,7 @@ app.use(
           );
         }
 
-        if (!(matrix.session_storage_key in session)) {
+        if (!(matrix.session_storage_key in session) && matrix.enabled) {
           logger.debug("Fetching Matrix access_token");
           ret[matrix.session_storage_key] = await fetchMatrixToken(uid);
         }

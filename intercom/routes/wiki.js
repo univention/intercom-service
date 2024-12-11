@@ -8,7 +8,7 @@ const router = express.Router();
 
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const { stripIntercomCookies, massageCors } = require("../utils");
+const { stripIntercomCookies, massageCors, logger } = require("../utils");
 const { corsOptions, logLevel, xwiki } = require("../config");
 
 /**
@@ -29,10 +29,17 @@ router.use(
     },
     onProxyReq: function onProxyReq(proxyReq, req, res) {
       stripIntercomCookies(proxyReq);
+      if (!req.appSession[xwiki.session_storage_key]) {
+        logger.info(
+          "No XWiki session found in appSession. Likely XWiki is not configured",
+        );
+        return;
+      }
       proxyReq.setHeader(
         "authorization",
         `Bearer ${req.appSession[xwiki.session_storage_key]}`,
       );
+      logger.debug("Correctly set Authorization header for XWiki proxy");
     },
     onProxyRes: function (proxyRes, req, res) {
       massageCors(req, proxyRes, corsOptions.origin);

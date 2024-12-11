@@ -27,6 +27,7 @@ const config = {
   issuerBaseUrl,
   logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
   userUniqueMapper: process.env.USER_UNIQUE_MAPPER ?? "entryuuid",
+  usernameClaim: process.env.USERNAME_CLAIM ?? "phoenixusername",
   nordeck: {
     url: process.env.NORDECK_URL,
   },
@@ -35,12 +36,14 @@ const config = {
     secret: process.env.PORTAL_API_KEY,
   },
   xwiki: {
+    enabled: JSON.parse((process.env.XWIKI_ENABLED ?? "false").toLowerCase()),
     name: "XWiki",
     url: process.env.XWIKI_URL,
     audience: process.env.XWIKI_AUDIENCE,
     session_storage_key: "xwiki_access_token",
   },
   nextcloud: {
+    enabled: JSON.parse((process.env.NC_ENABLED ?? "false").toLowerCase()),
     name: "Nextcloud",
     url: process.env.NC_URL,
     audience: process.env.NC_AUDIENCE,
@@ -54,6 +57,7 @@ const config = {
     baseUrl: process.env.BASE_URL,
   },
   matrix: {
+    enabled: JSON.parse((process.env.MATRIX_ENABLED ?? "false").toLowerCase()),
     name: "Matrix",
     url: process.env.MATRIX_URL,
     appServiceSecret: process.env.MATRIX_AS_SECRET,
