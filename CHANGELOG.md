@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.5.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.5...v2.5.0) (2024-12-12)
+
+
+### Features
+
+* **intercom:** Add support for XWiki ([d7be5fd](https://git.knut.univention.de/univention/components/intercom-service/commit/d7be5fd2c00c97199083593f1f15686633331a37))
+* **intercom:** Customizable username claim and ensure integrations are optional ([a200ffc](https://git.knut.univention.de/univention/components/intercom-service/commit/a200ffc06586c8bf3d832bb67459ccebfe51b799))
+* **intercom:** Read all configuration values only once during startup to avoid synchronous reads ([8476b99](https://git.knut.univention.de/univention/components/intercom-service/commit/8476b99c867874d6767a291f3858de1c959df264))
+* **intercom:** Use latest december 2024 ucs-base-image build ([ac06ab9](https://git.knut.univention.de/univention/components/intercom-service/commit/ac06ab9da70c8c88116ad0199538f7f698321edc))
+* **intercom:** Version bump to 1.8 ([64a3f26](https://git.knut.univention.de/univention/components/intercom-service/commit/64a3f260f6140e4751f18e337e503b60ea95ad1e))
+
+
+### Bug Fixes
+
+* **intercom:** Helm Chart documentation and missing values ([382fcb1](https://git.knut.univention.de/univention/components/intercom-service/commit/382fcb10c3583e5ae39fbb5a5eb2723c5c7b1bb0))
+
 ## [2.4.5](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.4...v2.4.5) (2024-12-10)
 
 
