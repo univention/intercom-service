@@ -12,8 +12,8 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-1.8
-===
+v1.8
+====
 
 Released: 15. December 2024
 
@@ -42,8 +42,8 @@ Changed
 
 * Updated base image to *UCS 5.2-0* December 2024 build.
 
-1.7
-===
+v1.7
+====
 
 Released: 15. November 2024
 
@@ -58,8 +58,8 @@ Changed
 
 * Order of middlewares for *Nextcloud* proxying caused authentication prompts in some cases.
 
-1.6
-===
+v1.6
+====
 
 Released: 22. April 2024
 
@@ -86,8 +86,8 @@ Fixed
 
 * AppCenter settings are now correctly applied during after installation.
 
-1.5
-===
+v1.5
+====
 
 Released: 20. June 2023
 
@@ -101,8 +101,8 @@ Security
 
 * Updated dependencies.
 
-1.4
-===
+v1.4
+====
 
 Released: 13. December 2022
 
@@ -124,8 +124,8 @@ Security
 * Intercom service requests *Nextcloud* tokens with the *Nextcloud* audience,
   instead of the audience of *OX App Suite*.
 
-1.3
-===
+v1.3
+====
 
 Released: 28. October 2022
 
@@ -136,8 +136,8 @@ Changed
 * Matrix login type set to `m.login.application_service` and is not configurable any more.
 * Switch to `v3` Matrix client API.
 
-1.2
-===
+v1.2
+====
 
 Released: 29. September 2022
 
@@ -168,8 +168,8 @@ Fixed
 * Video conferences created as the wrong user.
 * Central navigation returning `navigation.json` for the wrong user under certain circumstances.
 
-1.1
-===
+v1.1
+====
 
 Released: 16. September 2022
 
@@ -219,8 +219,8 @@ Fixed
   lowercase. Using the variable in JavaScript requires the value in a lowercase
   string.
 
-1.0
-===
+v1.0
+====
 
 Released: 22. August 2022
 

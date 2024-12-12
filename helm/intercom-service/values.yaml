@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-FileCopyrightText: 2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 ---
 # The global properties are used to configure multiple charts at once.
@@ -119,7 +119,10 @@ ics:
   # -- Base URL of issuer.
   issuerBaseUrl: ""
 
-  # -- Origin Regex settings.
+  # -- Origin Regex settings. The originRegex is used to validate the origin of the
+  # incoming requests. If the origin does not match the regex, ICS will not handle
+  # CORS correctly and will not set Access-Control-Allow-Origin header in
+  # the proxied request.
   originRegex: ""
 
   # -- Proxy settings.
@@ -134,12 +137,19 @@ ics:
   # "entryuuid" is not guaranteed to be unique on Nubus.
   userUniqueMapper: "entryuuid"
 
-  # Default settings which are used for all services.
+  # -- ID Token claim that contains the username for a user. Needs to be
+  # configured in Keycloak.
+  usernameClaim: "phoenixusername"
+
+  # -- Default settings which are used for all services if they are not overriden
+  # for a specific service.
   default:
-    # -- Domain which will be added for all subdomains for apps.
+    # -- Domain which will be added for all subdomains for apps. It will be
+    # overriden by the specific service settings if set.
     domain: "example.com"
 
-    # -- Protocol which will be used to connect to apps.
+    # -- Protocol which will be used to connect to apps. It will be overriden by
+    # the specific service settings if set.
     protocol: "https"
 
   # Intercom Service OIDC settings.
@@ -182,7 +192,7 @@ ics:
     # -- Name of matrix server.
     serverName: "matrix"
 
-    # -- AS application secret.
+    # -- Application Service secret.
     asSecret: ""
 
   # Nordeck's meeting widget bot connection settings.
@@ -216,22 +226,6 @@ ics:
 
     # -- API Key.
     apiKey: ""
-
-  # Open-Xchange's connection settings.
-  openxchange:
-    # -- Enable Open-Xchange integration.
-    enabled: true
-
-    # -- Subdomain of Open-Xchange with "ics.default.protocol" and "ics.default.domain".
-    # Mutual exclusive with "url".
-    subdomain: "webmail"
-
-    # -- URL of Open-Xchange as FQDN.
-    # Mutual exclusive with "subdomain".
-    url: ""
-
-    # -- Audience.
-    audience: "as8oidc"
 
   # -- Nextcloud file service connection settings.
   nextcloud:
@@ -281,6 +275,9 @@ ics:
 
     # -- Redis cache service port.
     port: "6379"
+
+    # -- Redis cache service username.
+    username: ""
 
     # -- Redis cache service password.
     password: ""
