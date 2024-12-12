@@ -31,8 +31,8 @@ Intercom Service
 ================
 
 The app |ICS_p| provides the backend for inter-app
-communication of *Nextcloud*, the *UCS Portal*, *UMC*, *Matrix* through the
-*Nordeck* bot and *OX App Suite*.
+communication of *Nextcloud*, the *UCS Portal*, *Matrix* through the
+*Nordeck* bot, *OX App Suite* and *XWiki*.
 
 .. warning::
 
@@ -119,6 +119,23 @@ The following references show the available settings within the app
 
         * - Yes
           - ``entryuuid``
+          - Only before installation
+
+.. envvar:: intercom-service/settings/username-claim
+
+    Defines the *Keycloak* |ICS| client token claim name mapper configured. The
+    field must contain the username of the user.
+
+    .. list-table::
+        :header-rows: 1
+        :widths: 2 5 5
+
+        * - Required
+          - Default value
+          - Set
+
+        * - Yes
+          - ``phoenixusername``
           - Only before installation
 
 .. envvar:: intercom-service/settings/intercom-url
@@ -332,6 +349,23 @@ The following references show the available settings within the app
           - ``https://matrix.@%@domainname@%@``
           - Only before installation
 
+.. envvar:: intercom-service/matrix/enabled
+
+   Defines if the *Matrix* proxy functionality is enabled. Set to ``False`` to
+   disable *Matrix*.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``True``
+         - Only before installation
+
 .. envvar:: intercom-service/matrix/server-name
 
     Defines the server name of the *Matrix* server, that is a
@@ -421,10 +455,9 @@ The following references show the available settings within the app
           - ``@%@ucs/server/sso/fqdn@%@``
           - Only before installation
 
-.. envvar:: intercom-service/ox/origin
+.. envvar:: intercom-service/xwiki/url
 
-   Defines the *OX App Suite* :term:`CORS` setting. Usually, this value is will be the same
-   as the *OX App Suite* external address.
+   Defines the URL where you can reach *XWiki*. Set to empty to disable *XWiki*.
 
    .. list-table::
        :header-rows: 1
@@ -435,13 +468,13 @@ The following references show the available settings within the app
          - Set
 
        * - Yes
-         - ``https://webmail.@%@domainname@%@``
+         - ``https://xwiki.@%@domainname@%@``
          - Only before installation
 
-.. envvar:: intercom-service/ox/audience
+.. envvar:: intercom-service/xwiki/enabled
 
-   Defines the :term:`OIDC audience` setting for *OX App Suite* that *OX App
-   Suite* uses in the :term:`IdP` *Keycloak*.
+   Defines the *XWiki* proxy functionality is enabled. Set to ``False`` to
+   disable *XWiki*.
 
    .. list-table::
        :header-rows: 1
@@ -452,7 +485,23 @@ The following references show the available settings within the app
          - Set
 
        * - Yes
-         - ``oxoidc``
+         - ``True``
+         - Only before installation
+
+.. envvar:: intercom-service/xwiki/audience
+   
+   Defines the :term:`OIDC audience` setting for *XWiki* that *XWiki* uses in the :term:`IdP` *Keycloak*.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``xwiki``
          - Only before installation
 
 .. envvar:: intercom-service/nextcloud/audience
@@ -473,7 +522,7 @@ The following references show the available settings within the app
 
 .. envvar:: intercom-service/nextcloud/url
 
-   Defines the URL where you can reach *Nextcloud*.
+   Defines the URL where you can reach *Nextcloud*. Set to empty to disable *Nextcloud*.
 
    .. list-table::
        :header-rows: 1
@@ -485,6 +534,23 @@ The following references show the available settings within the app
 
        * - Yes
          - ``https://fs.@%@domainname@%@``
+         - Only before installation
+
+.. envvar:: intercom-service/nextcloud/enabled
+
+   Defines the *Nextcloud* proxy functionality is enabled. Set to ``False``
+   to disable *Nextcloud*.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``True``
          - Only before installation
 
 .. envvar:: intercom-service/nextcloud/origin

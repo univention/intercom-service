@@ -68,20 +68,20 @@ The following list describes how this fits into the wider |OIDC| authentication
 scheme. See also :numref:`figure-overview-detail`.
 
 #. The browser starts unauthenticated at the login endpoint of an app that
-   supports |ICS|, for example *Matrix*, *Nextcloud*, or *OX App Suite*.
+   supports |ICS|, for example *Matrix*, *Nextcloud*, *XWiki* or *OX App Suite*.
 
 #. The browser follows the |OIDC| login procedure. The app redirects the browser
    to the :term:`IdP` *Keycloak* and upon successful login assigns an |OIDC|
    session for the app to the browser.
 
+#. A silent login happens in the background, that uses the information stored in
+   the browser to authenticate |ICS| with the :term:`IdP` *Keycloak* through a
+   hidden `IFrame <https://en.wikipedia.org/wiki/HTML_element#Frames>`_.
+
 #. The browser requests an action, for example to create a video conference, as
    part of a calendar entry. The browser requests an interaction from *OX App
    Suite* to *Matrix*. In detail, the browser requests the *Nordeck* bot that
    runs in the Matrix user frontend *Element*.
-
-#. A silent login happens in the background, that uses the information stored in
-   the browser to authenticate |ICS| with the :term:`IdP` *Keycloak* through a
-   hidden `IFrame <https://en.wikipedia.org/wiki/HTML_element#Frames>`_.
 
 #. The functional interaction begins as displayed in
    :numref:`figure-overview-simple`.

@@ -12,6 +12,36 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+1.8
+===
+
+Released: 15. December 2024
+
+Added
+-----
+
+* Endpoint to securely proxy requests from *Univention-Portal* to *XWiki* on ``/wiki``,
+  allowing to load *RSS* feeds from *XWiki*.
+
+* *UCR* variables to configure *XWiki*.
+
+  * :envvar:`intercom-service/xwiki/enabled` to activate or deactivate *XWiki* integration.
+
+  * :envvar:`intercom-service/xwiki/url` to set the URL of the *XWiki* instance.
+
+  * :envvar:`intercom-service/xwiki/audience` to configure the |OIDC| client.
+
+* *UCR* variable :envvar:`intercom-service/settings/username-claim` to configure
+  the claim in the identity token that contains the username.
+
+
+Changed
+-------
+
+* Load all the configuration during initialization to improve asynchronous performance.
+
+* Updated base image to *UCS 5.2-0* December 2024 build.
+
 1.7
 ===
 
@@ -21,7 +51,7 @@ Released: 15. November 2024
 Added
 -----
 
-* *UCR* variable to configure the unique user claim name for the *Keycloak* OIDC client.
+* *UCR* variable :envvar:`intercom-service/settings/user-unique-mapper` to configure the unique user claim name for the *Keycloak* OIDC client.
 
 Changed
 -------
@@ -33,12 +63,18 @@ Changed
 
 Released: 22. April 2024
 
-
 Added
 -----
 
 * Reconnect to *Redis* after the service was down.
+
 * *UCR* variables to allow users to configure an external *Redis* server.
+
+  * :envvar:`intercom-service/redis/host` to set the hostname of the *Redis* server.
+
+  * :envvar:`intercom-service/redis/port` to set the port of the *Redis* server.
+
+  * :envvar:`intercom-service/redis/user` to set the password of the *Redis* server.
 
 Changed
 -------
@@ -54,7 +90,6 @@ Fixed
 ===
 
 Released: 20. June 2023
-
 
 Added
 -----

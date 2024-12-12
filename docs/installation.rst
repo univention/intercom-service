@@ -69,6 +69,8 @@ the following steps:
 
    This step requires *Keycloak* >=12.0.0.
 
+#. Set *Backchannel logout session required* to ``On``.
+
 #. Set the valid redirect URL to your intended |ICS| domain with protocol and
    append the ``/callback`` path, for example:
 
@@ -80,6 +82,11 @@ the following steps:
    :file:`/etc/intercom-client.secret`.
 
 #. Go to the tab *Client Scopes* and add ``offline_access`` to *Assigned Default Client Scopes*.
+
+#. Make sure the *Access Token* includes a mapper for both the username and
+   the user unique identifier. The documentation for these claims can be found
+   in the *UCR* variables :envvar:`intercom-service/settings/username-claim` and
+   :envvar:`intercom-service/settings/user-unique-mapper`.
 
 .. _installation-browser:
 

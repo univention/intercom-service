@@ -10,9 +10,10 @@ UCS Intercom Service app
 
 Welcome to the documentation about the Univention app |ICS_p|. The app installs
 the |ICS|, an intermediary for communication between applications
-like *Nextcloud*, *OX App Suite* and *Matrix*. The functionalities
+like *Nextcloud*, *OX App Suite*, *XWiki* and *Matrix*. The functionalities
 *File-picker*, *Video conference*, create and accessing the *Univention-Portal
-navigation* endpoint from other apps require the app |ICS_p|.
+navigation* endpoint from other apps and *Univention-Portal* news feed
+require the app |ICS_p|.
 
 This documentation is for system administrators who operate the app |ICS_p| from
 Univention App Center connected to the LDAP directory in |UCS|. It covers the
