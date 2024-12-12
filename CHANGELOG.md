@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.5.0...v2.6.0) (2024-12-12)
+
+
+### Features
+
+* **appcenter:** Set AppCenter image to released artifact ([aabc68d](https://git.knut.univention.de/univention/components/intercom-service/commit/aabc68db754d12505398226a445f468f2fc1bcca))
+
 ## [2.5.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.4.5...v2.5.0) (2024-12-12)
 
 
