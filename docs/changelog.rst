@@ -12,6 +12,21 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+v1.9
+====
+
+Released: TBD
+
+Changed
+-------
+
+* Better log formatting in JSON for proxied routes.
+
+Fixed
+-----
+
+* Missing imports in the *XWiki* proxy caused the service to crash under certain circumstances.
+
 v1.8
 ====
 
@@ -34,6 +49,10 @@ Added
 * *UCR* variable :envvar:`intercom-service/settings/username-claim` to configure
   the claim in the identity token that contains the username.
 
+* *UCR* variable :envvar:`intercom-service/nextcloud/enabled` and 
+  :envvar:`intercom-service/matrix/enabled` to activate or deactivate the
+  respective services.
+
 
 Changed
 -------
@@ -41,6 +60,12 @@ Changed
 * Load all the configuration during initialization to improve asynchronous performance.
 
 * Updated base image to *UCS 5.2-0* December 2024 build.
+
+Fixed
+-----
+
+* *Univention-Portal* navigation crashed the application if the :envvar:`intercom-service/settings/username-claim` Keycloak mapping
+  was missing in the access token.
 
 v1.7
 ====

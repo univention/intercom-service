@@ -23,6 +23,7 @@ router.use(
   createProxyMiddleware({
     target: xwiki.url,
     logLevel,
+    logger,
     changeOrigin: true,
     pathRewrite: {
       "^/wiki": "",

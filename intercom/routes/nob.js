@@ -22,6 +22,7 @@ router.use(
   createProxyMiddleware({
     target: nordeck.url,
     logLevel,
+    logger,
     changeOrigin: true,
     pathRewrite: { "^/nob": "" },
     secure: false,

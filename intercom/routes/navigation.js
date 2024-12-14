@@ -23,6 +23,7 @@ router.use(
   createProxyMiddleware({
     target: portal.url,
     logLevel,
+    logger,
     changeOrigin: true,
     pathRewrite: { "^/navigation.json": "/univention/portal/navigation.json" },
     onProxyReq: function onProxyReq(proxyReq, req, res) {

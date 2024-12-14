@@ -9,7 +9,11 @@ const { logLevel } = require("../config");
 
 const logger = winston.createLogger({
   level: logLevel,
-  format: winston.format.json(),
+  format: winston.format.combine(
+    winston.format.splat(),
+    winston.format.simple(),
+    winston.format.json(),
+  ),
   defaultMeta: { service: "intercom-service" },
   transports: [
     new winston.transports.Console({ level: logLevel }),
