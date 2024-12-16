@@ -489,7 +489,7 @@ The following references show the available settings within the app
          - Only before installation
 
 .. envvar:: intercom-service/xwiki/audience
-   
+
    Defines the :term:`OIDC audience` setting for *XWiki* that *XWiki* uses in the :term:`IdP` *Keycloak*.
 
    .. list-table::
