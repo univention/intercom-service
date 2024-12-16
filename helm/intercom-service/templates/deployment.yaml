@@ -78,7 +78,7 @@ spec:
         {{- end }}
         command: ["/usr/bin/python3", "/scripts/wait-for-keycloak.py"]
         {{- if .Values.resources }}
-        resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+        resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 10 }}
         {{- end }}
         volumeMounts:
           - name: "wait-for-keycloak"
@@ -126,7 +126,7 @@ spec:
         args: {{ .Values.provisioning.args }}
         {{- end }}
         {{- if .Values.resources }}
-        resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+        resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 10 }}
         {{- end }}
         volumeMounts:
           - mountPath: "/credentials/keycloak.secret"

@@ -7,8 +7,17 @@ ics:
 
 provisioning:
   config:
+    nubusBaseUrl: "http://nubus"
     keycloak:
+      username: "kc_user"
       password: "keycloak"
+      realm: "keycloak"
+      url: "http://keycloak"
+      connection:
+        baseUrl: "http://keycloak"
+        host: "keycloak"
+        port: 42
+
     ics_client:
       clientSecret: "secret"
 ...
