@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.0...v2.7.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* disable provisioning init containers if provisioning is disable ([50d7054](https://git.knut.univention.de/univention/components/intercom-service/commit/50d705487578558eba35f5406dc0f6c08ae617d9))
+* fix resources indentation in initContainers ([d920ec0](https://git.knut.univention.de/univention/components/intercom-service/commit/d920ec04cd8f566bc67ab07edab600d357a269f2))
+* qa fix ([7558f52](https://git.knut.univention.de/univention/components/intercom-service/commit/7558f52e51143847e6e4780acb27682af63b8dcf))
+
 ## [2.7.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.6.0...v2.7.0) (2024-12-16)
 
 
