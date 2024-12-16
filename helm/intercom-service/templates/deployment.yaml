@@ -63,6 +63,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       initContainers:
+      {{- if .Values.provisioning.enabled }}
       - name: "wait-for-keycloak-container"
         {{- if .Values.containerSecurityContext.enabled }}
         securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
@@ -136,6 +137,7 @@ spec:
           {{- if .Values.provisioning.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.provisioning.extraVolumeMounts "context" .) | nindent 10 }}
           {{- end }}
+      {{- end }}
       containers:
         - name: "intercom-service"
           {{- if .Values.containerSecurityContext.enabled }}
@@ -205,12 +207,14 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
       volumes:
+        {{- if .Values.provisioning.enabled }}
         - name: "wait-for-keycloak"
           configMap:
             name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
         - name: "keycloak-credentials-volume"
           secret:
             secretName: {{ (include "intercom-service.provisioning.config.keycloak.credentialSecret.name" . ) | quote }}
+        {{- end }}
         - name: "temp-dir"
           emptyDir:
             sizeLimit: "20Mi"

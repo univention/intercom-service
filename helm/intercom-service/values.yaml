@@ -519,6 +519,9 @@ updateStrategy:
 # -- The Intercom Service Keycloak provisioning job
 provisioning:
 
+  # -- Enable keycloak provisioning by default.
+  enabled: true
+
   image:
     imagePullSecrets: []
 
