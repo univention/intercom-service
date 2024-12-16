@@ -17,6 +17,14 @@ v1.9
 
 Released: TBD
 
+Added
+-----
+
+* Access Tokens are now attempted to be fetched from an integration if the integration
+  is enabled but a current session does not have a token for the service. This allows
+  for *XWiki* and *Matrix* integrations to become healthy in a user session once
+  a user has used those services once, thus the account exists in the respective service.
+
 Changed
 -------
 
@@ -26,6 +34,9 @@ Fixed
 -----
 
 * Missing imports in the *XWiki* proxy caused the service to crash under certain circumstances.
+
+* Wrong logger configuration caused some log messages to not be correctly formatted.
+
 
 v1.8
 ====

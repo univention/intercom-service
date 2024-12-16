@@ -29,9 +29,9 @@ const refreshIntercomTokenIfNeeded = async (req, _, next) => {
 
 const refreshOIDCTokenIfNeeded = (config) => {
   return async (req, _, next) => {
-    if (!req.appSession[config.session_storage_key]) {
+    if (!req.appSession[config.session_storage_key] && !config.enabled) {
       logger.debug(
-        "%s access_token not found in session, not renewing",
+        "%s access_token not found in session, and integration is not enabled. Not fetching new token.",
         config.name,
       );
       next();
@@ -61,9 +61,9 @@ const refreshOIDCTokenIfNeeded = (config) => {
 };
 
 const refreshMatrixTokenIfNeeded = async (req, _, next) => {
-  if (!req.appSession[matrix.session_storage_key]) {
+  if (!req.appSession[matrix.session_storage_key] && !matrix.enabled) {
     logger.debug(
-      "%s access_token not found in session, not renewing",
+      "%s access_token not found in session, and integration is not enabled. Not fetching new token.",
       matrix.name,
     );
     next();
