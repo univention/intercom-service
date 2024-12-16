@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.6.0...v2.7.0) (2024-12-16)
+
+
+### Features
+
+* added ssl support for redis ([baca4ce](https://git.knut.univention.de/univention/components/intercom-service/commit/baca4ce7cf8c4ca60fd2393e857b80d2fd108f64))
+
 ## [2.6.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.5.0...v2.6.0) (2024-12-12)
 
 
