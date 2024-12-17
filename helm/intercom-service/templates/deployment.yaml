@@ -146,9 +146,9 @@ spec:
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.imageRegistry) .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           env:
-            {{- if .Values.ics.redis.customca }}
+            {{- if .Values.ics.redis.ssl.customca }}
             - name: NODE_EXTRA_CA_CERTS
-              value: "{{ .Values.ics.redis.pathCA }}"
+              value: "{{ .Values.ics.redis.ssl.pathCA }}"
             {{- end }}
           {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
@@ -185,19 +185,19 @@ spec:
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" .) | nindent 12 }}
           {{- end }}
           volumeMounts:
-            {{- if .Values.ics.redis.customca }}
+            {{- if .Values.ics.redis.ssl.customca }}
             - name: "customca"
-              mountPath: "{{ .Values.ics.redis.pathCA }}"
+              mountPath: "{{ .Values.ics.redis.ssl.pathCA }}"
               subPath: rootca.pem
               readOnly: true
             {{- end  }}
-            {{- if .Values.ics.redis.mTLS }}
+            {{- if .Values.ics.redis.ssl.mTLS.enabled }}
             - name: "redis-client-cert"
               mountPath: "/app/client-cert.pem"
               subPath: client-cert.pem
               readOnly: true
             {{- end  }}
-            {{- if .Values.ics.redis.mTLS }}
+            {{- if .Values.ics.redis.ssl.mTLS.enabled }}
             - name: "redis-client-key"
               mountPath: "/app/client-key.pem"
               subPath: client-key.pem
@@ -218,25 +218,25 @@ spec:
         - name: "temp-dir"
           emptyDir:
             sizeLimit: "20Mi"
-        {{- if .Values.ics.redis.customca }}
+        {{- if .Values.ics.redis.ssl.customca }}
         - name: "customca"
           configMap:
             name: {{ printf "%s-redis-ssl" (include "common.names.fullname" .) }}
         {{- end }}
-        {{- if .Values.ics.redis.mTLS }}
+        {{- if .Values.ics.redis.ssl.mTLS.enabled }}
         - name: "redis-client-key"
           secret:
-            secretName: "intercom-service-redis-client-credentials"
+            secretName: {{ tpl .Values.ics.redis.ssl.mTLS.existingSecret.name . }}
             items:
-              - key: client-key.pem
+              - key: tls.key
                 path: client-key.pem
         {{- end }}
-        {{- if .Values.ics.redis.mTLS }}
+        {{- if .Values.ics.redis.ssl.mTLS.enabled }}
         - name: "redis-client-cert"
           secret:
-            secretName: "intercom-service-redis-client-credentials"
+            secretName: {{ tpl .Values.ics.redis.ssl.mTLS.existingSecret.name . }}
             items:
-              - key: client-cert.pem
+              - key: tls.crt
                 path: client-cert.pem
         {{- end }}
         {{- if .Values.extraVolumes }}

@@ -282,25 +282,30 @@ ics:
     # -- Redis cache service password.
     password: ""
 
-    # -- Redis SSL flag
-    ssl: "false"
+    ssl:
+      # -- Enable Redis SSL connection
+      enabled: "false"
 
-    # -- Path to the Redis custom CA
-    pathCA: "/etc/ssl/certs/redis-custom-CA.pem"
+      # -- Optional. Path to the Redis custom CA
+      pathCA: "/etc/ssl/certs/redis-custom-CA.pem"
 
-    # -- CustomCA certificate for Redis
-    customca: ""
+      # -- CustomCA certificate for Redis connection
+      customca: ""
 
-    # -- Flag to configure the Redis mTLS connection,
-    # this is necessary if the server requires mutual TLS. The following
-    # values are required in that case, clientCert and clientKey.
-    mTLS: "false"
+      # -- Optional configuration of mutual TLS. The following
+      # values are required in that case, clientCert and clientKey or a tls secret containing both.
+      mTLS:
+        enabled: "false"
 
-    # -- Client certificate for the Redis connection
-    clientCert: ""
+        # -- Client certificate for the Redis connection
+        clientCert: ""
 
-    # -- Client key for the Redis connection
-    clientKey: ""
+        # -- Client key for the Redis connection
+        clientKey: ""
+
+        existingSecret:
+          # -- Name of the secret that contains the client tls.crt and tls.key
+          name: "intercom-service-redis-client-credentials"
 
 # Define and create Kubernetes Ingress.
 #
