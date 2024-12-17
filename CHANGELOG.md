@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.1...v2.7.2) (2024-12-17)
+
+
+### Bug Fixes
+
+* added support for external client secret ([b21e8b0](https://git.knut.univention.de/univention/components/intercom-service/commit/b21e8b0c1cdb220122c832c5ebec711cad7a456f))
+
 ## [2.7.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.0...v2.7.1) (2024-12-16)
 
 
