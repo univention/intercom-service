@@ -78,10 +78,11 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.redis.password | string | `""` | Redis cache service password. |
 | ics.redis.port | string | `"6379"` | Redis cache service port. |
 | ics.redis.ssl.customca | string | `""` | CustomCA certificate for Redis connection |
-| ics.redis.ssl.enabled | string | `"false"` | Enable Redis SSL connection |
-| ics.redis.ssl.mTLS | object | `{"clientCert":"","clientKey":"","enabled":"false","existingSecret":{"name":"intercom-service-redis-client-credentials"}}` | Optional configuration of mutual TLS. The following values are required in that case, clientCert and clientKey or a tls secret containing both. |
+| ics.redis.ssl.enabled | bool | `false` | Enable Redis SSL connection |
+| ics.redis.ssl.mTLS | object | `{"clientCert":"","clientKey":"","enabled":false,"existingSecret":{"name":"intercom-service-redis-client-credentials"}}` | Optional configuration of mutual TLS. The following values are required in that case, clientCert and clientKey or a tls secret containing both. |
 | ics.redis.ssl.mTLS.clientCert | string | `""` | Client certificate for the Redis connection |
 | ics.redis.ssl.mTLS.clientKey | string | `""` | Client key for the Redis connection |
+| ics.redis.ssl.mTLS.enabled | bool | `false` | Enable Redis SSL connection using mTLS |
 | ics.redis.ssl.mTLS.existingSecret.name | string | `"intercom-service-redis-client-credentials"` | Name of the secret that contains the client tls.crt and tls.key |
 | ics.redis.ssl.pathCA | string | `"/etc/ssl/certs/redis-custom-CA.pem"` | Optional. Path to the Redis custom CA |
 | ics.redis.username | string | `""` | Redis cache service username. |

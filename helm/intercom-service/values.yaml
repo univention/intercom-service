@@ -284,7 +284,7 @@ ics:
 
     ssl:
       # -- Enable Redis SSL connection
-      enabled: "false"
+      enabled: false
 
       # -- Optional. Path to the Redis custom CA
       pathCA: "/etc/ssl/certs/redis-custom-CA.pem"
@@ -295,7 +295,8 @@ ics:
       # -- Optional configuration of mutual TLS. The following
       # values are required in that case, clientCert and clientKey or a tls secret containing both.
       mTLS:
-        enabled: "false"
+        # -- Enable Redis SSL connection using mTLS
+        enabled: false
 
         # -- Client certificate for the Redis connection
         clientCert: ""
