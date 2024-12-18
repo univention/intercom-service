@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.2...v2.7.3) (2024-12-18)
+
+
+### Bug Fixes
+
+* switch enabled flags from string to booleans ([c45ef9e](https://git.knut.univention.de/univention/components/intercom-service/commit/c45ef9e0640b338ecccef1bc62f7182ee497b304))
+
 ## [2.7.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.1...v2.7.2) (2024-12-17)
 
 
