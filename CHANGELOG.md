@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.3...v2.8.0) (2024-12-20)
+
+
+### Features
+
+* upgrade UCS base image to 2024-12-12 ([3a97a4e](https://git.knut.univention.de/univention/components/intercom-service/commit/3a97a4e484024ac272c4d9f6280ebc22b74cf97f))
+
 ## [2.7.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.2...v2.7.3) (2024-12-18)
 
 
