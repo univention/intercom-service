@@ -36,6 +36,14 @@ trigger-docs:
     - changes:
         - "$DOCS_DIR/**/*"
 
+lint-pre-commit-full:
+  rules:
+    - when: never
+
+lint-pre-commit-legacy:
+  before_script:
+    - helm repo add bitnami "https://charts.bitnami.com/bitnami"
+
 .build-matrix: &build-matrix
   - IMAGE_NAME:
       - "intercom-service"
