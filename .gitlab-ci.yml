@@ -25,7 +25,7 @@ trigger-docs:
     DEBIAN_FRONTEND: "noninteractive"
     UNIVENTION_BASECONF: "/dev/null"
     DOC_TARGET_NAME: "intercom-service"
-    DOC_TARGET_VERSION: "1.8"
+    DOC_TARGET_VERSION: "1.9"
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
   trigger:
     include:
