@@ -104,3 +104,22 @@ Please pay attention during both processes. The following questions may help:
     4. `/etc/intercom-portal.secret`
     5. `/etc/matrix.secret`
 2. Are warnings being displayed properly during installation, such as URLs check warnings?
+
+# Release
+
+You will need to request an account at the [Univention Provider Portal](https://provider-portal.software-univention.de/).
+
+### Upgradeability
+
+`intercom-service` should be upgradeable from previous versions. As bare minimum we should be able to go from the previous released version to the current one. Please use the following steps:
+
+1. `univention-app remove intercom-service` and make sure there is no intercom-service version installed.
+2. `univention-app dev-use-test-appcenter --revert` to make sure we are on the normal AppCenter.
+3. `univention-app update` to get the latest version from the normal AppCenter.
+4. `univention-app install intercom-service` will install the latest published release.
+5. `univention-install univention-appcenter-dev` to install the test AppCenter.
+6. `univention-app dev-use-test-appcenter` to start using the test AppCenter.
+7. `univention-app update` to get all the versions from the test AppCenter.
+8. `univention-app upgrade intercom-service` to upgrade the app to the pre-release version on the AppCenter.
+
+> If you want to install a fixed version other than the last one, use `univention-app install intercom-service=version`.
