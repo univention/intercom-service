@@ -25,6 +25,13 @@ Added
   for *XWiki* and *Matrix* integrations to become healthy in a user session once
   a user has used those services once, thus the account exists in the respective service.
 
+* The Redis connection now supports TLS. To enable TLS connection to Redis, you need to
+  set the environment variable `REDIS_SSL` to `true`. This TLS support also includes
+  self-signed certificates (`NODE_EXTRA_CA_CERTS` has to have the path to the certificate)
+  and support for mTLS (`REDIS_MTLS` has to be set to `true`) and the certificate for the
+  ICS client has to be mounted in the following paths: `/app/client-cert.pem` and
+  `/app/client-key.pem`
+
 Changed
 -------
 
@@ -60,7 +67,7 @@ Added
 * *UCR* variable :envvar:`intercom-service/settings/username-claim` to configure
   the claim in the identity token that contains the username.
 
-* *UCR* variable :envvar:`intercom-service/nextcloud/enabled` and 
+* *UCR* variable :envvar:`intercom-service/nextcloud/enabled` and
   :envvar:`intercom-service/matrix/enabled` to activate or deactivate the
   respective services.
 

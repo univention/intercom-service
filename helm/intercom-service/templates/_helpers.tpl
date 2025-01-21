@@ -34,16 +34,6 @@ PROVISIONING Keycloak
 {{- end -}}
 {{- end -}}
 
-{{- define "keycloak-bootstrap.keycloak.auth.masterRealm" -}}
-{{- if .Values.provisioning.config.keycloak.masterRealm -}}
-{{- .Values.provisioning.config.keycloak.masterRealm -}}
-{{- else if .Values.global.nubusDeployment -}}
-master
-{{- else -}}
-{{- required ".Values.provisioning.config.keycloak.masterRealm must be defined." .Values.provisioning.config.keycloak.masterRealm -}}
-{{- end -}}
-{{- end -}}
-
 {{- define "intercom-service.provisioning.config.keycloak.username" -}}
 {{- if .Values.provisioning.config.keycloak.username -}}
 {{- .Values.provisioning.config.keycloak.username -}}
