@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.9.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.8.0...v2.9.0) (2025-01-22)
+
+
+### Features
+
+* **intercom:** Version bump ([dfa2fe4](https://git.knut.univention.de/univention/components/intercom-service/commit/dfa2fe4f65fd116816ae97089e6d76425487eea0))
+
+
+### Bug Fixes
+
+* **intercom:** Better logging in proxy middlewares ([b3ae829](https://git.knut.univention.de/univention/components/intercom-service/commit/b3ae8294af8094d86e8a8bdfc56fe6bacf4c01bb))
+* **intercom:** Move activating and deactivating extensions logic to ICS ([e65fc24](https://git.knut.univention.de/univention/components/intercom-service/commit/e65fc241ce30550274908bca0e3078345e8dfc71))
+* **intercom:** Retry access token fetching if missing in user session but integration enabled ([9096edd](https://git.knut.univention.de/univention/components/intercom-service/commit/9096edd9da10dc534f115b3d67fe402053a744fd))
+* **intercom:** token renewal for matrix and nextcloud ([d8ab47c](https://git.knut.univention.de/univention/components/intercom-service/commit/d8ab47c02a6c8ad048941cd6d8092ca1f99b631f))
+* removed wrong helm template, added redis tls support to changelog ([a883d17](https://git.knut.univention.de/univention/components/intercom-service/commit/a883d171127b6cea279dd98feb74b42b58484ced))
+
 ## [2.8.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.7.3...v2.8.0) (2024-12-20)
 
 
