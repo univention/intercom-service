@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: artifacts.software-univention.de/nubus-dev/images/intercom-service:2.8.1-pre-jconde-fix-logger
+    image: artifacts.software-univention.de/nubus/images/intercom-service:2.9.0
     restart: unless-stopped
     security_opt:
       - seccomp:/etc/docker/seccomp-systemd.json
@@ -25,12 +25,18 @@ ucr = ConfigRegistry()
 ucr.load()
 cert_pem_path = ucr.get('intercom-service/certificates/external/root-ca-pem')
 cert_crt_path = ucr.get('intercom-service/certificates/external/root-ca-crt')
-if cert_pem_path or cert_crt_path:
+cert_mtls_pem_path = ucr.get('intercom-service/redis/certificates/mtls/cert')
+key_mtls_pem_path = ucr.get('intercom-service/redis/certificates/mtls/key')
+if cert_pem_path or cert_crt_path or cert_mtls_pem_path or key_mtls_pem_path:
     print("    volumes:")
 if cert_pem_path:
     print("      - {}:/etc/ssl/certs/rootca.pem:ro".format(cert_pem_path))
 if cert_crt_path:
-    print("      - {}:/usr/local/share/ca-certificates/rootca.crt:ro".format(cert_crt_path))@!@
+    print("      - {}:/usr/local/share/ca-certificates/rootca.crt:ro".format(cert_crt_path))
+if cert_mtls_pem_path:
+    print("      - {}:/app/client-cert.pem:ro".format(cert_mtls_pem_path))
+if key_mtls_pem_path:
+    print("      - {}:/app/client-key.pem:ro".format(key_mtls_pem_path))@!@
     environment:
       # CLIENT
       CLIENT_ID: @%@intercom-service/settings/client-id@%@
@@ -75,6 +81,8 @@ with open(pwdfile, 'r') as fd:
       REDIS_USER: @%@intercom-service/redis/user@%@
       REDIS_HOST: @%@intercom-service/redis/host@%@
       REDIS_PORT: @%@intercom-service/redis/port@%@
+      REDIS_SSL: @%@intercom-service/redis/ssl@%@
+      REDIS_MTLS: @%@intercom-service/redis/mtls@%@
       REDIS_PASSWORD: @!@
 import os
 pwdfile="/etc/intercom-redis.secret"

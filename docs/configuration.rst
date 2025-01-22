@@ -332,6 +332,73 @@ The following references show the available settings within the app
          - ``default``
          - Before installation or application settings afterwards.
 
+.. envvar:: intercom-service/redis/ssl
+
+   Activates the SSL connection to the *Redis* server. Set to ``False`` by default.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``False``
+         - Before installation or application settings afterwards.
+
+.. envvar:: intercom-service/redis/mtls
+
+   Activates the mTLS authentication for the connection to the *Redis* server.
+   Set to ``False`` by default.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - Yes
+         - ``False``
+         - Before installation or application settings afterwards.
+
+.. envvar:: intercom-service/redis/certificates/mtls/cert
+
+   Defines the host path to the certificate to identify the |ICS| client during
+   the mTLS authentication to the *Redis* server. The file must be in |PEM| format.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - No
+         - ``Empty``
+         - Only before installation.
+
+.. envvar:: intercom-service/redis/certificates/mtls/key
+
+   Defines the host path to the certificate private key for the mTLS authentication
+   of the |ICS| client to the *Redis* server. The file must be in |PEM| format.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - No
+         - ``Empty``
+         - Only before installation.
+
 .. envvar:: intercom-service/matrix/url
 
     Defines the URL, where you can reach the *Matrix* server. The file
@@ -573,7 +640,7 @@ The following references show the available settings within the app
 .. envvar:: intercom-service/certificates/external/root-ca-pem
 
    Defines the host path to self-signed external certificates, allowing for
-   secure communication with *Nextcloud*, *Matrix* and *OX App Suite*. The file
+   secure communication with *Nextcloud*, *Matrix*, *Redis* and *OX App Suite*. The file
    must be in |PEM| format, allowing for multiple certificates in one
    file.
 

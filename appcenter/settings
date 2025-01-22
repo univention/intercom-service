@@ -140,6 +140,50 @@ Description[de] = Port des Redis-Servers
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/redis/ssl]
+Type = Bool
+InitialValue = False
+Required = True
+Show = Install, Settings
+Scope = outside
+Description = Activate or deactivate the SSL connection to the Redis server
+Description[de] = # TODO: translate
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/redis/mtls]
+Type = Bool
+InitialValue = False
+Required = True
+Show = Install, Settings
+Scope = outside
+Description = Activate or deactivate the mTLS connection to the Redis server, requires SSL to be enabled
+Description[de] = # TODO: translate
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/redis/certificates/mtls/cert]
+Type = String
+Required = False
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Full path to the certificate in PEM format to identify the ICS client during mTLS to the Redis server.
+Description[de] = # TODO: translate
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/redis/certificates/mtls/key]
+Type = String
+Required = False
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Full path to the certificate key in PEM format to identify the ICS client during mTLS to the Redis server.
+Description[de] = # TODO: translate
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/proxy]
 Type = String
 Required = True
@@ -324,8 +368,8 @@ Required = False
 Show = Install, Settings
 # ShowReadOnly = Settings
 Scope = outside
-Description = Full path to the root CA certificate in PEM format for self-signed certificates of Keycloak, Matrix, Nextcloud and OX.
-Description[de] = Vollständiger Pfad zum Root-CA-Zertifikat im PEM-Format für selbstsignierte Zertifikate von Keycloak, Matrix, Nextcloud und OX.
+Description = Full path to the root CA certificate in PEM format for self-signed certificates of Keycloak, Matrix, Nextcloud, Redis and OX.
+Description[de] = Vollständiger Pfad zum Root-CA-Zertifikat im PEM-Format für selbstsignierte Zertifikate von Keycloak, Matrix, Nextcloud, Redis und OX.
 Group = Administration
 Group[de] = Administration
 

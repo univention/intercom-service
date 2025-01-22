@@ -25,12 +25,17 @@ Added
   for *XWiki* and *Matrix* integrations to become healthy in a user session once
   a user has used those services once, thus the account exists in the respective service.
 
-* The Redis connection now supports TLS. To enable TLS connection to Redis, you need to
-  set the environment variable `REDIS_SSL` to `true`. This TLS support also includes
-  self-signed certificates (`NODE_EXTRA_CA_CERTS` has to have the path to the certificate)
-  and support for mTLS (`REDIS_MTLS` has to be set to `true`) and the certificate for the
-  ICS client has to be mounted in the following paths: `/app/client-cert.pem` and
-  `/app/client-key.pem`
+* The *Redis* connection now supports TLS. Also, mTLS authentication can be configured.
+
+* *UCR* variables to configure SSL connection to *Redis*.
+
+  * :envvar:`intercom-service/redis/ssl` to activate or deactivate the SSL connection to the *Redis* server.
+
+  * :envvar:`intercom-service/redis/mtls` to activate or deactivate the mTLS authentication to the *Redis* server.
+
+  * :envvar:`intercom-service/redis/certificates/mtls/cert` to specify the path to certificate used during mTLS.
+
+  * :envvar:`intercom-service/redis/certificates/mtls/key` to specify the path to certificate secret key used during mTLS.
 
 Changed
 -------
