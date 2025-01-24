@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.9.0...v2.10.0) (2025-01-24)
+
+
+### Features
+
+* **intercom:** appcenter version including redis SSL ([6e6d41b](https://git.knut.univention.de/univention/components/intercom-service/commit/6e6d41bbd7a2f49bef359a00a07b4ce1a1f6d2b5))
+
 ## [2.9.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.8.0...v2.9.0) (2025-01-22)
 
 
