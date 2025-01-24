@@ -81,8 +81,8 @@ with open(pwdfile, 'r') as fd:
       REDIS_USER: @%@intercom-service/redis/user@%@
       REDIS_HOST: @%@intercom-service/redis/host@%@
       REDIS_PORT: @%@intercom-service/redis/port@%@
-      REDIS_SSL: @%@intercom-service/redis/ssl@%@
-      REDIS_MTLS: @%@intercom-service/redis/mtls@%@
+      REDIS_SSL: "@%@intercom-service/redis/ssl@%@"
+      REDIS_MTLS: "@%@intercom-service/redis/mtls@%@"
       REDIS_PASSWORD: @!@
 import os
 pwdfile="/etc/intercom-redis.secret"
