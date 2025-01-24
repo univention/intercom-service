@@ -147,7 +147,7 @@ Required = True
 Show = Install, Settings
 Scope = outside
 Description = Activate or deactivate the SSL connection to the Redis server
-Description[de] = # TODO: translate
+Description[de] = Aktiviere oder deaktiviere die SSL-Verbindung zum Redis-Server
 Group = Administration
 Group[de] = Administration
 
@@ -158,7 +158,7 @@ Required = True
 Show = Install, Settings
 Scope = outside
 Description = Activate or deactivate the mTLS connection to the Redis server, requires SSL to be enabled
-Description[de] = # TODO: translate
+Description[de] = Aktiviere oder deaktiviere die mTLS-Verbindung zum Redis-Server, erfordert dass SSL aktiviert ist
 Group = Administration
 Group[de] = Administration
 
@@ -169,7 +169,7 @@ Show = Install, Settings
 # ShowReadOnly = Settings
 Scope = outside
 Description = Full path to the certificate in PEM format to identify the ICS client during mTLS to the Redis server.
-Description[de] = # TODO: translate
+Description[de] = Vollständiger Pfad zum Zertifikat im PEM-Format um den ICS-Client während mTLS zum Redis-Server zu identifizieren.
 Group = Administration
 Group[de] = Administration
 
@@ -180,7 +180,7 @@ Show = Install, Settings
 # ShowReadOnly = Settings
 Scope = outside
 Description = Full path to the certificate key in PEM format to identify the ICS client during mTLS to the Redis server.
-Description[de] = # TODO: translate
+Description[de] = Vollständiger Pfad zum Zertifikatsschlüssel im PEM-Format um den ICS-Client während mTLS zum Redis-Server zu identifizieren.
 Group = Administration
 Group[de] = Administration
 
