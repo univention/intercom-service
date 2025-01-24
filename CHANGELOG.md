@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.0...v2.10.1) (2025-01-24)
+
+
+### Bug Fixes
+
+* **intercom:** docker-compose UCR template failed on UCS 5.0 ([a3d324f](https://git.knut.univention.de/univention/components/intercom-service/commit/a3d324f6e1607f66c60718b2845038403711e4cd))
+
 ## [2.10.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.9.0...v2.10.0) (2025-01-24)
 
 
