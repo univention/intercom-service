@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.1...v2.10.2) (2025-01-24)
+
+
+### Bug Fixes
+
+* **intercom:** Fix release date and AppCenter compose version ([f60acfa](https://git.knut.univention.de/univention/components/intercom-service/commit/f60acfacd39475d1af191cc69fec8617fae808f4))
+
 ## [2.10.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.0...v2.10.1) (2025-01-24)
 
 
