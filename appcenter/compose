@@ -2,7 +2,7 @@ version: "3.7"
 services:
   intercom-service:
     container_name: intercom-service
-    image: artifacts.software-univention.de/nubus/images/intercom-service:2.9.0
+    image: artifacts.software-univention.de/nubus/images/intercom-service:2.10.1
     restart: unless-stopped
     security_opt:
       - seccomp:/etc/docker/seccomp-systemd.json
