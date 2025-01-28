@@ -39,7 +39,7 @@ LongDescription = <div>
 		<ul>
 		</ul>
 	</div>
-
+SupportedUcsVersions = 5.0-0, 5.1-0, 5.2-0
 
 [de]
 Maintainer = Univention GmbH
