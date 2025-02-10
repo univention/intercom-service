@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.2...v2.10.3) (2025-02-10)
+
+
+### Bug Fixes
+
+* add .kyverno to helmignore ([3dc645c](https://git.knut.univention.de/univention/components/intercom-service/commit/3dc645c8b2b630207505eaf23fe4756a1cc91bae))
+
 ## [2.10.2](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.1...v2.10.2) (2025-01-24)
 
 
