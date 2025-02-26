@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.3...v2.11.0) (2025-02-26)
+
+
+### Features
+
+* Bump ucs-base-image to use released apt sources ([a20d6c2](https://git.knut.univention.de/univention/components/intercom-service/commit/a20d6c2f965a369d46ff830664b50e043768cf40))
+
 ## [2.10.3](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.2...v2.10.3) (2025-02-10)
 
 
