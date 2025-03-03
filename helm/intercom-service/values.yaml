@@ -128,8 +128,19 @@ ics:
   # -- Proxy settings.
   proxy: false
 
+  # -- Enable session cookie (transient cookie). If enabled, the session cookie
+  # will be deleted at the end of the browser session. Otherwise, the session
+  # will be a rolling session (reset every time the user is active).
+  enableSessionCookie: false
+
+  # -- Rolling session duration in seconds. The session will be reset if the user
+  # is active within the duration. Otherwise, the user will be logged out, 
+  # requiring a silent login. If `enableSessionCookie` is set to true, this
+  # setting will be ignored.
+  sessionRollingDuration: 86400
+
   # -- Log level.
-  logLevel: "DEBUG"
+  logLevel: "INFO"
 
   # -- Mapper claim name for the Intercom Service client. The field must be
   # unique along users. If not set, the default value is "entryuuid", which is

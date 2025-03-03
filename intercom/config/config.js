@@ -26,6 +26,12 @@ const config = {
   },
   issuerBaseUrl,
   logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
+  enableSessionCookie: JSON.parse(
+    (process.env.ENABLE_SESSION_COOKIE ?? "false").toLowerCase(),
+  ),
+  sessionRollingDuration: JSON.parse(
+    process.env.SESSION_ROLLING_DURATION ?? 86400,
+  ),
   userUniqueMapper: process.env.USER_UNIQUE_MAPPER ?? "entryuuid",
   usernameClaim: process.env.USERNAME_CLAIM ?? "phoenixusername",
   nordeck: {

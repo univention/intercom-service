@@ -138,6 +138,43 @@ The following references show the available settings within the app
           - ``phoenixusername``
           - Only before installation
 
+.. envvar:: intercom-service/settings/enable-session-cookie
+
+    Enable session cookie (transient cookie). If enabled, the session cookie
+    will be deleted at the end of the browser session. Otherwise, the session
+    will be a rolling session (reset every time the user is active).
+
+    .. list-table::
+        :header-rows: 1
+        :widths: 2 5 5
+
+        * - Required
+          - Default value
+          - Set
+
+        * - No
+          - ``true``
+          - Only before installation
+
+.. envvar:: intercom-service/settings/session-rolling-duration
+
+    Rolling session duration in seconds. The session will be reset if the user
+    is active within the duration. Otherwise, the user will be logged out, 
+    requiring a silent login. If :envvar:`intercom-service/settings/enable-session-cookie` is set to true, this
+    setting will be ignored.
+
+    .. list-table::
+        :header-rows: 1
+        :widths: 2 5 5
+
+        * - Required
+          - Default value
+          - Set
+
+        * - No
+          - ``86400``
+          - Only before installation
+
 .. envvar:: intercom-service/settings/intercom-url
 
    Defines the URL where you can reach |ICS|. This needs to be a externally

@@ -46,6 +46,30 @@ Description[de] = Vollqualifizierte URL mit Protokoll des externen Endpunktes de
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/settings/enable-session-cookie]
+Type = String
+InitialValue = false
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Make Intercom Service use a session cookie for the user session instead of a rolling session.
+Description[de] = Verwende eine Session-Cookie für die Benutzersitzung im Intercom-Service anstatt einer rollenden Sitzung.
+Group = Administration
+Group[de] = Administration
+
+[intercom-service/settings/session-rolling-duration]
+Type = Int
+InitialValue = 86400
+Required = True
+Show = Install, Settings
+# ShowReadOnly = Settings
+Scope = outside
+Description = Duration in seconds after which the session will be reset if the user is active within this time.
+Description[de] = Dauer in Sekunden, nach der die Sitzung zurückgesetzt wird, wenn der Benutzer innerhalb dieser Zeit aktiv ist.
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/base-url]
 Type = String
 Required = True

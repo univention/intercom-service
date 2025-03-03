@@ -24,6 +24,8 @@ var cors = require("cors");
 const {
   corsOptions,
   issuerBaseUrl,
+  sessionRollingDuration,
+  enableSessionCookie,
   intercom,
   xwiki,
   nextcloud,
@@ -77,6 +79,10 @@ app.use(
     },
     session: {
       store: redisStore,
+      rollingDuration: sessionRollingDuration,
+      cookie: {
+        transient: enableSessionCookie,
+      },
     },
     afterCallback: async (req, res, session, decodedState) => {
       // TODO: Add some kind of error handling, if tokens can't be fetched the user should see an error message of some sort

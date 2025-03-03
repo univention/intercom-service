@@ -12,6 +12,21 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+v1.10
+=====
+
+Released: TBD
+
+Added
+-----
+
+* *UCR* variables to allow configuration of session cookies.
+
+  * :envvar:`intercom-service/settings/enable-session-cookie` to enable session cookie (transient cookie).
+
+  * :envvar:`intercom-service/settings/session-rolling-duration` in seconds. The duration for which the session will be reset if the user is active within this time.
+
+
 v1.9
 ====
 
