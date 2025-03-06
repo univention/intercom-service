@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.11.0...v2.12.0) (2025-03-06)
+
+
+### Features
+
+* **intercom:** Allow transient session cookies and rolling session duration configuration ([82b90c4](https://git.knut.univention.de/univention/components/intercom-service/commit/82b90c419493f6608bfa60e3af23f0d6771a8905))
+
 ## [2.11.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.10.3...v2.11.0) (2025-02-26)
 
 
