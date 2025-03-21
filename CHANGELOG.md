@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.12.0...v2.12.1) (2025-03-21)
+
+
+### Bug Fixes
+
+* namespace template in serviceacount ([4e50249](https://git.knut.univention.de/univention/components/intercom-service/commit/4e50249b7a40ae27908ab1d8819fa9791ed5985a)), closes [univention/dev/internal/team-nubus#1075](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1075)
+
 ## [2.12.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.11.0...v2.12.0) (2025-03-06)
 
 
