@@ -116,9 +116,15 @@ spec:
               name: {{ printf "%s-provisioning-env" (include "common.names.fullname" .) }}
         env:
           - name: KEYCLOAK_PASSWORD
-            {{- include "intercom-service.provisioning.config.keycloak.password" . | nindent 12 }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioning.config.keycloak.auth.existingSecret "defaultNameSuffix" "keycloak-provisioning" "context" .) | quote }}
+                key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioning.config.keycloak.auth.existingSecret "key" "password") | quote }}
           - name: ICS_CLIENT_SECRET
-            {{- include "intercom-service.provisioning.config.ics_client.clientSecret" . | nindent 12 }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.oidc.existingSecret "defaultNameSuffix" "oidc" "context" .) | quote }}
+                key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.oidc.existingSecret "key" "clientSecret") | quote }}
         {{- with .Values.extraEnvVars }}
           {{- . | toYaml | nindent 10 }}
         {{- end }}
@@ -131,7 +137,7 @@ spec:
         volumeMounts:
           - mountPath: "/credentials/keycloak.secret"
             name: "keycloak-credentials-volume"
-            subPath: {{ .Values.provisioning.config.keycloak.credentialSecret.key | quote }}
+            subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioning.config.keycloak.auth.existingSecret "key" "password") | quote }}
           - name: "temp-dir"
             mountPath: "/tmp"
           {{- if .Values.provisioning.extraVolumeMounts }}
@@ -146,6 +152,35 @@ spec:
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.imageRegistry) .Values.image.repository .Values.image.tag | quote }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           env:
+            {{- if .Values.ics.portal.enabled }}
+            - name: "PORTAL_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.portal.auth.existingSecret "defaultNameSuffix" "portal-central-navigation" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.portal.auth.existingSecret "key" "sharedSecret") | quote }}
+            {{- end }}
+            {{- if .Values.ics.matrix.enabled }}
+            - name: "MATRIX_AS_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.matrix.auth.existingSecret "defaultNameSuffix" "matrix" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.matrix.auth.existingSecret "key" "password") | quote }}
+            {{- end }}
+            - name: "REDIS_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.redis.auth.existingSecret "defaultNameSuffix" "redis" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.redis.auth.existingSecret "key" "password") | quote }}
+            - name: "CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.oidc.existingSecret "defaultNameSuffix" "oidc" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.oidc.existingSecret "key" "clientSecret") | quote }}
+            - name: "SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.session.existingSecret "defaultNameSuffix" "session" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.session.existingSecret "key" "secret") | quote }}
             {{- if .Values.ics.redis.ssl.customca }}
             - name: NODE_EXTRA_CA_CERTS
               value: "{{ .Values.ics.redis.ssl.pathCA }}"
@@ -213,7 +248,7 @@ spec:
             name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
         - name: "keycloak-credentials-volume"
           secret:
-            secretName: {{ (include "intercom-service.provisioning.config.keycloak.credentialSecret.name" . ) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioning.config.keycloak.auth.existingSecret "defaultNameSuffix" "keycloak-provisioning" "context" .) | quote }}
         {{- end }}
         - name: "temp-dir"
           emptyDir:

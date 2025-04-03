@@ -114,8 +114,19 @@ imagePullSecrets: []
 
 # Provide intercom service specific settings:
 ics:
-  # -- Intercom service secret shared other services
-  secret: ""
+  session:
+    # -- The secret used to derive an encryption key for the user identity in a
+    # stateless session cookie, to sign the transient cookies used by the login
+    # callback and to sign the custom session store cookies
+    secret: null
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the Intercom Service secret.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the Intercom Service secret from the secret.
+        # Setting this value allows to use a key with a different name.
+        secret: null
+
   # -- Base URL of issuer.
   issuerBaseUrl: ""
 
@@ -169,7 +180,15 @@ ics:
     id: "intercom"
 
     # -- OIDC Client Secret
-    secret: ""
+    # Either this value or an existing Secret has to be specified.
+    clientSecret: null
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the OIDC client secret.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the application service secret from the secret.
+        # Setting this value allows to use a key with a different name.
+        clientSecret: null
 
 
   # Keycloak connection settings.
@@ -203,8 +222,18 @@ ics:
     # -- Name of matrix server.
     serverName: "matrix"
 
-    # -- Application Service secret.
-    asSecret: ""
+    auth:
+      # -- Application Service secret.
+      # Either this value or an existing Secret has to be specified.
+      applicationServiceSecret: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the Matrix
+        # application service secret.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the application service secret from the secret.
+          # Setting this value allows to use a key with a different name.
+          password: null
 
   # Nordeck's meeting widget bot connection settings.
   nordeck:
@@ -235,8 +264,20 @@ ics:
     # Mutual exclusive with "subdomain".
     url: ""
 
-    # -- API Key.
-    apiKey: ""
+    auth:
+      # -- Portal Server shared secret used to retrieve the `navigation.json`
+      # for a given user. This requires the portal server central navigation to
+      # be enabled.
+      # Either this value or an existing Secret has to be specified.
+      sharedSecret: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the shared secret
+        # to use with the Portal Server.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the shared secret from the secret.
+          # Setting this value allows to use a key with a different name.
+          sharedSecret: null
 
   # -- Nextcloud file service connection settings.
   nextcloud:
@@ -287,11 +328,22 @@ ics:
     # -- Redis cache service port.
     port: "6379"
 
-    # -- Redis cache service username.
-    username: ""
 
-    # -- Redis cache service password.
-    password: ""
+    auth:
+      # -- Redis cache service username.
+      username: ""
+
+      # -- Redis cache service password.
+      # Either this value or an existing Secret has to be specified.
+      password: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the password
+        # to use with the Redis cache service.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the password from the secret.
+          # Setting this value allows to use a key with a different name.
+          password: null
 
     ssl:
       # -- Enable Redis SSL connection
@@ -557,34 +609,33 @@ provisioning:
     imagePullPolicy: "IfNotPresent"
 
   config:
-    # -- Base URL for setting in Keycloak application URL without backslash.
+    # -- Base URL for setting in Keycloak client URL without backslash.
     # Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud"
-    nubusBaseUrl: ""
+    clientBaseUrl: ""
     # -- Keycloak specific settings.
     keycloak:
-      # -- Keycloak user.
-      username: ""
-      # -- Keycloak password.
-      password: ""
       # -- Keycloak realm.
-      realm: ""
-      # -- Keycloak password secret reference.
-      credentialSecret:
-        name: ""
-        key: "password"
+      realm: "nubus"
       # -- Connection parameters.
       connection:
+        # -- Keycloak protocol.
+        protocol: "http"
         # -- Keycloak host.
         host: ""
         # -- Keycloak port.
         port: ""
-
-    ics_client:
-      # -- Specify this only if you do not want to use a secret (see below).
-      clientSecret: ""
-      credentialSecret:
-        key: ""
-
+      auth:
+        # -- Keycloak admin user.
+        username: "kcadmin"
+        # -- Keycloak admin password.
+        password: ""
+        existingSecret:
+          # -- The name of an existing Secret to use for retrieving the Keycloak admin password.
+          name: ""
+          keyMapping:
+            # -- The key to retrieve the Keycloak admin password from the secret.
+            # Setting this value allows to use a key with a different name.
+            password: ""
 
     # Debugging related settings
     debug:

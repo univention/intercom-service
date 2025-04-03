@@ -9,9 +9,9 @@ version: "2.1.0"
 appVersion: "1.4"
 
 dependencies:
-  - name: "common"
-    repository: "https://charts.bitnami.com/bitnami"
-    version: "^2.2.2"
+  - name: "nubus-common"
+    version: "^0.11.x"
+    repository: "oci://artifacts.software-univention.de/nubus/charts"
 
 maintainers:
   - name: "Univention"

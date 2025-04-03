@@ -14,7 +14,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | ^2.2.2 |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.11.x |
 
 ## Values
 
@@ -44,13 +44,16 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.default | object | `{"domain":"example.com","protocol":"https"}` | Default settings which are used for all services if they are not overriden for a specific service. |
 | ics.default.domain | string | `"example.com"` | Domain which will be added for all subdomains for apps. It will be overriden by the specific service settings if set. |
 | ics.default.protocol | string | `"https"` | Protocol which will be used to connect to apps. It will be overriden by the specific service settings if set. |
+| ics.enableSessionCookie | bool | `false` | Enable session cookie (transient cookie). If enabled, the session cookie will be deleted at the end of the browser session. Otherwise, the session will be a rolling session (reset every time the user is active). |
 | ics.issuerBaseUrl | string | `""` | Base URL of issuer. |
 | ics.keycloak.enabled | bool | `true` |  |
 | ics.keycloak.realm | string | `"souvap"` | Configured Realm for authentication. |
 | ics.keycloak.subdomain | string | `"id"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.keycloak.url | string | `""` | URL as FQDN. Mutual exclusive with "subdomain". |
-| ics.logLevel | string | `"DEBUG"` | Log level. |
-| ics.matrix.asSecret | string | `""` | Application Service secret. |
+| ics.logLevel | string | `"INFO"` | Log level. |
+| ics.matrix.auth.applicationServiceSecret | string | `nil` | Application Service secret. Either this value or an existing Secret has to be specified. |
+| ics.matrix.auth.existingSecret.keyMapping.password | string | `nil` | The key to retrieve the application service secret from the secret. Setting this value allows to use a key with a different name. |
+| ics.matrix.auth.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the Matrix application service secret. |
 | ics.matrix.enabled | bool | `true` | Enable Matrix. |
 | ics.matrix.serverName | string | `"matrix"` | Name of matrix server. |
 | ics.matrix.subdomain | string | `"matrix"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
@@ -66,16 +69,23 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.nordeck.mode | string | `"test"` | Widget mode. |
 | ics.nordeck.subdomain | string | `"meetings-widget-bot"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.nordeck.url | string | `""` | URL as FQDN. Mutual exclusive with "subdomain". |
+| ics.oidc.clientSecret | string | `nil` | OIDC Client Secret Either this value or an existing Secret has to be specified. |
+| ics.oidc.existingSecret.keyMapping.clientSecret | string | `nil` | The key to retrieve the application service secret from the secret. Setting this value allows to use a key with a different name. |
+| ics.oidc.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the OIDC client secret. |
 | ics.oidc.id | string | `"intercom"` | OIDC ClientID. |
-| ics.oidc.secret | string | `""` | OIDC Client Secret |
 | ics.originRegex | string | `""` | Origin Regex settings. The originRegex is used to validate the origin of the incoming requests. If the origin does not match the regex, ICS will not handle CORS correctly and will not set Access-Control-Allow-Origin header in the proxied request. |
-| ics.portal.apiKey | string | `""` | API Key. |
+| ics.portal.auth.existingSecret.keyMapping.sharedSecret | string | `nil` | The key to retrieve the shared secret from the secret. Setting this value allows to use a key with a different name. |
+| ics.portal.auth.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the shared secret to use with the Portal Server. |
+| ics.portal.auth.sharedSecret | string | `nil` | Portal Server shared secret used to retrieve the `navigation.json` for a given user. This requires the portal server central navigation to be enabled. Either this value or an existing Secret has to be specified. |
 | ics.portal.enabled | bool | `true` | Enable Univention Portal integration. |
 | ics.portal.subdomain | string | `"portal"` | Subdomain with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.portal.url | string | `""` | Origin of Univention Portal as FQDN. Mutual exclusive with "subdomain". |
 | ics.proxy | bool | `false` | Proxy settings. |
+| ics.redis.auth.existingSecret.keyMapping.password | string | `nil` | The key to retrieve the password from the secret. Setting this value allows to use a key with a different name. |
+| ics.redis.auth.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the password to use with the Redis cache service. |
+| ics.redis.auth.password | string | `nil` | Redis cache service password. Either this value or an existing Secret has to be specified. |
+| ics.redis.auth.username | string | `""` | Redis cache service username. |
 | ics.redis.host | string | `"redis-headless"` | Redis cache service host. |
-| ics.redis.password | string | `""` | Redis cache service password. |
 | ics.redis.port | string | `"6379"` | Redis cache service port. |
 | ics.redis.ssl.customca | string | `""` | CustomCA certificate for Redis connection |
 | ics.redis.ssl.enabled | bool | `false` | Enable Redis SSL connection |
@@ -85,8 +95,10 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.redis.ssl.mTLS.enabled | bool | `false` | Enable Redis SSL connection using mTLS |
 | ics.redis.ssl.mTLS.existingSecret.name | string | `"intercom-service-redis-client-credentials"` | Name of the secret that contains the client tls.crt and tls.key |
 | ics.redis.ssl.pathCA | string | `"/etc/ssl/certs/redis-custom-CA.pem"` | Optional. Path to the Redis custom CA |
-| ics.redis.username | string | `""` | Redis cache service username. |
-| ics.secret | string | `""` | Intercom service secret shared other services |
+| ics.session.existingSecret.keyMapping.secret | string | `nil` | The key to retrieve the Intercom Service secret from the secret. Setting this value allows to use a key with a different name. |
+| ics.session.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the Intercom Service secret. |
+| ics.session.secret | string | `nil` | The secret used to derive an encryption key for the user identity in a stateless session cookie, to sign the transient cookies used by the login callback and to sign the custom session store cookies |
+| ics.sessionRollingDuration | int | `86400` | Rolling session duration in seconds. The session will be reset if the user is active within the duration. Otherwise, the user will be logged out,  requiring a silent login. If `enableSessionCookie` is set to true, this setting will be ignored. |
 | ics.userUniqueMapper | string | `"entryuuid"` | Mapper claim name for the Intercom Service client. The field must be unique along users. If not set, the default value is "entryuuid", which is provisioned by the Intercom Service initContainer. Any other value that "entryuuid" is not guaranteed to be unique on Nubus. |
 | ics.usernameClaim | string | `"phoenixusername"` | ID Token claim that contains the username for a user. Needs to be configured in Keycloak. |
 | ics.xwiki | object | `{"audience":"xwikioidc","enabled":true,"subdomain":"wiki","url":""}` | XWiki connection settings. |
@@ -122,18 +134,19 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | podSecurityContext.enabled | bool | `true` | Enable security context. |
 | podSecurityContext.fsGroup | int | `1000` | If specified, all processes of the container are also part of the supplementary group. |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Change ownership and permission of the volume before being exposed inside a Pod. |
-| provisioning | object | `{"config":{"debug":{"enabled":false,"pauseBeforeScriptStart":0},"ics_client":{"clientSecret":"","credentialSecret":{"key":""}},"keycloak":{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""},"nubusBaseUrl":""},"enabled":true,"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.26.0"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.1.2"},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | The Intercom Service Keycloak provisioning job |
+| provisioning | object | `{"config":{"debug":{"enabled":false,"pauseBeforeScriptStart":0},"keycloak":{"auth":{"existingSecret":{"keyMapping":{"password":""},"name":""},"password":"","username":"kcadmin"},"connection":{"host":"","port":"","protocol":"http"},"realm":"nubus"},"nubusBaseUrl":""},"enabled":true,"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.26.0"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.1.2"},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | The Intercom Service Keycloak provisioning job |
 | provisioning.config.debug.enabled | bool | `false` | Enable debug output of included Ansible scripts |
 | provisioning.config.debug.pauseBeforeScriptStart | int | `0` | Seconds for the job to pause before starting the actual bootstrapping. |
-| provisioning.config.ics_client.clientSecret | string | `""` | Specify this only if you do not want to use a secret (see below). |
-| provisioning.config.keycloak | object | `{"connection":{"host":"","port":""},"credentialSecret":{"key":"password","name":""},"password":"","realm":"","username":""}` | Keycloak specific settings. |
-| provisioning.config.keycloak.connection | object | `{"host":"","port":""}` | Connection parameters. |
+| provisioning.config.keycloak | object | `{"auth":{"existingSecret":{"keyMapping":{"password":""},"name":""},"password":"","username":"kcadmin"},"connection":{"host":"","port":"","protocol":"http"},"realm":"nubus"}` | Keycloak specific settings. |
+| provisioning.config.keycloak.auth.existingSecret.keyMapping.password | string | `""` | The key to retrieve the Keycloak admin password from the secret. Setting this value allows to use a key with a different name. |
+| provisioning.config.keycloak.auth.existingSecret.name | string | `""` | The name of an existing Secret to use for retrieving the Keycloak admin password. |
+| provisioning.config.keycloak.auth.password | string | `""` | Keycloak admin password. |
+| provisioning.config.keycloak.auth.username | string | `"kcadmin"` | Keycloak admin user. |
+| provisioning.config.keycloak.connection | object | `{"host":"","port":"","protocol":"http"}` | Connection parameters. |
 | provisioning.config.keycloak.connection.host | string | `""` | Keycloak host. |
 | provisioning.config.keycloak.connection.port | string | `""` | Keycloak port. |
-| provisioning.config.keycloak.credentialSecret | object | `{"key":"password","name":""}` | Keycloak password secret reference. |
-| provisioning.config.keycloak.password | string | `""` | Keycloak password. |
-| provisioning.config.keycloak.realm | string | `""` | Keycloak realm. |
-| provisioning.config.keycloak.username | string | `""` | Keycloak user. |
+| provisioning.config.keycloak.connection.protocol | string | `"http"` | Keycloak protocol. |
+| provisioning.config.keycloak.realm | string | `"nubus"` | Keycloak realm. |
 | provisioning.config.nubusBaseUrl | string | `""` | Base URL for setting in Keycloak application URL without backslash. Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud" |
 | provisioning.enabled | bool | `true` | Enable keycloak provisioning by default. |
 | provisioning.extraEnvVars | list | `[]` | Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar" |

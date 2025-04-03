@@ -19,7 +19,7 @@ metadata:
   {{- end }}
 
 data:
-  KEYCLOAK_URL: {{ include "intercom-service.provisioning.config.keycloak.url" . | quote }}
+  KEYCLOAK_URL: {{ printf "%s://%s:%s/realms/%s" .Values.provisioning.config.keycloak.connection.protocol .Values.provisioning.config.keycloak.connection.host .Values.provisioning.config.keycloak.connection.port .Values.provisioning.config.keycloak.realm }}
   wait-for-keycloak.py: |
     #!/usr/bin/python3
     import requests
@@ -63,13 +63,13 @@ metadata:
 data:
   DEBUG: {{ .Values.provisioning.config.debug.enabled | quote }}
   DOMAIN: {{ .Values.global.domain | quote }}
-  KEYCLOAK_USERNAME: {{ include "intercom-service.provisioning.config.keycloak.username" . | quote }}
-  KEYCLOAK_HOST: {{ include "intercom-service.provisioning.config.keycloak.connection.host" . | quote }}
-  KEYCLOAK_REALM: {{ include "intercom-service.provisioning.config.keycloak.realm" . | quote }}
-  KEYCLOAK_URL: {{ include "intercom-service.provisioning.config.keycloak.connection.baseUrl" . | quote }}
+  KEYCLOAK_USERNAME: {{ required "A Keycloak admin username must be specified" .Values.provisioning.config.keycloak.auth.username }}
+  KEYCLOAK_HOST: {{ required ".Values.provisioning.config.keycloak.connection.host must be defined." .Values.provisioning.config.keycloak.connection.host }}
+  KEYCLOAK_REALM: {{ required "A Keycloak realm must be specified to provision the intercom-service client" .Values.provisioning.config.keycloak.realm  }}
+  KEYCLOAK_URL: {{ required "Keycloak baseUrl must be specified if Intercom Service provisioning is enabled" .Values.provisioning.config.keycloak.connection.baseUrl }}
   UNIVENTION_KEYCLOAK_BOOTSTRAP_TEMP_DIR: "/tmp"
   UNIVENTION_KEYCLOAK_BOOTSTRAP_DEBUG_PAUSE_BEFORE_SCRIPT_START: {{ .Values.provisioning.config.debug.pauseBeforeScriptStart  | quote }}
-  KEYCLOAK_APP_BASE_URL: {{ include "intercom-service.provisioning.config.nubusBaseUrl" . | quote }}
+  KEYCLOAK_APP_BASE_URL: {{ required ".Values.provisioning.config.clientBaseUrl is required" .Values.provisioning.config.clientBaseUrl }}
 ...
 
 {{- end }}

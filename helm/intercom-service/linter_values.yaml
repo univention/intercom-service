@@ -3,21 +3,33 @@
 ---
 
 ics:
-  secret: "secret"
+  session:
+    secret: "stub_secret"
+
+  oidc:
+    clientSecret: "stub_oidc_client_secret"
+
+  matrix:
+    auth:
+      applicationServiceSecret: "stub_matrix_application_service_secret"
+
+  portal:
+    auth:
+      sharedSecret: "stub_portal_shared_secret"
+
+  redis:
+    auth:
+      password: "stub_redis_password"
 
 provisioning:
   config:
-    nubusBaseUrl: "http://nubus"
     keycloak:
-      username: "kc_user"
-      password: "keycloak"
       realm: "keycloak"
-      url: "http://keycloak"
       connection:
         baseUrl: "http://keycloak"
         host: "keycloak"
         port: 42
-
-    ics_client:
-      clientSecret: "secret"
+      auth:
+        username: "stub_kc_user"
+        password: "stub_keycloak_password"
 ...
