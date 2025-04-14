@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 Univention GmbH
+SPDX-FileCopyrightText: 2023-2025 Univention GmbH
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 {{ template "chart.header" . }}
@@ -60,4 +60,4 @@ This project uses the following license: AGPL-3.0-only
 
 
 ## Copyright
-Copyright (C) 2023 Univention GmbH
+Copyright (C) 2023-2025 Univention GmbH
