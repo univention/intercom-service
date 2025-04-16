@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.13.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.12.1...v2.13.0) (2025-04-16)
+
+
+### Features
+
+* **helm:** Secrets refactor ([6d45706](https://git.knut.univention.de/univention/components/intercom-service/commit/6d45706407cd9a5aca2b1f9befcd0233831d2b7a)), closes [univention/dev/internal/team-nubus#1095](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1095)
+
 ## [2.12.1](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.12.0...v2.12.1) (2025-03-21)
 
 
