@@ -8,7 +8,7 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
 
 include:
-  - project: "univention/documentation/sphinx-docker"
+  - project: "univention/dev/docs/sphinx-docker"
     file: "pipeline/sphinx.yml"
 
 docs-linkcheck:
