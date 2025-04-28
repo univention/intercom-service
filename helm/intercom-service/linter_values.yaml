@@ -23,6 +23,7 @@ ics:
 
 provisioning:
   config:
+    clientBaseUrl: 'http://ics.domain.de'
     keycloak:
       realm: "keycloak"
       connection:

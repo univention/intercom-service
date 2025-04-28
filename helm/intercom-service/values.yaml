@@ -145,7 +145,7 @@ ics:
   enableSessionCookie: false
 
   # -- Rolling session duration in seconds. The session will be reset if the user
-  # is active within the duration. Otherwise, the user will be logged out, 
+  # is active within the duration. Otherwise, the user will be logged out,
   # requiring a silent login. If `enableSessionCookie` is set to true, this
   # setting will be ignored.
   sessionRollingDuration: 86400
@@ -595,8 +595,8 @@ provisioning:
     imagePullSecrets: []
 
     registry: "artifacts.software-univention.de"
-    repository: "nubus/images/wait-for-dependency"
-    tag: "0.26.0"
+    repository: "nubus-dev/images/wait-for-dependency"
+    tag: "0.30.0-pre-jtorres-521-upgrade"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
 
@@ -604,8 +604,8 @@ provisioning:
     imagePullSecrets: []
 
     registry: "artifacts.software-univention.de"
-    repository: "nubus/images/keycloak-bootstrap"
-    tag: "0.1.2"
+    repository: "nubus-dev/images/keycloak-bootstrap"
+    tag: "0.11.0-pre-jtorres-521-upgrade"
     imagePullPolicy: "IfNotPresent"
 
   config:
