@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.14.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.13.0...v2.14.0) (2025-04-29)
+
+
+### Features
+
+* Bump ucs-base-image version ([7489f6d](https://git.knut.univention.de/univention/components/intercom-service/commit/7489f6d83a8a78bf06d9b71637b06d3dd7b151ea)), closes [univention/dev/internal/team-nubus#1155](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1155)
+
+
+### Bug Fixes
+
+* final version of wait-for-dependency and keycloak-bootstrap ([b7a34e9](https://git.knut.univention.de/univention/components/intercom-service/commit/b7a34e90aaa44a8966fd20e87d967664bc76fde5)), closes [univention/dev/internal/team-nubus#1155](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1155)
+
 ## [2.13.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.12.1...v2.13.0) (2025-04-16)
 
 
