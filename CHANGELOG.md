@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.14.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.14.0...v2.14.1) (2025-05-10)
+
+
+### Bug Fixes
+
+* move addlicense pre-commit hook ([efc8aee](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/efc8aee304b6e3da38bfffd7af180ced30d41134))
+* update common-ci to main ([6f0b184](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/6f0b184c1360b52c14eef720130a49035290a07e))
+
 ## [2.14.0](https://git.knut.univention.de/univention/components/intercom-service/compare/v2.13.0...v2.14.0) (2025-04-29)
 
 
