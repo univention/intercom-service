@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.14.1...v2.15.0) (2025-05-11)
+
+
+### Features
+
+* move and upgrade ucs-base-image to 0.17.3-build-2025-05-11 ([f7690aa](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/f7690aa88ce9f31c4bd18472d18ed87ea0954083))
+
 ## [2.14.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.14.0...v2.14.1) (2025-05-10)
 
 
