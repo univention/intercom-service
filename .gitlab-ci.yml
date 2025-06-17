@@ -4,8 +4,8 @@
 # SPDX-FileCopyrightText: 2023-2025 Univention GmbH
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
-    ref: "main"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
+    ref: "jtorres/sonarqube"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -15,6 +15,7 @@ include:
       - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
+      - "jobs/sonarqube.yaml"
 
 trigger-docs:
   stage: "trigger"
