@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.15.0...v2.16.0) (2025-06-18)
+
+
+### Features
+
+* update ucs-base-image 522 ([9a1bdfe](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/9a1bdfeb19b03b1f8cfe87b61906b1c11cc147c3)), closes [#0](https://git.knut.univention.de/univention/dev/projects/intercom-service/issues/0)
+
 ## [2.15.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.14.1...v2.15.0) (2025-05-11)
 
 
