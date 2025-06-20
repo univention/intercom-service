@@ -596,7 +596,7 @@ provisioning:
 
     registry: "artifacts.software-univention.de"
     repository: "nubus/images/wait-for-dependency"
-    tag: "0.30.0@sha256:fa804c2a10aa42439bf3f388007d7e55c046d6da6dc8a74c27f5a989fd422c8d"
+    tag: "0.32.1@sha256:44d45067e1d4e7a00d3b651e56df5177087e3206368a45cd1816d78ba7b21347"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
 
@@ -605,7 +605,7 @@ provisioning:
 
     registry: "artifacts.software-univention.de"
     repository: "nubus/images/keycloak-bootstrap"
-    tag: "0.11.0@sha256:55ad741e01dd91bb9b0332fd602a6262d3618abdf97a86c13f1e6148b36bd242"
+    tag: "0.12.1@sha256:4a36e3753bda7d6ccc6fc98f5e115bf96a4257c1a9458d075888256484cfdd4b"
     imagePullPolicy: "IfNotPresent"
 
   config:
