@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.0...v2.16.1) (2025-06-21)
+
+
+### Bug Fixes
+
+* bump umc-base-image version ([10bcc90](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/10bcc907531485d9046256f384c8259f02686219)), closes [univention/dev/internal/team-nubus#1263](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1263)
+
 ## [2.16.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.15.0...v2.16.0) (2025-06-18)
 
 
