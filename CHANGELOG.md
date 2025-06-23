@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.2](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.1...v2.16.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* use default cluster ingress class if not defined ([b0e8499](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/b0e8499fefd5cdd56c277b897783578c17241d66)), closes [univention/dev/internal/team-nubus#1134](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1134)
+
 ## [2.16.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.0...v2.16.1) (2025-06-21)
 
 
