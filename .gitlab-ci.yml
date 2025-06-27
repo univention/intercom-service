@@ -5,7 +5,7 @@
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.43.0"
+    ref: "v1.43.3"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -15,7 +15,7 @@ include:
       - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
-      - "jobs/sonarqube.yaml"
+      - "templates/sonarqube.yaml"
 
 trigger-docs:
   stage: "trigger"
@@ -66,5 +66,9 @@ container-sign-external:
 push-image-external:
   parallel:
     matrix: *build-matrix
+
+sonarqube:
+  extends: .sonarqube
+  needs: []
 
 ...
