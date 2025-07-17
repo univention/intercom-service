@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.2...v2.17.0) (2025-07-17)
+
+
+### Features
+
+* update ucs-base to 5.2.2-build.20250714 ([61cd74d](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/61cd74d40eb2e339d77dc984643aa601b39119cb)), closes [univention/dev/internal/team-nubus#1320](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1320)
+
 ## [2.16.2](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.1...v2.16.2) (2025-06-23)
 
 
