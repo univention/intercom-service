@@ -605,7 +605,7 @@ provisioning:
 
     registry: "artifacts.software-univention.de"
     repository: "nubus/images/keycloak-bootstrap"
-    tag: "0.12.1@sha256:4a36e3753bda7d6ccc6fc98f5e115bf96a4257c1a9458d075888256484cfdd4b"
+    tag: "0.14.0@sha256:1b12d2421b723545446abe329b5a4732f6ab47f3ba5f8bea99a2e58d811f988e"
     imagePullPolicy: "IfNotPresent"
 
   config:
