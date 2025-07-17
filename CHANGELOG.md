@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.18.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.17.0...v2.18.0) (2025-07-17)
+
+
+### Features
+
+* update keycloak-bootstrap image tag to 0.14.0 ([4a917a7](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/4a917a78acc5362d03a253efc7834d1df44f8ce4)), closes [univention/dev/internal/team-nubus#1320](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1320)
+* update wait-for-dependency to 0.35.0 ([01c8a35](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/01c8a359b596e8541de3146aa3e9069fd2b39c43)), closes [univention/dev/internal/team-nubus#1320](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1320)
+
 ## [2.17.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.16.2...v2.17.0) (2025-07-17)
 
 
