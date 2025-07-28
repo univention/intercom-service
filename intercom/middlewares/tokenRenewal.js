@@ -32,7 +32,7 @@ const refreshOIDCTokenIfNeeded = (config) => {
     if (!req.appSession[config.session_storage_key] && !config.enabled) {
       logger.debug(
         "%s access_token not found in session, and integration is not enabled. Not fetching new token.",
-        config.name,
+        config.name
       );
       next();
       return;
@@ -41,7 +41,7 @@ const refreshOIDCTokenIfNeeded = (config) => {
       await verifyJWT(
         req.appSession[config.session_storage_key],
         issuerBaseUrl,
-        JWKS,
+        JWKS
       );
       logger.debug("%s access_token is valid", config.name);
     } catch (error) {
@@ -50,7 +50,7 @@ const refreshOIDCTokenIfNeeded = (config) => {
         logger.warn("Catched info:", error);
         req.appSession[config.session_storage_key] = await fetchOIDCToken(
           req.appSession.access_token,
-          config.audience,
+          config.audience
         );
         logger.info("%s access_token refreshed successfully", config.name);
       }
@@ -61,36 +61,28 @@ const refreshOIDCTokenIfNeeded = (config) => {
 };
 
 const refreshMatrixTokenIfNeeded = async (req, _, next) => {
-  if (!req.appSession[matrix.session_storage_key] && !matrix.enabled) {
+  if (!matrix.enabled) {
     logger.debug(
-      "%s access_token not found in session, and integration is not enabled. Not fetching new token.",
-      matrix.name,
+      "%s integration is not enabled, not fetching new token.",
+      matrix.name
     );
     next();
     return;
   }
-  try {
-    _ = await verifyJWT(
-      req.appSession[matrix.session_storage_key],
-      issuerBaseUrl,
-      JWKS,
+  if (!req.appSession[matrix.session_storage_key]) {
+    logger.debug(
+      "%s access_token not found in session, fetching new token.",
+      matrix.name
     );
-    logger.debug("%s access_token is valid", matrix.name);
-  } catch (error) {
-    if (error.code == "ERR_JWT_EXPIRED" || error.code == "ERR_JWS_INVALID") {
-      logger.warn(
-        "%s access_token expired or invalid, refreshing",
-        matrix.name,
-      );
-      logger.warn("Catched info:", error);
-      let entryUUID = req.decodedAccessToken[userUniqueMapper];
-      req.appSession[matrix.session_storage_key] =
-        await fetchMatrixToken(entryUUID);
-      logger.info("Refreshed successfully");
-    }
-  } finally {
+    let entryUUID = req.decodedAccessToken[userUniqueMapper];
+    req.appSession[matrix.session_storage_key] = await fetchMatrixToken(
+      entryUUID
+    );
+    logger.info("Fetched new %s access_token successfully", matrix.name);
     next();
+    return;
   }
+  next();
 };
 
 module.exports = {
