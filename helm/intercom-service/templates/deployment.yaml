@@ -109,6 +109,9 @@ spec:
             --redirect-uri $KEYCLOAK_APP_BASE_URL/callback \
             --add-ics-mappers \
             --backchannel-logout-revoke-session \
+            --backchannel-logout-session-required \
+            --token-exchange-enabled \
+            --token-exchange-refresh-token-type SAME_SESSION \
             --pkce-code-challenge-method "" \
             --host-fqdn $KEYCLOAK_HOST
         envFrom:
