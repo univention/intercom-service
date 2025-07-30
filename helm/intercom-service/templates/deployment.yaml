@@ -76,16 +76,14 @@ spec:
         {{- with .Values.provisioning.extraEnvVars }}
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        command: ["/usr/bin/python3", "/scripts/wait-for-keycloak.py"]
+        command: ["wait-for-keycloak.py"]
         {{- if .Values.resources }}
         resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 10 }}
         {{- end }}
+        {{- if .Values.provisioning.extraVolumeMounts }}
         volumeMounts:
-          - name: "wait-for-keycloak"
-            mountPath: "/scripts"
-          {{- if .Values.provisioning.extraVolumeMounts }}
           {{- include "common.tplvalues.render" (dict "value" .Values.provisioning.extraVolumeMounts "context" .) | nindent 10 }}
-          {{- end }}
+        {{- end }}
       - name: "keycloak-provisioning"
         securityContext:
           {{- toYaml .Values.provisioning.securityContext | nindent 10 }}
@@ -101,7 +99,7 @@ spec:
             --binduser $KEYCLOAK_USERNAME \
             --bindpwdfile /credentials/keycloak.secret \
             oidc/rp create \
-            opendesk-intercom \
+            $CLIENT_NAME \
             --direct-access-grants \
             --backchannel-logout-url $KEYCLOAK_APP_BASE_URL/backchannel-logout \
             --web-origins $KEYCLOAK_APP_BASE_URL \
@@ -109,6 +107,7 @@ spec:
             --redirect-uri $KEYCLOAK_APP_BASE_URL/callback \
             --add-ics-mappers \
             --backchannel-logout-revoke-session \
+            --use-refresh-tokens \
             --backchannel-logout-session-required \
             --token-exchange-enabled \
             --token-exchange-refresh-token-type SAME_SESSION \

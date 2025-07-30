@@ -29,7 +29,7 @@ provisioning:
       connection:
         baseUrl: "http://keycloak"
         host: "keycloak"
-        port: 42
+        port: "8080"
       auth:
         username: "stub_kc_user"
         password: "stub_keycloak_password"
