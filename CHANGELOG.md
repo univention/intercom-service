@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.19.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.18.0...v2.19.0) (2025-07-31)
+
+
+### Features
+
+* Bump express-openid-connect ([e3f860a](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/e3f860a6ffa5ccc715155fa6634eab4ac2cef688)), closes [univention/dev/internal/team-nubus#1359](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1359)
+* Enable Standard Token Exchange for Keycloak 26.2 onwards ([2692218](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/2692218a2e8d2e3c3fb296990cb3067e0a8b5550)), closes [univention/dev/internal/team-nubus#1359](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1359)
+
+
+### Bug Fixes
+
+* Keycloak provisioning values ([c79ee7a](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/c79ee7a95d10f93ce549c38ca444b7beaf1c5a7b)), closes [univention/dev/internal/team-nubus#1359](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1359)
+* Matrix token is not JWT so it is always fetched from scratch ([7c002c0](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/7c002c07e1275ba1927963e7531e30d99d39948e)), closes [univention/dev/internal/team-nubus#1359](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1359)
+
 ## [2.18.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.17.0...v2.18.0) (2025-07-17)
 
 
