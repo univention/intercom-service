@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.0...v2.19.1) (2025-08-19)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base Docker tag to v5.2.2-build.20250814 ([7dfb490](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/7dfb4901d03ee89bc440f7d0c960108604a04878)), closes [#0](https://git.knut.univention.de/univention/dev/projects/intercom-service/issues/0)
+
 ## [2.19.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.18.0...v2.19.0) (2025-07-31)
 
 
