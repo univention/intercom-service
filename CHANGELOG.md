@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.2](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.1...v2.19.2) (2025-08-29)
+
+
+### Bug Fixes
+
+* Update base image to version 5.2.2-build.20250821 ([752a738](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/752a7380d52c9e21efb5abb9578049e329526288)), closes [univention/dev/internal/team-nubus#1385](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1385)
+
 ## [2.19.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.0...v2.19.1) (2025-08-19)
 
 
