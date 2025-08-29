@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.3](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.2...v2.19.3) (2025-08-29)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency univention/dev/nubus-for-k8s/common-ci to v1.44.2 ([3008921](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/3008921fe16c6f73ed19f5a783d21d2cd1f2b6e4)), closes [#0](https://git.knut.univention.de/univention/dev/projects/intercom-service/issues/0)
+
 ## [2.19.2](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.1...v2.19.2) (2025-08-29)
 
 
