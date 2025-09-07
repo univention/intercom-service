@@ -596,7 +596,7 @@ provisioning:
 
     registry: "artifacts.software-univention.de"
     repository: "nubus/images/wait-for-dependency"
-    tag: "0.35.4@sha256:1ef0a49a2f584b6aed0ec3b14707ea24ff91740018cae99e98c883a0acd9fecd"
+    tag: "0.35.6@sha256:ff7ccf52da8f229760ef92533e06bc8d51b3e2a98ab6c8c1c10ea4bde12c28d7"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
 
