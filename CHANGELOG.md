@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.6](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.5...v2.19.6) (2025-09-11)
+
+
+### Bug Fixes
+
+* **deps:** Update artifacts.software-univention.de/nubus/images/wait-for-dependency Docker tag to v0.35.6 ([d1c345b](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/d1c345b281a4b832d316688595c54a14783aab83)), closes [#0](https://git.knut.univention.de/univention/dev/projects/intercom-service/issues/0)
+
 ## [2.19.5](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.4...v2.19.5) (2025-09-05)
 
 
