@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+---
+# Add service-specific configuration here
+# For example:
+intercom-service:
+  replicaCount: 42
+image:
+  imagePullPolicy: kyverno
+  registry: "registry.kyverno.test"
+provisioning:
+  image:
+    imagePullPolicy: kyverno
+    registry: "registry.kyverno.test"
+  provisioningImage:
+    imagePullPolicy: kyverno
+    registry: "registry.kyverno.test"

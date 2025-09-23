@@ -159,7 +159,7 @@ The following references show the available settings within the app
 .. envvar:: intercom-service/settings/session-rolling-duration
 
     Rolling session duration in seconds. The session will be reset if the user
-    is active within the duration. Otherwise, the user will be logged out, 
+    is active within the duration. Otherwise, the user will be logged out,
     requiring a silent login. If :envvar:`intercom-service/settings/enable-session-cookie` is set to true, this
     setting will be ignored.
 
