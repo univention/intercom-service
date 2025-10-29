@@ -5,7 +5,7 @@
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.46.0"
+    ref: "v1.48.0"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -16,9 +16,9 @@ include:
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
       - "templates/sonarqube.yaml"
-  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.46.0"
+  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.48.0"
     inputs:
-      helm_chart_uri: "oci://artifacts.software-univention.de/nubus-dev/charts/intercom-service"
+      helm_chart_name: "intercom-service"
       helm_values: "--helm-values ${CI_PROJECT_DIR}/helm/intercom-service/linter_values.yaml"
 
 trigger-docs:
