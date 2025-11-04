@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.6...v2.20.0) (2025-11-04)
+
+
+### Features
+
+* use vul-man component to attest SBOM and VEX on images ([21a48e7](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/21a48e70f8966dc8a3681dff89925d5b70619661)), closes [univention/dev/internal/team-nubus#1468](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1468)
+
 ## [2.19.6](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.5...v2.19.6) (2025-09-11)
 
 
