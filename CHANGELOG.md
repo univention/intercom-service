@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.20.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.20.0...v2.20.1) (2025-11-11)
+
+
+### Bug Fixes
+
+* Update vul-man CI Component to integrate the validate-vex job ([54132ee](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/54132ee331810120e63824239915da34820ef672)), closes [univention/dev/internal/team-nubus#1469](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1469)
+* **vul-man:** Fix validate-vex on main when no MR is linked to the pipeline ([60681d1](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/60681d118b93d03e4b20e36251190197ef181148)), closes [univention/dev/internal/team-nubus#1469](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1469)
+
 ## [2.20.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.19.6...v2.20.0) (2025-11-04)
 
 
