@@ -127,7 +127,7 @@ if cert_pem_path:
     print('      NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/rootca.pem"')@!@
 
   redis-intercom:
-    image: redis:6.2-alpine
+    image: redis:8.4.0-alpine@sha256:6cbef353e480a8a6e7f10ec545f13d7d3fa85a212cdcc5ffaf5a1c818b9d3798
     restart: always
     networks:
       - intercom

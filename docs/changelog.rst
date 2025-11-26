@@ -15,16 +15,24 @@ project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 v1.10
 =====
 
-Released: TBD
+Released: 1. December 2025
 
-Added
------
+Add
+---
 
 * *UCR* variables to allow configuration of session cookies.
 
-  * :envvar:`intercom-service/settings/enable-session-cookie` to enable session cookie (transient cookie).
+  * :envvar:`intercom-service/settings/enable-session-cookie`
+    to enable session cookie (transient cookie).
 
-  * :envvar:`intercom-service/settings/session-rolling-duration` in seconds. The duration for which the session will be reset if the user is active within this time.
+  * :envvar:`intercom-service/settings/session-rolling-duration` in seconds.
+    The duration for which the session will be reset
+    if the user is active within this time.
+
+Security
+---
+
+* Critical CVE :uv:cve:`2025-49844` in :program:`redis-server`.
 
 
 v1.9
