@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.21.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.20.1...v2.21.0) (2025-11-28)
+
+
+### Features
+
+* use prod Dependency-Track URLs ([5f179c7](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/5f179c7ef2050c08b115a4f6cca54b12f3715d23)), closes [univention/dev/internal/team-nubus#1512](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1512)
+
+
+### Bug Fixes
+
+* ci: vul-man SBOM upload cleans tag before uploading new SBOMs for a tag ([c6b4235](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/c6b423565a30d117bef8626aef2b4888912106e4)), closes [univention/dev/internal/team-nubus#1529](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1529)
+* **ci:** Bump common-ci ([a49bdc4](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/a49bdc4cb4efdbf2a3c5411bf67ee04a62a51a19)), closes [univention/dev/internal/team-nubus#1532](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1532)
+* update dependencies in the values ([59103f9](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/59103f94ed1e9eb5e5da9e6976d8cb8b9f6370ca)), closes [univention/dev/internal/team-nubus#1476](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1476)
+
 ## [2.20.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.20.0...v2.20.1) (2025-11-11)
 
 
