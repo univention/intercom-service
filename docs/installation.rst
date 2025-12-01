@@ -51,16 +51,23 @@ the following steps:
 
 #. Enter the *Keycloak Admin Console*.
 
+#. Go to your realm where you want to create the |ICS| client.
+
 #. Create a |OIDC| Client. Recommendation is to use the default value
    ``intercom`` for the *Client ID* and leave the *Root URL* empty and save it.
 
    During app installation, |ICS_p| asks for the *Client ID*.
 
-#. Set *Access Type* to ``confidential``.
+#. Set *Client authentication* to ``On``.
 
-#. Set *Service Accounts Enabled* and *Authorization Enabled* to ``On``.
+#. Set *Authorization*,
+   *Service Accounts Enabled*,
+   and *Standard Token Exchange*
+   to ``On``.
 
-#. Set *Backchannel Logout URL* to your intended domain for |ICS| with protocol
+#. Set *Front channel logout* to ``Off``.
+
+#. Set *Backchannel logout URL* to your intended domain for |ICS| with protocol
    and append the ``backchannel-logout`` path, for example:
 
    .. code-block::
@@ -81,7 +88,8 @@ the following steps:
 #. Go to the tab *Credentials*, copy the secret and save it to
    :file:`/etc/intercom-client.secret`.
 
-#. Go to the tab *Client Scopes* and add ``offline_access`` to *Assigned Default Client Scopes*.
+#. Go to the tab *Client Scopes* and
+   add change ``offline_access`` to *Default*.
 
 #. Make sure the *Access Token* includes a mapper for both the username and
    the user unique identifier. The documentation for these claims can be found

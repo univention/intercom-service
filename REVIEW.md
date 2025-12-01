@@ -33,6 +33,14 @@ It is important to test that functionality is still there. Thus, please start yo
 2. Log into Nextcloud and click the top left corner menu button. Central Navigation should be available.
 
 
+##### Newsfeed
+
+> XWiki and the Univention Portal newsfeed toggle are required for this use case.
+1. Login into the Univention Portal.
+1. Check that there was a successful silent login into ICS (`/silentLogin`).
+1. Check that the newsfeed is available and working.
+
+
 ##### Refresh token
 1. Go to the Keycloak admin interface. Select the realm containing OX, Nextcloud, ICS and Element. Go to `Realm Settings`, select the tab `Sessions` and set the `SSO Session Idle` to 5 minutes. Undo these settings at the end of this QA-step.
 2. Leave a session open for more than 5 minutes

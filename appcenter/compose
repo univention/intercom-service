@@ -58,7 +58,7 @@ with open(pwdfile, 'r') as fd:
       BASE_URL: @%@intercom-service/settings/base-url@%@
       PORT: 8008
       LOG_LEVEL: @%@intercom-service/settings/log-level@%@
-      ENABLE_SESSION_COOKIE: @%@intercom-service/settings/enable-session-cookie@%@
+      ENABLE_SESSION_COOKIE: "@%@intercom-service/settings/enable-session-cookie@%@"
       SESSION_ROLLING_DURATION: @%@intercom-service/settings/session-rolling-duration@%@
 
       # ISSUER

@@ -153,7 +153,7 @@ The following references show the available settings within the app
           - Set
 
         * - No
-          - ``true``
+          - ``False``
           - Only before installation
 
 .. envvar:: intercom-service/settings/session-rolling-duration

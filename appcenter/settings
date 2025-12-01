@@ -48,7 +48,7 @@ Group[de] = Administration
 
 [intercom-service/settings/enable-session-cookie]
 Type = String
-InitialValue = false
+InitialValue = False
 Required = True
 Show = Install, Settings
 # ShowReadOnly = Settings
