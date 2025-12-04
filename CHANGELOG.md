@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.22.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.21.1...v2.22.0) (2025-12-04)
+
+
+### Features
+
+* Bump AppCenter compose image ([3feff3c](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/3feff3c5594ef8b16ac8ae99d90f1347a22dde78)), closes [univention/dev/internal/team-nubus#1538](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1538)
+* Security bump for Redis ([107bc2f](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/107bc2fa19c7bb874a37c079eea751476cee0183)), closes [univention/dev/internal/team-nubus#1538](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1538)
+
+
+### Bug Fixes
+
+* compose file boolean needs to be string ([b07a11f](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/b07a11fcdd580abd80e66a3967169d275ced3875)), closes [univention/dev/internal/team-nubus#1538](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1538)
+
 ## [2.21.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.21.0...v2.21.1) (2025-12-03)
 
 
