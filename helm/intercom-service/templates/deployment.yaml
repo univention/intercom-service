@@ -9,10 +9,7 @@ metadata:
   name: {{ include "common.names.fullname" . | quote }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
   {{- if .Values.additionalAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
   {{- end }}
@@ -69,12 +66,13 @@ spec:
         securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
         {{- end }}
         image: "{{ coalesce .Values.provisioning.image.registry .Values.global.imageRegistry }}/{{ .Values.provisioning.image.repository }}{{ if .Values.provisioning.image.sha256 }}@sha256:{{ .Values.provisioning.image.sha256 }}{{ else }}:{{ .Values.provisioning.image.tag }}{{ end }}"
-        imagePullPolicy: {{ coalesce .Values.provisioning.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+        imagePullPolicy: {{ coalesce .Values.provisioning.image.pullPolicy .Values.global.imagePullPolicy | quote }}
         envFrom:
           - configMapRef:
               name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
         {{- with .Values.provisioning.extraEnvVars }}
-          {{- . | toYaml | nindent 10 }}
+        env:
+          {{- . | toYaml | nindent 12 }}
         {{- end }}
         command: ["wait-for-keycloak.py"]
         {{- if .Values.resources }}
@@ -88,7 +86,7 @@ spec:
         securityContext:
           {{- toYaml .Values.provisioning.securityContext | nindent 10 }}
         image: "{{ coalesce .Values.provisioning.provisioningImage.registry .Values.global.imageRegistry }}/{{ .Values.provisioning.provisioningImage.repository }}{{ if .Values.provisioning.provisioningImage.sha256 }}@sha256:{{ .Values.provisioning.provisioningImage.sha256 }}{{ else }}:{{ .Values.provisioning.provisioningImage.tag }}{{ end }}"
-        imagePullPolicy: {{ coalesce .Values.provisioning.provisioningImage.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+        imagePullPolicy: {{ coalesce .Values.provisioning.provisioningImage.pullPolicy .Values.global.imagePullPolicy | quote }}
         command:
           - /bin/bash
           - -c
@@ -127,9 +125,9 @@ spec:
               secretKeyRef:
                 name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ics.oidc.existingSecret "defaultNameSuffix" "oidc" "context" .) | quote }}
                 key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ics.oidc.existingSecret "key" "clientSecret") | quote }}
-        {{- with .Values.extraEnvVars }}
+          {{- with .Values.provisioning.extraEnvVars }}
           {{- . | toYaml | nindent 10 }}
-        {{- end }}
+          {{- end }}
         {{- if .Values.provisioning.args }}
         args: {{ .Values.provisioning.args }}
         {{- end }}
@@ -152,7 +150,7 @@ spec:
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.imageRegistry) .Values.image.repository .Values.image.tag | quote }}
-          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy }}
           env:
             {{- if .Values.ics.portal.enabled }}
             - name: "PORTAL_API_KEY"
@@ -187,9 +185,9 @@ spec:
             - name: NODE_EXTRA_CA_CERTS
               value: "{{ .Values.ics.redis.ssl.pathCA }}"
             {{- end }}
-          {{- with .Values.extraEnvVars }}
+            {{- with .Values.provisioning.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
-          {{- end }}
+            {{- end }}
           envFrom:
             - secretRef:
                 name: {{ include "common.names.fullname" . }}

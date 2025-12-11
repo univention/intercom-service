@@ -10,12 +10,15 @@ metadata:
   name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.provisioning.extraLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.extraLabels "context" . ) | nindent 4 }}
+    {{- include "common.labels.standard" ( dict "customLabels" (merge (dict) (.Values.provisioning.extraLabels | default dict) (.Values.additionalLabels | default dict)) "context" . ) | nindent 4 }}
+  {{- if or .Values.provisioning.extraAnnotations .Values.additionalAnnotations }}
+  annotations:
+    {{- if .Values.provisioning.extraAnnotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.extraAnnotations "context" . ) | nindent 4 }}
     {{- end }}
-  {{- if .Values.provisioning.extraAnnotations }}
-  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.extraAnnotations "context" . ) | nindent 4 }}
+    {{- if .Values.additionalAnnotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+    {{- end }}
   {{- end }}
 
 data:
@@ -32,12 +35,15 @@ metadata:
   name: {{ printf "%s-provisioning-env" (include "common.names.fullname" .) }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.provisioning.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels.additionalLabels "context" . ) | nindent 4 }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
+  {{- if or .Values.provisioning.additionalAnnotations .Values.additionalAnnotations }}
+  annotations:
+    {{- if .Values.provisioning.additionalAnnotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.additionalAnnotations "context" . ) | nindent 4 }}
     {{- end }}
-  {{- if .Values.provisioning.additionalAnnotations }}
-  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.provisioning.additionalAnnotations "context" . ) | nindent 4 }}
+    {{- if .Values.additionalAnnotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+    {{- end }}
   {{- end }}
 data:
   DEBUG: {{ .Values.provisioning.config.debug.enabled | quote }}

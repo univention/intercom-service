@@ -32,11 +32,11 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | containerSecurityContext.runAsNonRoot | bool | `true` | Run container as a user. |
 | containerSecurityContext.runAsUser | int | `1000` | Process user id. |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Disallow custom Seccomp profile by setting it to RuntimeDefault. |
-| extraEnvVars | list | `[]` | Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar"  |
 | extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
 | extraVolumes | list | `[]` | Optionally specify an extra list of additional volumes. |
 | fullnameOverride | string | `""` | Provide a name to substitute for the full names of resources. |
 | global.domain | string | `""` |  |
+| global.imagePullPolicy | string | `nil` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally.udm-rest-api.secretRef "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails. |
 | global.imagePullSecrets | list | `[]` | Credentials to fetch images from private registry. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"  |
 | global.imageRegistry | string | `"artifacts.software-univention.de"` | Container registry address. |
 | global.subDomains.keycloak | string | `""` |  |
@@ -106,7 +106,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.xwiki.enabled | bool | `true` | Enable XWiki integration. |
 | ics.xwiki.subdomain | string | `"wiki"` | Subdomain of XWiki with "ics.default.protocol" and "ics.default.domain". Mutual exclusive with "url". |
 | ics.xwiki.url | string | `""` | URL of XWiki as FQDN. Mutual exclusive with "subdomain". |
-| image.imagePullPolicy | string | `"IfNotPresent"` | Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.  |
+| image.pullPolicy | string | `nil` |  |
 | image.registry | string | `""` | Container registry address. This setting has higher precedence than global.registry. |
 | image.repository | string | `"nubus-dev/images/intercom-service"` | Container repository string. |
 | image.tag | string | `"latest"` | Define image tag. |
@@ -134,7 +134,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | podSecurityContext.enabled | bool | `true` | Enable security context. |
 | podSecurityContext.fsGroup | int | `1000` | If specified, all processes of the container are also part of the supplementary group. |
 | podSecurityContext.fsGroupChangePolicy | string | `"Always"` | Change ownership and permission of the volume before being exposed inside a Pod. |
-| provisioning | object | `{"config":{"clientBaseUrl":"","debug":{"enabled":false,"pauseBeforeScriptStart":0},"keycloak":{"auth":{"existingSecret":{"keyMapping":{"password":""},"name":""},"password":"","username":"kcadmin"},"connection":{"host":"","port":"","protocol":"http"},"realm":"nubus"}},"enabled":true,"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/wait-for-dependency","tag":"0.35.33@sha256:0570b6e8f57d27fe3c856d53c324b2e0457ad83ead442d54a3af806ea0f6a626"},"provisioningImage":{"imagePullPolicy":"IfNotPresent","imagePullSecrets":[],"registry":"artifacts.software-univention.de","repository":"nubus/images/keycloak-bootstrap","tag":"0.19.18@sha256:78260a633dbc91dafbcdd5b310b93d34cb209b8b9b91eec7df037ecca22bd756"},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | The Intercom Service Keycloak provisioning job |
+| provisioning | object | `{"config":{"clientBaseUrl":"","debug":{"enabled":false,"pauseBeforeScriptStart":0},"keycloak":{"auth":{"existingSecret":{"keyMapping":{"password":""},"name":""},"password":"","username":"kcadmin"},"connection":{"host":"","port":"","protocol":"http"},"realm":"nubus"}},"enabled":true,"extraEnvVars":[],"extraVolumeMounts":[],"image":{"imagePullSecrets":[],"pullPolicy":null,"registry":null,"repository":"nubus/images/wait-for-dependency","tag":"0.35.33@sha256:0570b6e8f57d27fe3c856d53c324b2e0457ad83ead442d54a3af806ea0f6a626"},"provisioningImage":{"imagePullSecrets":[],"pullPolicy":null,"registry":null,"repository":"nubus/images/keycloak-bootstrap","tag":"0.19.18@sha256:78260a633dbc91dafbcdd5b310b93d34cb209b8b9b91eec7df037ecca22bd756"},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"enabled":true,"privileged":false,"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | The Intercom Service Keycloak provisioning job |
 | provisioning.config.clientBaseUrl | string | `""` | Base URL for setting in Keycloak client URL without backslash. Example: "https://ics.uv-jtorres-dev.gaia.open-desk.cloud" |
 | provisioning.config.debug.enabled | bool | `false` | Enable debug output of included Ansible scripts |
 | provisioning.config.debug.pauseBeforeScriptStart | int | `0` | Seconds for the job to pause before starting the actual bootstrapping. |
@@ -151,6 +151,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | provisioning.enabled | bool | `true` | Enable keycloak provisioning by default. |
 | provisioning.extraEnvVars | list | `[]` | Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar" |
 | provisioning.extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
+| provisioning.image.pullPolicy | string | `nil` | Define image sha256 as an alternative to `tag` sha256: null |
 | provisioning.securityContext.allowPrivilegeEscalation | bool | `false` | Enable container privileged escalation. |
 | provisioning.securityContext.capabilities | object | `{"drop":["ALL"]}` | Security capabilities for container. |
 | provisioning.securityContext.enabled | bool | `true` | Enable security context. |

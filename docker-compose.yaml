@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2025 Univention GmbH
+---
+services:
+  test-helm:
+    image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0"
+    pull_policy: "if_not_present"
+    command: "pytest tests/"
+    profiles:
+      - "test"
+    volumes:
+      - "./helm/:/app/helm/"
+      - "./helm-unittests/:/app/tests"
+
+  # Environment of the pre-commit linter.
+  pre-commit:
+    profiles:
+      - "pre-commit"
+    image: "gitregistry.knut.univention.de/univention/dev/tooling/pre-commit/upx-pre-commit:${IMAGE_TAG:-latest}"
+    volumes:
+      - type: "bind"
+        source: "."
+        target: "/code"
+      - type: "volume"
+        # pre-commit installs dependencies, having them cached speeds things up
+        # a lot.
+        source: "pre-commit-cache"
+        target: "/cache"
+
+volumes:
+  pre-commit-cache: {}
+...

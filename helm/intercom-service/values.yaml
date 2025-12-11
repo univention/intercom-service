@@ -19,6 +19,20 @@ global:
   #
   imagePullSecrets: []
 
+  # -- Define an ImagePullPolicy.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  #
+  # "IfNotPresent" => The image is pulled only if it is not already present locally.udm-rest-api.secretRef
+  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
+  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
+  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
+  #             digest, and uses that image to launch the container.
+  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
+  #            kubelet attempts to start the container; otherwise, startup fails.
+  imagePullPolicy: null
+
+
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
 
@@ -62,14 +76,6 @@ containerSecurityContext:
   # -- Run container as a user.
   runAsNonRoot: true
 
-# -- Array with extra environment variables to add to containers.
-#
-# extraEnvVars:
-#   - name: FOO
-#     value: "bar"
-#
-extraEnvVars: []
-
 # -- Optionally specify an extra list of additional volumes.
 extraVolumes: []
 
@@ -86,20 +92,7 @@ image:
 
   # -- Container repository string.
   repository: "nubus-dev/images/intercom-service"
-
-  # -- Define an ImagePullPolicy.
-  #
-  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
-  #
-  # "IfNotPresent" => The image is pulled only if it is not already present locally.
-  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
-  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
-  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
-  #             digest, and uses that image to launch the container.
-  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
-  #            kubelet attempts to start the container; otherwise, startup fails.
-  #
-  imagePullPolicy: "IfNotPresent"
+  pullPolicy: null
 
   # -- Define image tag.
   tag: "latest"
@@ -594,19 +587,20 @@ provisioning:
   image:
     imagePullSecrets: []
 
-    registry: "artifacts.software-univention.de"
+    registry: null
     repository: "nubus/images/wait-for-dependency"
     tag: "0.35.33@sha256:0570b6e8f57d27fe3c856d53c324b2e0457ad83ead442d54a3af806ea0f6a626"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
+    pullPolicy: null
 
   provisioningImage:
     imagePullSecrets: []
 
-    registry: "artifacts.software-univention.de"
+    registry: null
     repository: "nubus/images/keycloak-bootstrap"
     tag: "0.19.18@sha256:78260a633dbc91dafbcdd5b310b93d34cb209b8b9b91eec7df037ecca22bd756"
-    imagePullPolicy: "IfNotPresent"
+    pullPolicy: null
 
   config:
     # -- Base URL for setting in Keycloak client URL without backslash.

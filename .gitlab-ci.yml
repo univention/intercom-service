@@ -75,6 +75,14 @@ container-release-attestation:
   parallel:
     matrix: *build-matrix
 
+chart-tests:
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0"
+  stage: "test"
+  needs: []
+  script:
+    - "helm dep build helm/intercom-service"
+    - "pytest -vv helm-unittests"
+
 # Disabled until the sonarqube deployment is fixed
 # sonarqube:
 #   extends: .sonarqube
