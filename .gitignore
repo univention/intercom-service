@@ -1,3 +1,4 @@
+**/__pycache__/
 *.swp
 _build/
 *.bak
@@ -6,3 +7,8 @@ appcenter/preinst
 ics-values.yaml
 tilt_config.json
 helm/intercom-service/charts
+
+# kyverno test files
+helm/**/.kyverno/kyverno-test.yaml
+helm/**/.kyverno/manifest.yaml
+
