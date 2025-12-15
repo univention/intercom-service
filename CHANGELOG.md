@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.22.0...v2.23.0) (2025-12-15)
+
+
+### Features
+
+* **helm:** Add component-specific extraEnvVars support ([cf3abe3](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/cf3abe38d4332dd17baf292f3de39c72d9c3941e)), closes [univention/dev/internal/team-nubus#977](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/977)
+
 ## [2.22.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.21.1...v2.22.0) (2025-12-04)
 
 
