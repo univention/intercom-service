@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.0...v2.23.1) (2026-01-14)
+
+
+### Bug Fixes
+
+* Bump image to errata 299 ([20a2157](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/20a2157c173fd7aa561298e4150fa2bb1f9c5224)), closes [univention/dev/internal/team-nubus#1518](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1518)
+
 ## [2.23.0](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.22.0...v2.23.0) (2025-12-15)
 
 
