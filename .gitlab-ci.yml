@@ -83,9 +83,8 @@ chart-tests:
     - "helm dep build helm/intercom-service"
     - "pytest -vv helm-unittests"
 
-# Disabled until the sonarqube deployment is fixed
-# sonarqube:
-#   extends: .sonarqube
-#   needs: []
+sonarqube:
+  extends: .sonarqube
+  needs: []
 
 ...
