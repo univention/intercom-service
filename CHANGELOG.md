@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.2](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.1...v2.23.2) (2026-02-17)
+
+
+### Bug Fixes
+
+* **helm:** Change default ingressClassName from "nginx" to "" ([dee58ca](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/dee58cafff71146062cbe1e4a1706fcae10a1814)), closes [univention/dev/internal/team-nubus#1604](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1604)
+
 ## [2.23.1](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.0...v2.23.1) (2026-01-14)
 
 
