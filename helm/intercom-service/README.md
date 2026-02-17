@@ -114,7 +114,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ingress.annotations | object | `{}` | Define custom ingress annotations. annotations:   nginx.ingress.kubernetes.io/rewrite-target: / |
 | ingress.enabled | bool | `true` | Enable creation of Ingress. |
 | ingress.host | string | `"ics.example.com"` | Define the Fully Qualified Domain Name (FQDN) where application should be reachable. |
-| ingress.ingressClassName | string | `"nginx"` | The Ingress controller class name. |
+| ingress.ingressClassName | string | `""` | The Ingress controller class name. |
 | ingress.path | string | `"/"` | Define the Ingress path. |
 | ingress.pathType | string | `"Prefix"` | Each path in an Ingress is required to have a corresponding path type. Paths that do not include an explicit pathType will fail validation. There are three supported path types:  "ImplementationSpecific" => With this path type, matching is up to the IngressClass. Implementations can treat this                             as a separate pathType or treat it identically to Prefix or Exact path types. "Exact" => Matches the URL path exactly and with case sensitivity. "Prefix" => Matches based on a URL path prefix split by /.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types |
 | ingress.tls | object | `{"enabled":true,"secretName":""}` | Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls |

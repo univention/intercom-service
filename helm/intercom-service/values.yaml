@@ -372,7 +372,7 @@ ingress:
   enabled: true
 
   # -- The Ingress controller class name.
-  ingressClassName: "nginx"
+  ingressClassName: ""
 
   # -- Define custom ingress annotations.
   # annotations:
