@@ -599,7 +599,7 @@ provisioning:
 
     registry: null
     repository: "nubus/images/keycloak-bootstrap"
-    tag: "0.20.2@sha256:ee35e620799f269ea54a61b8b1953ff6ed58e8d487298587c32c501c29dadb3b"
+    tag: "0.21.1@sha256:8d69f1652dbcdd671e698d43fce47d72045c29885a61bf4ba722846e85d8d702"
     pullPolicy: null
 
   config:
