@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.5](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.4...v2.23.5) (2026-02-26)
+
+
+### Bug Fixes
+
+* bump keycloak-bootstrap ([ed5f996](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/ed5f996f183981f3493ef5e62a8937a3dad030e1)), closes [univention/dev/internal/team-horizon#9](https://git.knut.univention.de/univention/dev/internal/team-horizon/issues/9)
+
 ## [2.23.4](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.3...v2.23.4) (2026-02-25)
 
 
