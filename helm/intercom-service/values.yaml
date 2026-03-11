@@ -345,6 +345,9 @@ ics:
       # -- Optional. Path to the Redis custom CA
       pathCA: "/etc/ssl/certs/redis-custom-CA.pem"
 
+      # -- Optional. Server name for the SNI (Server Name Indication)
+      servername: ""
+
       # -- CustomCA certificate for Redis connection
       customca: ""
 

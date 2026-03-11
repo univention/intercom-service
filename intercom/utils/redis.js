@@ -38,6 +38,7 @@ if ( redis.SSL ){
       url: `rediss://${redis.user}:${redis.password}@${redis.host}:${redis.port}`,
       socket: {
         tls: true,
+        ...(redis.servername ? { servername: redis.servername } : {}),
         ...tlsOptions,
       },
     });
