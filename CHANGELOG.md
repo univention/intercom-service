@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.6](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.5...v2.23.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* Dependency updates for high CVEs ([29c4b51](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/29c4b51ca8d722d21ca8b0d860f7f0497bf10b54)), closes [univention/dev/internal/team-nubus#1477](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1477)
+
 ## [2.23.5](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.4...v2.23.5) (2026-02-26)
 
 
