@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 const https = require("https");
@@ -15,11 +15,12 @@ const fetchMatrixToken = async (user_id) => {
     return;
   }
   const params = {
-    // https://spec.matrix.org/v1.4/client-server-api/#appservice-login
+    // https://spec.matrix.org/v1.17/client-server-api/#appservice-login
     type: "m.login.application_service",
     identifier: {
       type: "m.id.user",
-      user: user_id,
+      // https://spec.matrix.org/v1.17/appendices/#user-identifiers
+      user: user_id.toLowerCase(),
     },
   };
 
