@@ -10,6 +10,10 @@ You can think of it as an authentication reverse-proxy.
 
 Public documentation can be found [here](https://docs.software-univention.de/intercom-service/latest/).
 
+## Testing
+
+See [REVIEW.md](REVIEW.md) for testing instructions.
+
 ## Development
 
 This repository provides a `Tiltfile` for easier development. If you are new to
