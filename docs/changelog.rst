@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: 2022-2025 Univention GmbH
+.. SPDX-FileCopyrightText: 2022-2026 Univention GmbH
 ..
 .. SPDX-License-Identifier: AGPL-3.0-only
 
@@ -11,6 +11,17 @@ Changelog
 This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
+
+v1.11
+=====
+
+Released: TBD
+
+Fix
+---
+
+* Enforce lowercase usernames for *Matrix* login
+  as per `*Matrix* specification <https://spec.matrix.org/v1.17/appendices/#user-identifiers>`_.
 
 v1.10
 =====
