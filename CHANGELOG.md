@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.7](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.6...v2.23.7) (2026-03-17)
+
+
+### Bug Fixes
+
+* matrix login ([7ef5a89](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/7ef5a8916261b986805f09da475b545c98a04f0a)), closes [univention/dev/internal/team-nubus#1608](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1608)
+
 ## [2.23.6](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.5...v2.23.6) (2026-03-11)
 
 
