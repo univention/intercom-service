@@ -15,7 +15,17 @@ project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 v1.11
 =====
 
-Released: TBD
+Released: 20. March 2026
+
+Security
+--------
+
+* Update dependencies to fix critical and high CVEs.
+
+* This release includes VEX information
+  with triage of high and critical severity CVEs.
+  More information about how to
+  `view VEX information <https://docs.software-univention.de/nubus-kubernetes-operation/latest/en/supply-chain-security.html#view-vex-information>`_.
 
 Fix
 ---
