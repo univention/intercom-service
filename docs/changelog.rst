@@ -22,16 +22,11 @@ Security
 
 * Update dependencies to fix critical and high CVEs.
 
-* This release includes VEX information
-  with triage of high and critical severity CVEs.
-  More information about how to
-  `view VEX information <https://docs.software-univention.de/nubus-kubernetes-operation/latest/en/supply-chain-security.html#view-vex-information>`_.
-
 Fix
 ---
 
 * Enforce lowercase usernames for *Matrix* login
-  as per `*Matrix* specification <https://spec.matrix.org/v1.17/appendices/#user-identifiers>`_.
+  as per `Matrix specification <https://spec.matrix.org/v1.17/appendices/#user-identifiers>`_.
 
 v1.10
 =====
