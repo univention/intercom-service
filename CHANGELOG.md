@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.8](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.7...v2.23.8) (2026-03-26)
+
+
+### Bug Fixes
+
+* **deps:** Update Base Image ([66d84ac](https://git.knut.univention.de/univention/dev/projects/intercom-service/commit/66d84ac8d097ae8b889f92482bdcccfa2ffeef6c)), closes [#0](https://git.knut.univention.de/univention/dev/projects/intercom-service/issues/0)
+
 ## [2.23.7](https://git.knut.univention.de/univention/dev/projects/intercom-service/compare/v2.23.6...v2.23.7) (2026-03-17)
 
 
