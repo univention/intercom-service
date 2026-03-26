@@ -589,7 +589,7 @@ provisioning:
 
     registry: null
     repository: "nubus/images/wait-for-dependency"
-    tag: "0.36.6@sha256:72f5c4a9bab57394706207d75bca9e959df84db566ae30ad3c3db2e350cdff40"
+    tag: "0.36.7@sha256:bcd9f939f15c2af5c48dee4e83b58c9b1e3d4684cab7bd8ac29939c9a327efe7"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
     pullPolicy: null
@@ -599,7 +599,7 @@ provisioning:
 
     registry: null
     repository: "nubus/images/keycloak-bootstrap"
-    tag: "0.21.3@sha256:cd96081bc82d78c7527ba5290b7679a8713e307a5c137efd7f1c1214dcd3911a"
+    tag: "0.23.3@sha256:82f229a180cb7ad925306680fa040237b6626ffee41de0364ce92e13b5fed1af"
     pullPolicy: null
 
   config:
