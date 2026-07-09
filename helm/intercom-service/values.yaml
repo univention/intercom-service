@@ -578,6 +578,20 @@ updateStrategy:
   # are destroyed first.
   type: "RollingUpdate"
 
+# -- Array with extra environment variables to add to the main intercom-service container.
+# This is different from provisioning.extraEnvVars which only affects init containers.
+# Provide name and either value, valueFrom, or both.
+#
+# extraEnvVars:
+#   - name: FOO
+#     value: "bar"
+#   - name: BAZ
+#     valueFrom:
+#       secretKeyRef:
+#         name: my-secret
+#         key: secret-key
+extraEnvVars: []
+
 # -- The Intercom Service Keycloak provisioning job
 provisioning:
 
