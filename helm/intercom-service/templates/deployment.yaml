@@ -29,13 +29,21 @@ spec:
       labels:
         {{- include "common.labels.standard" . | nindent 8 }}
     spec:
-      {{- if or .Values.imagePullSecrets .Values.global.imagePullSecrets }}
+      {{- if or .Values.imagePullSecrets .Values.global.imagePullSecrets (and .Values.provisioning.enabled (or .Values.provisioning.image.imagePullSecrets .Values.provisioning.provisioningImage.imagePullSecrets)) }}
       imagePullSecrets:
         {{- range .Values.global.imagePullSecrets }}
         - name: {{ . | quote }}
         {{- end }}
         {{- range .Values.imagePullSecrets }}
         - name: {{ . | quote }}
+        {{- end }}
+        {{- if .Values.provisioning.enabled }}
+        {{- range .Values.provisioning.image.imagePullSecrets }}
+        - name: {{ . | quote }}
+        {{- end }}
+        {{- range .Values.provisioning.provisioningImage.imagePullSecrets }}
+        - name: {{ . | quote }}
+        {{- end }}
         {{- end }}
       {{- end }}
       {{- if .Values.affinity }}
@@ -83,8 +91,9 @@ spec:
           {{- include "common.tplvalues.render" (dict "value" .Values.provisioning.extraVolumeMounts "context" .) | nindent 10 }}
         {{- end }}
       - name: "keycloak-provisioning"
-        securityContext:
-          {{- toYaml .Values.provisioning.securityContext | nindent 10 }}
+        {{- if .Values.provisioning.securityContext.enabled }}
+        securityContext: {{- omit .Values.provisioning.securityContext "enabled" | toYaml | nindent 10 }}
+        {{- end }}
         image: "{{ coalesce .Values.provisioning.provisioningImage.registry .Values.global.imageRegistry }}/{{ .Values.provisioning.provisioningImage.repository }}{{ if .Values.provisioning.provisioningImage.sha256 }}@sha256:{{ .Values.provisioning.provisioningImage.sha256 }}{{ else }}:{{ .Values.provisioning.provisioningImage.tag }}{{ end }}"
         imagePullPolicy: {{ coalesce .Values.provisioning.provisioningImage.pullPolicy .Values.global.imagePullPolicy | quote }}
         command:
@@ -191,6 +200,7 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "common.names.fullname" . }}
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             tcpSocket:
               port: "http"
@@ -199,14 +209,17 @@ spec:
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             tcpSocket:
               port: "http"
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          {{- end }}
           ports:
             {{- range $key, $value := .Values.service.ports }}
             - name: {{ $key }}

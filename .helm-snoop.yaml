@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+---
+version: 0
+global:
+  ignore:
+    # Provided by the umbrella chart / Helm capabilities, optional per subchart.
+    - .global.ingressClass
+    - .global.kubeVersion
+    - .kubeVersion
+    - .ingress.apiVersion
+    # Optional provisioning overrides, guarded by conditionals in the templates.
+    - .provisioning.args
+    - .provisioning.additionalAnnotations.*
+    - .provisioning.extraAnnotations.*
+    - .provisioning.extraLabels.*
+    - .provisioning.config.keycloak.credentialSecret.key
+    - .provisioning.config.keycloak.password
+    # Optional image digest, alternative to `tag`.
+    - .provisioning.image.sha256
+    - .provisioning.provisioningImage.sha256
+    # Optional Service nodePort, only used for NodePort/LoadBalancer services.
+    - .service.ports.*.nodePort

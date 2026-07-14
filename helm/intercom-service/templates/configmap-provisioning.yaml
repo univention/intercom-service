@@ -22,7 +22,8 @@ metadata:
   {{- end }}
 
 data:
-  KEYCLOAK_URL: {{ printf "http://%s:%s/realms/%s"
+  KEYCLOAK_URL: {{ printf "%s://%s:%s/realms/%s"
+    (required "keycloak.connection.protocol is required" (tpl .Values.provisioning.config.keycloak.connection.protocol .))
     (required "keycloak.connection.host is required"  (tpl .Values.provisioning.config.keycloak.connection.host .))
     (required "keycloak.connection.port is required"  (tpl .Values.provisioning.config.keycloak.connection.port .))
     (required "keycloak.realm is required"            (tpl .Values.provisioning.config.keycloak.realm .)) }}
@@ -49,7 +50,8 @@ data:
   DEBUG: {{ .Values.provisioning.config.debug.enabled | quote }}
   DOMAIN: {{ .Values.global.domain | quote }}
   KEYCLOAK_USERNAME: {{ required "A Keycloak admin username must be specified" .Values.provisioning.config.keycloak.auth.username }}
-  KEYCLOAK_URL: {{ printf "http://%s:%s"
+  KEYCLOAK_URL: {{ printf "%s://%s:%s"
+    (required "provisioning.config.keycloak.connection.protocol is required" (tpl .Values.provisioning.config.keycloak.connection.protocol .))
     (required "provisioning.config.keycloak.connection.host is required" (tpl .Values.provisioning.config.keycloak.connection.host .))
     (required "provisioning.config.keycloak.connection.port is required" (tpl .Values.provisioning.config.keycloak.connection.port .)) }}
   KEYCLOAK_HOST: {{ required ".Values.provisioning.config.keycloak.connection.host must be defined." (tpl .Values.provisioning.config.keycloak.connection.host .) }}
