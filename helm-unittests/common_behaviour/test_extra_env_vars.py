@@ -11,5 +11,4 @@ class TestExtraEnvVars(ExtraEnvVars):
             "provisioning.extraEnvVars": "extraEnvVars",
         }
         apply_mapping(values, mapping, copy=True)
-        values.pop("extraEnvVars", {})
         return values

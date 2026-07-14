@@ -35,6 +35,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | containerSecurityContext.runAsUser | int | `1000` | Process user id. |
 | containerSecurityContext.seccompProfile | object | `{"type":"RuntimeDefault"}` | Set Seccomp profile. |
 | containerSecurityContext.seccompProfile.type | string | `"RuntimeDefault"` | Disallow custom Seccomp profile by setting it to RuntimeDefault. |
+| extraEnvVars | list | `[]` | Array with extra environment variables to add to the main intercom-service container. This is different from provisioning.extraEnvVars which only affects init containers. Provide name and either value, valueFrom, or both.  extraEnvVars:   - name: FOO     value: "bar"   - name: BAZ     valueFrom:       secretKeyRef:         name: my-secret         key: secret-key |
 | extraVolumeMounts | list | `[]` | Optionally specify an extra list of additional volumeMounts. |
 | extraVolumes | list | `[]` | Optionally specify an extra list of additional volumes. |
 | fullnameOverride | string | `""` | Provide a name to substitute for the full names of resources. |
