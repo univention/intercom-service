@@ -77,6 +77,7 @@ const config = {
     caPath: process.env.NODE_EXTRA_CA_CERTS ?? "...",
     mTLS: JSON.parse((process.env.REDIS_MTLS ?? "false").toLowerCase()),
     SSL: JSON.parse((process.env.REDIS_SSL ?? "false").toLowerCase()),
+    servername: process.env.REDIS_SERVERNAME || undefined,
   },
 };
 
