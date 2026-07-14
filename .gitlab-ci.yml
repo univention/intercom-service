@@ -10,7 +10,7 @@ include:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
       - "jobs/check-debian-updates.yaml"
-      - "jobs/container-build-external.yaml"
+      - "jobs/container-build-external-buildkit.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/semantic-release-env.yaml"
@@ -52,7 +52,7 @@ lint-pre-commit-legacy:
 .build-matrix: &build-matrix
   - IMAGE_NAME:
       - "intercom-service"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
     DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
 
 container-build:
