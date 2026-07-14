@@ -710,3 +710,39 @@ The following references show the available settings within the app
        * - No
          - ``Empty``
          - Only before installation
+
+.. envvar:: intercom-service/settings/token-exchange-v2
+
+   Enables Keycloak Token Exchange v2 (standard, RFC 8693) instead of the
+   legacy Token Exchange v1.
+
+   Token Exchange v2 is enabled by default in *Keycloak* 26 and later and is
+   the recommended implementation going forward. Token Exchange v1 is
+   deprecated and disabled by default in *Keycloak* 26+.
+
+   To use Token Exchange v2, the following additional *Keycloak* configuration
+   is required on the ``intercom`` client:
+
+   * Enable the *Standard Token Exchange* toggle in the *Keycloak Admin
+     Console* under the client's *Settings* tab.
+
+   * Ensure the *Client Scopes* of the ``intercom`` client include the
+     audiences for each enabled backend service, for example ``xwikioidc`` for
+     *XWiki* (see :envvar:`intercom-service/xwiki/audience`) and ``ncoidc``
+     for *Nextcloud* (see :envvar:`intercom-service/nextcloud/audience`).
+     Token Exchange v2 resolves audiences through client scopes rather than
+     granting them directly based on the target client.
+
+   See :ref:`app-installation` for the full client setup procedure.
+
+   .. list-table::
+       :header-rows: 1
+       :widths: 2 5 5
+
+       * - Required
+         - Default value
+         - Set
+
+       * - No
+         - ``False``
+         - Any time

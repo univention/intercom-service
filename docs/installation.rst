@@ -65,6 +65,25 @@ the following steps:
    and *Standard Token Exchange*
    to ``On``.
 
+   .. note::
+
+      *Standard Token Exchange* corresponds to Keycloak Token Exchange v2 (RFC
+      8693). It is enabled by default in Keycloak 26 and later and is the
+      recommended implementation. To use it, also set
+      :envvar:`intercom-service/settings/token-exchange-v2` to ``True``.
+
+      Keycloak Token Exchange v1 (legacy) is deprecated and disabled by
+      default in Keycloak 26+. If you are running an older Keycloak version
+      that does not support v2, leave *Standard Token Exchange* off and keep
+      :envvar:`intercom-service/settings/token-exchange-v2` at its default
+      value of ``False``.
+
+      When using Token Exchange v2, verify that the *Client Scopes* of the
+      ``intercom`` client include the audiences for each enabled backend
+      service (for example ``xwikioidc`` and ``ncoidc``). Keycloak Token
+      Exchange v2 resolves audiences through client scopes rather than
+      granting them directly based on the target client.
+
 #. Set *Front channel logout* to ``Off``.
 
 #. Set *Backchannel logout URL* to your intended domain for |ICS| with protocol
