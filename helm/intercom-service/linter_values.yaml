@@ -3,6 +3,7 @@
 ---
 
 ics:
+  tokenExchangeV2: false
   session:
     secret: "stub_secret"
 

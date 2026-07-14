@@ -220,6 +220,17 @@ Description[de] = Einstellung die an die node-axios Bibliothek übergeben wird u
 Group = Administration
 Group[de] = Administration
 
+[intercom-service/settings/token-exchange-v2]
+Type = Bool
+Required = True
+Show = Install, Settings
+InitialValue = False
+Scope = outside
+Description = Enable Keycloak Token Exchange v2 (standard, RFC 8693). Requires the "Standard token exchange" switch enabled on the intercom client in Keycloak Admin Console.
+Description[de] = Aktiviert Keycloak Token Exchange v2 (Standard, RFC 8693). Erfordert, dass der Schalter "Standard token exchange" für den Intercom-Client in der Keycloak Admin Console aktiviert ist.
+Group = Administration
+Group[de] = Administration
+
 [intercom-service/settings/log-level]
 Type = String
 Required = True

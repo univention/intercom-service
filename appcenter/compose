@@ -60,6 +60,7 @@ with open(pwdfile, 'r') as fd:
       LOG_LEVEL: @%@intercom-service/settings/log-level@%@
       ENABLE_SESSION_COOKIE: "@%@intercom-service/settings/enable-session-cookie@%@"
       SESSION_ROLLING_DURATION: @%@intercom-service/settings/session-rolling-duration@%@
+      TOKEN_EXCHANGE_V2: "@%@intercom-service/settings/token-exchange-v2@%@"
 
       # ISSUER
       ISSUER_BASE_URL: @%@intercom-service/settings/issuer-base-url@%@

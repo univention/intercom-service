@@ -1,6 +1,6 @@
 {
   "name": "intercom-service",
-  "version": "1.11",
+  "version": "1.12",
   "description": "",
   "main": "app.js",
   "type": "commonjs",

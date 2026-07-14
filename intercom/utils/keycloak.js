@@ -15,6 +15,10 @@ const { intercom, issuerBaseUrl } = require("../config");
  * with a different audience. It uses the "urn:ietf:params:oauth:grant-type:token-exchange"
  * grant type as specified in the Keycloak Token Exchange documentation.
  *
+ * Set TOKEN_EXCHANGE_V2=true to use the standard token exchange v2 (RFC 8693),
+ * which requires subject_token_type and the "Standard token exchange" switch
+ * enabled on the intercom client in Keycloak. Default is legacy v1 behavior.
+ *
  * @see {@link https://www.keycloak.org/securing-apps/token-exchange} for more details on Keycloak Token Exchange.
  *
  * @param {string} access_token - The existing access token to be exchanged.
@@ -31,6 +35,10 @@ const fetchOIDCToken = async (access_token, audience) => {
     client_secret: intercom.clientSecret,
     audience: audience,
   };
+
+  if (intercom.tokenExchangeV2) {
+    params.subject_token_type = "urn:ietf:params:oauth:token-type:access_token";
+  }
 
   return axios
     .request({

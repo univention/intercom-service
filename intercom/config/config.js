@@ -61,6 +61,7 @@ const config = {
     proxy: JSON.parse((process.env.PROXY ?? "false").toLowerCase()),
     secret: process.env.SECRET,
     baseUrl: process.env.BASE_URL,
+    tokenExchangeV2: JSON.parse((process.env.TOKEN_EXCHANGE_V2 ?? "false").toLowerCase()),
   },
   matrix: {
     enabled: JSON.parse((process.env.MATRIX_ENABLED ?? "false").toLowerCase()),

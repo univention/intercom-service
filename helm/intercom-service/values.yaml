@@ -136,6 +136,11 @@ ics:
   # -- Proxy settings.
   proxy: false
 
+  # -- Enable Keycloak Token Exchange v2 (standard, RFC 8693).
+  # Requires the "Standard token exchange" switch enabled on the intercom client
+  # in Keycloak Admin Console. Default is false (legacy v1 behavior).
+  tokenExchangeV2: false
+
   # -- Enable session cookie (transient cookie). If enabled, the session cookie
   # will be deleted at the end of the browser session. Otherwise, the session
   # will be a rolling session (reset every time the user is active).
