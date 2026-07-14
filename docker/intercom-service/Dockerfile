@@ -29,6 +29,9 @@ CMD ["nodejs", "app.js"]
 ###############################################################################
 FROM common AS final
 
+RUN yarnpkg workspaces focus --production \
+  && yarnpkg cache clean
+
 RUN \
   apt-get purge -y yarnpkg \
   && apt-get clean autoclean \
