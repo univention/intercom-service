@@ -15,7 +15,7 @@ project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 v1.12
 =====
 
-Released: TBD
+Released: 17. July 2026
 
 Add
 ---
@@ -24,6 +24,19 @@ Add
 
   * :envvar:`intercom-service/settings/token-exchange-v2`
     to enable support for Keycloak Token Exchange v2 in the Intercom service
+
+Changed
+-------
+
+* The app's container image is now pulled from
+  ``artifacts.software-univention.de`` instead of ``docker.software-univention.de``.
+  Operators who restrict outbound traffic with a firewall or proxy must, before upgrading,
+  allow both ``artifacts.software-univention.de`` and ``s3.de-west-1.psmanaged.com``:
+  the registry answers image blob downloads with an HTTP 307 redirect to the
+  latter (its S3 backing storage), so pulls fail if only the registry host is
+  reachable. See `Allowing artifacts.software-univention.de in firewalls and
+  proxies <https://help.univention.com/t/allowing-artifacts-software-univention-de-in-firewalls-and-proxies/25333>`__
+  for guidance.
 
 v1.11
 =====
