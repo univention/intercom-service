@@ -11,7 +11,7 @@ const { matrix, intercom } = require("../config");
 
 const fetchMatrixToken = async (user_id) => {
   if (!matrix.url) {
-    logger.warning("Matrix integration not configured");
+    logger.warn("Matrix integration not configured");
     return;
   }
   const params = {

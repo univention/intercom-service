@@ -25,7 +25,8 @@ const config = {
     origin: new RegExp(process.env.ORIGIN_REGEX),
   },
   issuerBaseUrl,
-  logLevel: `${process.env.LOG_LEVEL}`.toLowerCase() ?? "info",
+  logLevel: (process.env.LOG_LEVEL ?? "info").toLowerCase(),
+  logFile: process.env.LOG_FILE ?? "",
   enableSessionCookie: JSON.parse(
     (process.env.ENABLE_SESSION_COOKIE ?? "false").toLowerCase(),
   ),

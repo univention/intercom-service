@@ -155,6 +155,13 @@ ics:
   # -- Log level.
   logLevel: "INFO"
 
+  # -- Absolute path of an additional log file to write to.
+  logFile: ""
+
+  # -- Size limit of the `emptyDir` volume holding the log file. Used only when
+  # `ics.logFile` is set.
+  logVolumeSizeLimit: "1Gi"
+
   # -- Mapper claim name for the Intercom Service client. The field must be
   # unique along users. If not set, the default value is "entryuuid", which is
   # provisioned by the Intercom Service initContainer. Any other value that

@@ -233,6 +233,10 @@ spec:
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" .) | nindent 12 }}
           {{- end }}
           volumeMounts:
+            {{- if .Values.ics.logFile }}
+            - name: "logs"
+              mountPath: {{ dir .Values.ics.logFile | quote }}
+            {{- end }}
             {{- if .Values.ics.redis.ssl.customca }}
             - name: "customca"
               mountPath: "{{ .Values.ics.redis.ssl.pathCA }}"
@@ -266,6 +270,11 @@ spec:
         - name: "temp-dir"
           emptyDir:
             sizeLimit: "20Mi"
+        {{- if .Values.ics.logFile }}
+        - name: "logs"
+          emptyDir:
+            sizeLimit: {{ .Values.ics.logVolumeSizeLimit | quote }}
+        {{- end }}
         {{- if .Values.ics.redis.ssl.customca }}
         - name: "customca"
           configMap:
