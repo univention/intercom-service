@@ -653,7 +653,7 @@ provisioning:
     # -- Container repository string.
     repository: "nubus/images/keycloak-bootstrap"
     # -- Define image tag.
-    tag: "0.28.1@sha256:ab1da1860be2b9e9dde0aa01f93fbaa8f4e56990edb5155454759a6fcc04837b"
+    tag: "26.7.0@sha256:371242de9698bc5576e78f1566d070687aafd5c9a71453b16137a762fdd35331"
     # -- Define an ImagePullPolicy.
     pullPolicy: null
 
