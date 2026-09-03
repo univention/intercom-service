@@ -637,7 +637,7 @@ provisioning:
     # -- Container repository string.
     repository: "nubus/images/wait-for-dependency"
     # -- Define image tag.
-    tag: "0.36.13@sha256:bc0d56b125da3ec44b52a71ed89624790b12fc84279a9bec8f9fda87804ec6fa"
+    tag: "0.36.14@sha256:ae1a18fd34afe9027aff1036102448db0cdab563711214c0ad7dfbaf6264a7a9"
     # -- Define image sha256 as an alternative to `tag`
     # sha256: null
     # -- Define an ImagePullPolicy.
