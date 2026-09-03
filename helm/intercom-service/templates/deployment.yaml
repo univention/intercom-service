@@ -74,7 +74,9 @@ spec:
         securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
         {{- end }}
         image: "{{ coalesce .Values.provisioning.image.registry .Values.global.imageRegistry }}/{{ .Values.provisioning.image.repository }}{{ if .Values.provisioning.image.sha256 }}@sha256:{{ .Values.provisioning.image.sha256 }}{{ else }}:{{ .Values.provisioning.image.tag }}{{ end }}"
-        imagePullPolicy: {{ coalesce .Values.provisioning.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+        {{- with (coalesce .Values.provisioning.image.pullPolicy .Values.global.imagePullPolicy) }}
+        imagePullPolicy: {{ . | quote }}
+        {{- end }}
         envFrom:
           - configMapRef:
               name: {{ printf "%s-provisioning-init" (include "common.names.fullname" .) }}
@@ -95,7 +97,9 @@ spec:
         securityContext: {{- omit .Values.provisioning.securityContext "enabled" | toYaml | nindent 10 }}
         {{- end }}
         image: "{{ coalesce .Values.provisioning.provisioningImage.registry .Values.global.imageRegistry }}/{{ .Values.provisioning.provisioningImage.repository }}{{ if .Values.provisioning.provisioningImage.sha256 }}@sha256:{{ .Values.provisioning.provisioningImage.sha256 }}{{ else }}:{{ .Values.provisioning.provisioningImage.tag }}{{ end }}"
-        imagePullPolicy: {{ coalesce .Values.provisioning.provisioningImage.pullPolicy .Values.global.imagePullPolicy | quote }}
+        {{- with (coalesce .Values.provisioning.provisioningImage.pullPolicy .Values.global.imagePullPolicy) }}
+        imagePullPolicy: {{ . | quote }}
+        {{- end }}
         command:
           - /bin/bash
           - -c
@@ -159,7 +163,9 @@ spec:
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: {{ printf "%s/%s:%s" (coalesce .Values.image.registry .Values.global.imageRegistry) .Values.image.repository .Values.image.tag | quote }}
-          imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy }}
+          {{- with (coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy) }}
+          imagePullPolicy: {{ . | quote }}
+          {{- end }}
           env:
             {{- if .Values.ics.portal.enabled }}
             - name: "PORTAL_API_KEY"
