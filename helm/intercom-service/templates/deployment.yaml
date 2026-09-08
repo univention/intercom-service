@@ -67,8 +67,8 @@ spec:
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
-      initContainers:
       {{- if .Values.provisioning.enabled }}
+      initContainers:
       - name: "wait-for-keycloak-container"
         {{- if .Values.containerSecurityContext.enabled }}
         securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 10 }}
@@ -232,6 +232,7 @@ spec:
           {{- if .Values.lifecycleHooks }}
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.lifecycleHooks "context" .) | nindent 12 }}
           {{- end }}
+          {{- if or .Values.ics.logFile .Values.ics.redis.ssl.customca .Values.ics.redis.ssl.mTLS.enabled .Values.extraVolumeMounts }}
           volumeMounts:
             {{- if .Values.ics.logFile }}
             - name: "logs"
@@ -258,6 +259,7 @@ spec:
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
+          {{- end }}
       volumes:
         {{- if .Values.provisioning.enabled }}
         - name: "wait-for-keycloak"
