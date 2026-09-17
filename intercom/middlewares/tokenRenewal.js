@@ -60,6 +60,8 @@ const refreshOIDCTokenIfNeeded = (config) => {
   };
 };
 
+const MATRIX_TOKEN_EXPIRY_MARGIN_MS = 60 * 1000;
+
 const refreshMatrixTokenIfNeeded = async (req, _, next) => {
   if (!matrix.enabled) {
     logger.debug(
@@ -69,20 +71,29 @@ const refreshMatrixTokenIfNeeded = async (req, _, next) => {
     next();
     return;
   }
-  if (!req.appSession[matrix.session_storage_key]) {
-    logger.debug(
-      "%s access_token not found in session, fetching new token.",
-      matrix.name
-    );
-    let entryUUID = req.decodedAccessToken[userUniqueMapper];
-    req.appSession[matrix.session_storage_key] = await fetchMatrixToken(
-      entryUUID
-    );
-    logger.info("Fetched new %s access_token successfully", matrix.name);
+
+  try {
+    const token = req.appSession[matrix.session_storage_key];
+
+    if (
+      !token ||
+      !token.expiresAt ||
+      Date.now() >= token.expiresAt - MATRIX_TOKEN_EXPIRY_MARGIN_MS
+    ) {
+      logger.debug("%s OpenID token not found or expired, fetching new token.", matrix.name);
+
+      const entryUUID = req.decodedAccessToken[userUniqueMapper];
+
+      req.appSession[matrix.session_storage_key] = await fetchMatrixToken(entryUUID);
+
+      logger.info("Fetched new %s OpenID token successfully", matrix.name);
+    }
+  } catch (error) {
+    logger.error("Refreshing %s OpenID token failed", matrix.name);
+    logger.debug(error);
+  } finally {
     next();
-    return;
   }
-  next();
 };
 
 module.exports = {
