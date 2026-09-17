@@ -66,6 +66,7 @@ const config = {
     enabled: JSON.parse((process.env.MATRIX_ENABLED ?? "false").toLowerCase()),
     name: "Matrix",
     url: process.env.MATRIX_URL,
+    serverName: process.env.MATRIX_SERVER_NAME,
     appServiceSecret: process.env.MATRIX_AS_SECRET,
     session_storage_key: "matrix_access_token",
   },

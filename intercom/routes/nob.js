@@ -28,21 +28,20 @@ router.use(
     secure: false,
     onProxyReq: function onProxyReq(proxyReq, req, res) {
       stripIntercomCookies(proxyReq);
-      // TODO: Build Switch for Nordeck Live Mode
-      // Example headers.set('authorization', `MX-Identity ${btoa(JSON.stringify(t))}`);
-      // or  proxyReq.setHeader('authorization', `Bearer ${matrix_access_token}`);
-
       if (!req.appSession[matrix.session_storage_key]) {
         logger.info(
           "No Matrix session found in appSession. Likely Matrix is not configured",
         );
         return;
       }
-      // Provide access_token via authentication bearer token header
-      // https://spec.matrix.org/v1.4/client-server-api/#client-authentication
+      // Nordeck exchanges the Matrix OpenID token for the user's Matrix ID.
+      // https://github.com/nordeck/matrix-meetings/blob/main/matrix-meetings-bot/src/middleware/MatrixAuthMiddleware.ts
+      const openIdToken = Buffer.from(
+        JSON.stringify(req.appSession[matrix.session_storage_key].openIdToken),
+      ).toString("base64url");
       proxyReq.setHeader(
         "authorization",
-        `Bearer ${req.appSession[matrix.session_storage_key]}`,
+        `MX-Identity ${openIdToken}`,
       );
     },
     onProxyRes: function (proxyRes, req, res) {

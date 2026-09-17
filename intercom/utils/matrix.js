@@ -14,17 +14,10 @@ const fetchMatrixToken = async (user_id) => {
     logger.warning("Matrix integration not configured");
     return;
   }
-  const params = {
-    // https://spec.matrix.org/v1.17/client-server-api/#appservice-login
-    type: "m.login.application_service",
-    identifier: {
-      type: "m.id.user",
-      // https://spec.matrix.org/v1.17/appendices/#user-identifiers
-      user: user_id.toLowerCase(),
-    },
-  };
 
-  // https://spec.matrix.org/v1.4/application-service-api/#registration
+  const mxId = `@${user_id.toLowerCase()}:${matrix.serverName}`;
+  // The AS token is used with identity assertion instead of logging in as the
+  // user. MAS no longer supports m.login.application_service.
   const headers = {
     Authorization: "Bearer " + matrix.appServiceSecret,
     "Content-Type": "application/json",
@@ -32,16 +25,19 @@ const fetchMatrixToken = async (user_id) => {
 
   return axios
     .request({
-      url: `${matrix.url}/_matrix/client/v3/login`,
+      // https://spec.matrix.org/v1.17/client-server-api/#openid
+      url: `${matrix.url}/_matrix/client/v3/user/${encodeURIComponent(mxId)}/openid/request_token`,
       headers,
       method: "POST",
-      data: params,
+      params: { user_id: mxId },
+      data: {},
       proxy: intercom.proxy,
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     })
-    .then((res) => {
-      return res.data.access_token;
-    })
+    .then((res) => ({
+      openIdToken: res.data,
+      expiresAt: Date.now() + res.data.expires_in * 1000,
+    }))
     .catch((err) => {
       logger.error("Error fetching Matrix token");
       logger.debug(err);
