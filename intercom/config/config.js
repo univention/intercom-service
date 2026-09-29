@@ -76,7 +76,6 @@ const config = {
     password: process.env.REDIS_PASSWORD,
     host: process.env.REDIS_HOST ?? "redis-intercom",
     port: process.env.REDIS_PORT ?? 6379,
-    caPath: process.env.NODE_EXTRA_CA_CERTS ?? "...",
     mTLS: JSON.parse((process.env.REDIS_MTLS ?? "false").toLowerCase()),
     SSL: JSON.parse((process.env.REDIS_SSL ?? "false").toLowerCase()),
     servername: process.env.REDIS_SERVERNAME || undefined,

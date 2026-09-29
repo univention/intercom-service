@@ -12,18 +12,13 @@ const { logger } = require("./logger");
 const { describeError } = require("./errors");
 const { redis } = require("../config");
 
-const customCA = redis.caPath !== "...";
 let redisClient;
+// A custom CA for Redis is provided through NODE_EXTRA_CA_CERTS (Helm chart:
+// ics.redis.ssl.customca, App Center: root-ca-pem), which Node.js trusts for all
+// TLS connections. The server certificate is always verified.
 let tlsOptions = {
     rejectUnauthorized: true,
 };
-
-if ( redis.customCA ){
-    const caCert = fs.readFileSync(redis.caPath);  // Load the custom CA
-
-    tlsOptions.ca = [caCert];
-    tlsOptions.rejectUnauthorized = false;
-}
 
 if ( redis.mTLS ){
     const clientCert = fs.readFileSync("/app/client-cert.pem");  // Load client certificate
