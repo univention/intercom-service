@@ -8,8 +8,34 @@ const router = express.Router();
 
 const jose = require("jose");
 
-const { issuerBaseUrl } = require("../config");
+const { issuerBaseUrl, intercom } = require("../config");
 const { JWKS, redisClient, logger } = require("../utils");
+
+const BACKCHANNEL_LOGOUT_EVENT = "http://schemas.openid.net/event/backchannel-logout";
+
+const isObject = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+
+/**
+ * Checks the logout token claims that jose doesn't check itself.
+ * @see {@link https://openid.net/specs/openid-connect-backchannel-1_0.html#Validation}
+ * @returns {string|undefined} Why the token is invalid, or undefined if it is valid.
+ */
+const invalidLogoutTokenClaims = (payload) => {
+  if (typeof payload.jti !== "string" || payload.jti === "") {
+    return "no jti claim";
+  }
+  if (!isObject(payload.events) || !isObject(payload.events[BACKCHANNEL_LOGOUT_EVENT])) {
+    return "no back-channel logout event";
+  }
+  if ("nonce" in payload) {
+    return "nonce claim present";
+  }
+  // Sessions are mapped by sid; logout tokens with only a sub can't be processed.
+  if (typeof payload.sid !== "string" || payload.sid === "") {
+    return "no sid claim";
+  }
+  return undefined;
+};
 
 // The Redis client runs in legacy mode, so its commands report through callbacks.
 const redisCommand = (command, ...args) =>
@@ -38,6 +64,8 @@ router.post("/", async (req, res) => {
     // decode and validates claims set
     ({ payload } = await jose.jwtVerify(logoutToken, JWKS, {
       issuer: issuerBaseUrl,
+      // Always set: express-openid-connect refuses to start without a client ID.
+      audience: intercom.clientId,
       maxTokenAge: "10 seconds", // TODO: to avoid replay attack too far after issued_at
     }));
   } catch (error) {
@@ -45,9 +73,9 @@ router.post("/", async (req, res) => {
     res.status(400).json({ error: "invalid_request" });
     return;
   }
-  // Sessions are mapped by sid; logout tokens with only a sub can't be processed.
-  if (typeof payload.sid !== "string" || payload.sid === "") {
-    logger.warn("Rejected backchannel logout token: no sid claim");
+  const invalidClaims = invalidLogoutTokenClaims(payload);
+  if (invalidClaims) {
+    logger.warn(`Rejected backchannel logout token: ${invalidClaims}`);
     res.status(400).json({ error: "invalid_request" });
     return;
   }
