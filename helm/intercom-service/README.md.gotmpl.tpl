@@ -21,6 +21,32 @@ helm repo add ${CI_PROJECT_NAME} oci://${CI_REGISTRY_IMAGE}
 helm install my-release --version ${RELEASE_VERSION} ${CI_PROJECT_NAME}/{{ template "chart.name" . }}
 ```
 
+## Trusting a private certificate authority
+
+The Intercom Service verifies the TLS certificates of Keycloak, Matrix, the Nordeck bot, Nextcloud, XWiki and the
+portal. If these services use certificates of a private certificate authority, provide the CA certificate in
+[PEM format](https://nodejs.org/api/cli.html#node_extra_ca_certsfile) through `NODE_EXTRA_CA_CERTS`, for example
+from a ConfigMap `private-ca` with the key `ca.crt`:
+
+```yaml
+extraEnvVars:
+  - name: "NODE_EXTRA_CA_CERTS"
+    value: "/etc/ssl/private-ca/ca.crt"
+extraVolumes:
+  - name: "private-ca"
+    configMap:
+      name: "private-ca"
+extraVolumeMounts:
+  - name: "private-ca"
+    mountPath: "/etc/ssl/private-ca"
+    readOnly: true
+```
+
+`NODE_EXTRA_CA_CERTS` is read once at startup and applies to all connections. If `ics.redis.ssl.customca` is set,
+the chart already sets `NODE_EXTRA_CA_CERTS` to `ics.redis.ssl.pathCA`. Then either put all CA certificates into
+that file, or set `NODE_EXTRA_CA_CERTS` in `extraEnvVars` as shown above to a bundle that also contains the Redis CA:
+the value from `extraEnvVars` takes precedence.
+
 {{ template "chart.requirementsSection" . }}
 
 {{ template "chart.valuesSection" . }}
