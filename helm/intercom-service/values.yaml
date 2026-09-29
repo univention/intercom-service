@@ -165,7 +165,8 @@ ics:
   # -- Mapper claim name for the Intercom Service client. The field must be
   # unique along users. If not set, the default value is "entryuuid", which is
   # provisioned by the Intercom Service initContainer. Any other value that
-  # "entryuuid" is not guaranteed to be unique on Nubus.
+  # "entryuuid" is not guaranteed to be unique on Nubus. ICS reads the claim from
+  # the ID token, so the mapper must add it to the ID token.
   userUniqueMapper: "entryuuid"
 
   # -- ID Token claim that contains the username for a user. Needs to be

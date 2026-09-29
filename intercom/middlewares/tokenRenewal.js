@@ -3,6 +3,8 @@
  * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
+const jose = require("jose");
+
 const {
   verifyJWT,
   JWKS,
@@ -83,11 +85,19 @@ const refreshMatrixTokenIfNeeded = async (req, _, next) => {
     ) {
       logger.debug("%s OpenID token not found or expired, fetching new token.", matrix.name);
 
-      const entryUUID = req.decodedAccessToken[userUniqueMapper];
+      // The same token and claim as at login (afterCallback in app.js): the ID token.
+      // It is session data that was verified at login or refresh, so it is only decoded.
+      const idToken = jose.decodeJwt(req.appSession.id_token);
+      const entryUUID = idToken[userUniqueMapper];
+      if (!entryUUID) {
+        throw new Error(`The ID token has no "${userUniqueMapper}" claim, check the mappers of the ICS client`);
+      }
 
       req.appSession[matrix.session_storage_key] = await fetchMatrixToken(entryUUID);
 
-      logger.info("Fetched new %s OpenID token successfully", matrix.name);
+      if (req.appSession[matrix.session_storage_key]) {
+        logger.info("Fetched new %s OpenID token successfully", matrix.name);
+      }
     }
   } catch (error) {
     logger.error("Refreshing %s OpenID token failed: %s", matrix.name, describeError(error));
@@ -96,8 +106,22 @@ const refreshMatrixTokenIfNeeded = async (req, _, next) => {
   }
 };
 
+/**
+ * Answers requests for the Nordeck bot with 502 if ICS has no Matrix OpenID
+ * token for the user, instead of forwarding them without authentication.
+ */
+const requireMatrixToken = (req, res, next) => {
+  if (matrix.enabled && !req.appSession[matrix.session_storage_key]) {
+    logger.warn("No %s OpenID token for the user, not forwarding the request", matrix.name);
+    res.status(502).json({ error: "matrix_token_unavailable" });
+    return;
+  }
+  next();
+};
+
 module.exports = {
   refreshIntercomTokenIfNeeded,
   refreshOIDCTokenIfNeeded,
   refreshMatrixTokenIfNeeded,
+  requireMatrixToken,
 };
