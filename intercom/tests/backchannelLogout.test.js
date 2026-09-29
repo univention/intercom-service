@@ -1,0 +1,128 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2026 Univention GmbH
+ */
+
+/* eslint-env node */
+
+const { test, before, after, beforeEach } = require("node:test");
+const assert = require("node:assert");
+const express = require("express");
+const jose = require("jose");
+
+const { stubModule, stubRedis, listen } = require("./helpers");
+
+const ISSUER = "https://id.example.test/realms/test";
+process.env.ISSUER_BASE_URL = ISSUER;
+process.env.LOG_LEVEL = "error";
+
+let redisClient;
+let privateKey;
+let server;
+
+before(async () => {
+  const keyPair = await jose.generateKeyPair("RS256");
+  privateKey = keyPair.privateKey;
+  const jwk = { ...(await jose.exportJWK(keyPair.publicKey)), kid: "test", alg: "RS256" };
+  stubModule("utils/keys.js", { JWKS: jose.createLocalJWKSet({ keys: [jwk] }) });
+  redisClient = stubRedis();
+
+  const app = express();
+  app.use(express.urlencoded({ extended: true }));
+  app.use("/backchannel-logout", require("../routes/backchannelLogout"));
+  server = await listen(app);
+});
+
+after(() => server.close());
+
+beforeEach(() => {
+  redisClient.store.clear();
+  redisClient.calls.length = 0;
+  redisClient.store.set("sid-1", { value: "cookie-1" });
+  redisClient.store.set("sess:cookie-1", { value: "{}" });
+});
+
+const logoutToken = (claims = {}, iat = Math.floor(Date.now() / 1000)) =>
+  new jose.SignJWT({ sid: "sid-1", ...claims })
+    .setProtectedHeader({ alg: "RS256", kid: "test", typ: "logout+jwt" })
+    .setIssuer(ISSUER)
+    .setIssuedAt(iat)
+    .sign(privateKey);
+
+const postLogout = (body) =>
+  fetch(`${server.url}/backchannel-logout`, {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(body),
+  });
+
+test("a garbage logout_token is rejected with 400", async () => {
+  const res = await postLogout({ logout_token: "garbage" });
+  assert.strictEqual(res.status, 400);
+  assert.strictEqual(res.headers.get("cache-control"), "no-store");
+  assert.ok(redisClient.store.has("sess:cookie-1"));
+});
+
+test("a missing logout_token is rejected with 400", async () => {
+  const res = await postLogout({});
+  assert.strictEqual(res.status, 400);
+});
+
+test("a logout_token older than 10 seconds is rejected with 400", async () => {
+  const res = await postLogout({ logout_token: await logoutToken({}, Math.floor(Date.now() / 1000) - 60) });
+  assert.strictEqual(res.status, 400);
+  assert.ok(redisClient.store.has("sess:cookie-1"));
+});
+
+test("a logout_token signed by an unknown key is rejected with 400", async () => {
+  const { privateKey: otherKey } = await jose.generateKeyPair("RS256");
+  const token = await new jose.SignJWT({ sid: "sid-1" })
+    .setProtectedHeader({ alg: "RS256", kid: "test" })
+    .setIssuer(ISSUER)
+    .setIssuedAt()
+    .sign(otherKey);
+  const res = await postLogout({ logout_token: token });
+  assert.strictEqual(res.status, 400);
+});
+
+test("a logout_token without sid is rejected with 400", async () => {
+  const token = await new jose.SignJWT({ sub: "user-1" })
+    .setProtectedHeader({ alg: "RS256", kid: "test" })
+    .setIssuer(ISSUER)
+    .setIssuedAt()
+    .sign(privateKey);
+  const res = await postLogout({ logout_token: token });
+  assert.strictEqual(res.status, 400);
+  assert.ok(redisClient.store.has("sess:cookie-1"));
+});
+
+test("a logout_token for an unknown sid is answered with 200", async () => {
+  const res = await postLogout({ logout_token: await logoutToken({ sid: "sid-unknown" }) });
+  assert.strictEqual(res.status, 200);
+  assert.ok(redisClient.store.has("sess:cookie-1"));
+  assert.ok(!redisClient.calls.some(([command, key]) => command === "del" && key.startsWith("sess:")));
+});
+
+test("a valid logout_token deletes the session", async () => {
+  const res = await postLogout({ logout_token: await logoutToken() });
+  assert.strictEqual(res.status, 200);
+  assert.ok(!redisClient.store.has("sess:cookie-1"));
+  assert.ok(!redisClient.store.has("sid-1"));
+});
+
+test("a Redis error is answered with 500 instead of crashing", async () => {
+  const get = redisClient.get;
+  redisClient.get = (key, callback) => callback(new Error("connection lost"));
+  try {
+    const res = await postLogout({ logout_token: await logoutToken() });
+    assert.strictEqual(res.status, 500);
+  } finally {
+    redisClient.get = get;
+  }
+});
+
+test("the service still answers after rejected logout requests", async () => {
+  await postLogout({ logout_token: "garbage" });
+  const res = await postLogout({ logout_token: await logoutToken() });
+  assert.strictEqual(res.status, 200);
+});

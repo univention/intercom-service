@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 /*
@@ -243,4 +243,10 @@ var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;
   var port = server.address().port;
   logger.info(`Intercom app listening at http://${host}:${port}`);
+});
+
+// Express 4 doesn't catch rejected promises of async handlers, and Node.js
+// terminates on an unhandled rejection. Log it instead of crashing.
+process.on("unhandledRejection", (reason) => {
+  logger.error(`Unhandled promise rejection: ${reason?.stack ?? reason}`);
 });
