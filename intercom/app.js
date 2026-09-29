@@ -68,8 +68,6 @@ const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
 
 app.use(securityHeaders);
 
-app.use(express.urlencoded({ extended: true }));
-
 app.use(
   auth({
     issuerBaseURL: issuerBaseUrl,
@@ -153,7 +151,8 @@ app.get("/", function (req, res) {
  * @desc
  * OpenID Connect Backchannel Logout implementation to delete the session from the store
  */
-app.use("/backchannel-logout", backchannelLogout);
+// Only this route parses the request body: the proxies must forward it untouched.
+app.use("/backchannel-logout", express.urlencoded({ extended: true }), backchannelLogout);
 
 /**
  * @name /nob/
