@@ -681,9 +681,14 @@ The following references show the available settings within the app
 .. envvar:: intercom-service/certificates/external/root-ca-pem
 
    Defines the host path to self-signed external certificates, allowing for
-   secure communication with *Nextcloud*, *Matrix*, *Redis* and *OX App Suite*. The file
-   must be in |PEM| format, allowing for multiple certificates in one
-   file.
+   secure communication with *Keycloak*, *Nextcloud*, *Matrix*, the *Nordeck*
+   bot, *Redis* and *OX App Suite*. The file must be in |PEM| format, allowing
+   for multiple certificates in one file.
+
+   |ICS| verifies the TLS certificates of all these services. If one of them
+   uses a certificate of a private certificate authority or a self-signed
+   certificate, set this variable to a file with the root certificate.
+   Otherwise |ICS| can't connect to the service.
 
    .. list-table::
        :header-rows: 1
