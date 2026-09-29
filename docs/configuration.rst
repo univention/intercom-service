@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: 2022-2025 Univention GmbH
+.. SPDX-FileCopyrightText: 2022-2026 Univention GmbH
 ..
 .. SPDX-License-Identifier: AGPL-3.0-only
 
@@ -108,6 +108,10 @@ The following references show the available settings within the app
     field must uniquely identify the user across *Matrix*, *Nextcloud*,
     *OX App Suite*, and the *Nubus*. Only the value ``entryuuid`` is guaranteed
     to be unique in Nubus.
+
+    |ICS| reads the claim from the |OIDC| ID token, both at login and when it
+    renews the *Matrix* token of the user. The mapper of the |ICS| client in
+    *Keycloak* must add the claim to the ID token.
 
     .. list-table::
         :header-rows: 1
