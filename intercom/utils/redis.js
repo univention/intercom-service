@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 const { auth } = require("express-openid-connect");
@@ -9,6 +9,7 @@ const RedisStore = require("connect-redis")(auth);
 const fs = require('fs');
 
 const { logger } = require("./logger");
+const { describeError } = require("./errors");
 const { redis } = require("../config");
 
 const customCA = redis.caPath !== "...";
@@ -50,7 +51,7 @@ if ( redis.SSL ){
 }
 
 redisClient.on("error", (err) => {
-    logger.error("Redis error: ", err);
+    logger.error(`Redis error: ${describeError(err)}`);
   });
 redisClient.on("connect", () => {
     logger.info("Redis connected");
@@ -59,7 +60,7 @@ redisClient.on("reconnecting", () => {
     logger.info("Redis reconnecting");
   });
 
-redisClient.connect().catch(logger.error);
+redisClient.connect().catch((err) => logger.error(`Redis connection failed: ${describeError(err)}`));
 
 const redisStore = new RedisStore({ client: redisClient });
 

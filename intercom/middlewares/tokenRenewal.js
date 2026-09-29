@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 const {
@@ -10,6 +10,7 @@ const {
   fetchMatrixToken,
   logger,
 } = require("../utils");
+const { describeError } = require("../utils/errors");
 const { issuerBaseUrl, userUniqueMapper, matrix } = require("../config");
 
 const refreshIntercomTokenIfNeeded = async (req, _, next) => {
@@ -47,7 +48,7 @@ const refreshOIDCTokenIfNeeded = (config) => {
     } catch (error) {
       if (error.code == "ERR_JWT_EXPIRED" || error.code == "ERR_JWS_INVALID") {
         logger.warn("%s access_token expired, refreshing", config.name);
-        logger.warn("Catched info:", error);
+        logger.warn(`Catched info: ${describeError(error)}`);
         req.appSession[config.session_storage_key] = await fetchOIDCToken(
           req.appSession.access_token,
           config.audience
@@ -89,8 +90,7 @@ const refreshMatrixTokenIfNeeded = async (req, _, next) => {
       logger.info("Fetched new %s OpenID token successfully", matrix.name);
     }
   } catch (error) {
-    logger.error("Refreshing %s OpenID token failed", matrix.name);
-    logger.debug(error);
+    logger.error("Refreshing %s OpenID token failed: %s", matrix.name, describeError(error));
   } finally {
     next();
   }

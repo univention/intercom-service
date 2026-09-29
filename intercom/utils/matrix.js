@@ -7,6 +7,7 @@ const https = require("https");
 const axios = require("axios");
 
 const { logger } = require("./logger");
+const { describeError } = require("./errors");
 const { matrix, intercom } = require("../config");
 
 const fetchMatrixToken = async (user_id) => {
@@ -51,8 +52,7 @@ const fetchMatrixToken = async (user_id) => {
       };
     })
     .catch((err) => {
-      logger.error("Error fetching Matrix token");
-      logger.debug(err);
+      logger.error(`Error fetching Matrix token: ${describeError(err)}`);
     });
 };
 

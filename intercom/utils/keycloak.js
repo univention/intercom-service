@@ -1,11 +1,12 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 const axios = require("axios");
 const qs = require("qs");
 const { logger } = require("./logger");
+const { describeError } = require("./errors");
 const { intercom, issuerBaseUrl } = require("../config");
 
 /**
@@ -54,8 +55,7 @@ const fetchOIDCToken = async (access_token, audience) => {
       return res.data.access_token;
     })
     .catch((err) => {
-      logger.error(`Error fetching OIDC token for ${audience}`);
-      logger.debug(err);
+      logger.error(`Error fetching OIDC token for ${audience}: ${describeError(err)}`);
     });
 };
 
