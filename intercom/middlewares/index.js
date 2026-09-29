@@ -14,6 +14,8 @@ const {
   requireMatrixToken,
 } = require("./tokenRenewal");
 const { updateSessionState } = require("./sessionState");
+const { securityHeaders } = require("./securityHeaders");
+const { errorHandler } = require("./errorHandler");
 
 module.exports = {
   oidcVerifyDecodeAccessToken,
@@ -23,4 +25,6 @@ module.exports = {
   refreshMatrixTokenIfNeeded,
   requireMatrixToken,
   updateSessionState,
+  securityHeaders,
+  errorHandler,
 };

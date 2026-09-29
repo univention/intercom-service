@@ -10,6 +10,7 @@ require("dotenv").config({ path: "./.env.prod" });
 const express = require("express");
 var app = express();
 app.set("view engine", "ejs");
+app.disable("x-powered-by");
 const {
   auth,
   requiresAuth,
@@ -59,9 +60,13 @@ const {
   updateSessionState,
   refreshMatrixTokenIfNeeded,
   requireMatrixToken,
+  securityHeaders,
+  errorHandler,
 } = require("./middlewares");
 
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
+
+app.use(securityHeaders);
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -240,6 +245,8 @@ app.use(
   oidcVerifyDecodeIdentityToken(attemptSilentLogin),
   uuid,
 );
+
+app.use(errorHandler);
 
 var server = app.listen(process.env.PORT, function () {
   var host = server.address().address;

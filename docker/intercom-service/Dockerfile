@@ -47,6 +47,8 @@ EXPOSE 8008
 RUN useradd app
 USER app
 
+ENV NODE_ENV=production
+
 HEALTHCHECK --interval=60s --timeout=10s --start-period=10s CMD ./healthcheck.sh
 
 CMD ["nodejs", "app.js"]
