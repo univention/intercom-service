@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2024-2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
 const issuerBaseUrl =
@@ -11,13 +11,12 @@ const config = {
   corsOptions: {
     methods: "GET,POST,PUT,DELETE,PROPFIND,MKCOL",
     credentials: true,
-    // TODO: can we drop Authorization?
+    // Response headers that browser scripts of the allowed origins may read.
     exposedHeaders: [
       "etag",
       "dav",
       "Content-Security-Policy",
       "Location",
-      "Authorization",
       "depth",
       "content-type",
       "ocs-apirequest",
