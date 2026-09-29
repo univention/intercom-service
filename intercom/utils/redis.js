@@ -33,10 +33,14 @@ if ( redis.mTLS ){
     tlsOptions.key = clientKey;
 }
 
+// The credentials are passed as options, not in the URL, so that they may contain any character.
+const credentials = redis.password ? { username: redis.user, password: redis.password } : {};
+
 if ( redis.SSL ){
     redisClient = createClient({
       legacyMode: true,
-      url: `rediss://${redis.user}:${redis.password}@${redis.host}:${redis.port}`,
+      url: `rediss://${redis.host}:${redis.port}`,
+      ...credentials,
       socket: {
         tls: true,
         ...(redis.servername ? { servername: redis.servername } : {}),
@@ -46,7 +50,8 @@ if ( redis.SSL ){
 } else {
     redisClient = createClient({
       legacyMode: true,
-      url: `redis://${redis.user}:${redis.password}@${redis.host}:${redis.port}`,
+      url: `redis://${redis.host}:${redis.port}`,
+      ...credentials,
     });
 }
 
