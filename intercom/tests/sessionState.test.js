@@ -47,7 +47,8 @@ test("the session state mapping expires with the rolling session duration", asyn
   assert.strictEqual((await get("/")).status, 200);
   const entry = redisClient.store.get("keycloak-session-1");
   assert.strictEqual(entry.value, "session-id-1");
-  assert.deepStrictEqual(entry.options, ["EX", 3600]);
+  // The rolling session duration plus a margin for the time until the session is saved.
+  assert.deepStrictEqual(entry.options, ["EX", 3660]);
 });
 
 test("every request extends the expiry", async () => {
@@ -55,7 +56,10 @@ test("every request extends the expiry", async () => {
   await get("/");
   const sets = redisClient.calls.filter(([command]) => command === "set");
   assert.strictEqual(sets.length, 2);
-  assert.ok(sets.every((call) => call.includes("EX")));
+  assert.deepStrictEqual(sets, [
+    ["set", "keycloak-session-1", "session-id-1", "EX", 3660],
+    ["set", "keycloak-session-1", "session-id-1", "EX", 3660],
+  ]);
 });
 
 test("requests without session state don't write anything", async () => {
