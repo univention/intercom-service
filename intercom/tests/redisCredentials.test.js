@@ -17,6 +17,8 @@ let received = "";
 before(async () => {
   // A minimal Redis stand-in: records the commands and answers each with OK.
   server = net.createServer((socket) => {
+    // Killing the client process at the end of a test may reset the connection.
+    socket.on("error", () => {});
     socket.on("data", (data) => {
       received += data.toString();
       const commands = (data.toString().match(/^\*\d+\r\n/gm) ?? []).length;
