@@ -62,6 +62,7 @@ const {
   requireMatrixToken,
   securityHeaders,
   errorHandler,
+  requireCsrfTokenOrAllowedOrigin,
 } = require("./middlewares");
 
 const csrfProtection = csrfDSC({ cookie: { sameSite: "none", secure: true } });
@@ -182,6 +183,7 @@ app.use(
 app.use(
   "/fs",
   requiresAuth(),
+  requireCsrfTokenOrAllowedOrigin,
   refreshIntercomTokenIfNeeded,
   oidcVerifyDecodeAccessToken(attemptSilentLogin),
   refreshOIDCTokenIfNeeded(nextcloud),
@@ -198,6 +200,7 @@ app.use(
 app.use(
   "/wiki",
   requiresAuth(),
+  requireCsrfTokenOrAllowedOrigin,
   refreshIntercomTokenIfNeeded,
   refreshOIDCTokenIfNeeded(xwiki),
   wiki,

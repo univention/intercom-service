@@ -16,6 +16,7 @@ const {
 const { updateSessionState } = require("./sessionState");
 const { securityHeaders } = require("./securityHeaders");
 const { errorHandler } = require("./errorHandler");
+const { requireCsrfTokenOrAllowedOrigin } = require("./csrf");
 
 module.exports = {
   oidcVerifyDecodeAccessToken,
@@ -27,4 +28,5 @@ module.exports = {
   updateSessionState,
   securityHeaders,
   errorHandler,
+  requireCsrfTokenOrAllowedOrigin,
 };
