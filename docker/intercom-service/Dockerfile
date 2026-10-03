@@ -44,6 +44,9 @@ RUN \
 
 EXPOSE 8008
 
+# Run Express in production mode so error responses don't include stack traces.
+ENV NODE_ENV=production
+
 RUN useradd app
 USER app
 
