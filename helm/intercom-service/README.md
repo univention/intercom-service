@@ -48,7 +48,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.default | object | `{"domain":"example.com","protocol":"https"}` | Default settings which are used for all services if they are not overriden for a specific service. |
 | ics.default.domain | string | `"example.com"` | Domain which will be added for all subdomains for apps. It will be overriden by the specific service settings if set. |
 | ics.default.protocol | string | `"https"` | Protocol which will be used to connect to apps. It will be overriden by the specific service settings if set. |
-| ics.enableSessionCookie | bool | `false` | Enable session cookie (transient cookie). If enabled, the session cookie will be deleted at the end of the browser session. Otherwise, the session will be a rolling session (reset every time the user is active). |
+| ics.enableSessionCookie | bool | `false` | Enable session cookie (transient cookie). If enabled, the session cookie will be deleted at the end of the browser session. Otherwise, the cookie expires with the session. Either way, the session is a rolling session (see `sessionRollingDuration`). |
 | ics.issuerBaseUrl | string | `""` | Base URL of issuer. |
 | ics.keycloak | object | `{"enabled":true,"realm":"souvap","subdomain":"id","url":""}` | Keycloak connection settings. |
 | ics.keycloak.enabled | bool | `true` | Enable Keycloak integration. When disabled, the issuer base URL, Keycloak URL and realm environment variables are not rendered. |
@@ -127,7 +127,7 @@ intercom service, short ICS, is used to allow inter component API usage from the
 | ics.session.existingSecret.keyMapping.secret | string | `nil` | The key to retrieve the Intercom Service secret from the secret. Setting this value allows to use a key with a different name. |
 | ics.session.existingSecret.name | string | `nil` | The name of an existing Secret to use for retrieving the Intercom Service secret. |
 | ics.session.secret | string | `nil` | The secret used to derive an encryption key for the user identity in a stateless session cookie, to sign the transient cookies used by the login callback and to sign the custom session store cookies |
-| ics.sessionRollingDuration | int | `86400` | Rolling session duration in seconds. The session will be reset if the user is active within the duration. Otherwise, the user will be logged out, requiring a silent login. If `enableSessionCookie` is set to true, this setting will be ignored. |
+| ics.sessionRollingDuration | int | `86400` | Rolling session duration in seconds. The session will be reset if the user is active within the duration. Otherwise, the user will be logged out, requiring a silent login. This also applies if `enableSessionCookie` is set to true. |
 | ics.tokenExchangeV2 | bool | `false` | Enable Keycloak Token Exchange v2 (standard, RFC 8693). Requires the "Standard token exchange" switch enabled on the intercom client in Keycloak Admin Console. Default is false (legacy v1 behavior). |
 | ics.userUniqueMapper | string | `"entryuuid"` | Mapper claim name for the Intercom Service client. The field must be unique along users. If not set, the default value is "entryuuid", which is provisioned by the Intercom Service initContainer. Any other value that "entryuuid" is not guaranteed to be unique on Nubus. ICS reads the claim from the ID token, so the mapper must add it to the ID token. |
 | ics.usernameClaim | string | `"phoenixusername"` | ID Token claim that contains the username for a user. Needs to be configured in Keycloak. |
