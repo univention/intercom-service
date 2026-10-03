@@ -53,8 +53,8 @@ Required = True
 Show = Install, Settings
 # ShowReadOnly = Settings
 Scope = outside
-Description = Make Intercom Service use a session cookie for the user session instead of a rolling session.
-Description[de] = Verwende eine Session-Cookie für die Benutzersitzung im Intercom-Service anstatt einer rollenden Sitzung.
+Description = Make Intercom Service use a session cookie, which the browser deletes when it is closed. The session still expires as set in intercom-service/settings/session-rolling-duration.
+Description[de] = Intercom Service verwendet ein Session-Cookie, das der Browser beim Schließen löscht. Die Sitzung läuft trotzdem nach der in intercom-service/settings/session-rolling-duration eingestellten Dauer ab.
 Group = Administration
 Group[de] = Administration
 
