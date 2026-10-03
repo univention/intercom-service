@@ -25,7 +25,7 @@ router.use(
     logger,
     changeOrigin: true,
     pathRewrite: { "^/nob": "" },
-    secure: false,
+    secure: true,
     onProxyReq: function onProxyReq(proxyReq, req, res) {
       // This runs inside http-proxy's `proxyReq` event, which is not an Express
       // handler: anything thrown here escapes as an uncaught exception and takes the
