@@ -34,10 +34,22 @@ const fetchMatrixToken = async (user_id) => {
       proxy: intercom.proxy,
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     })
-    .then((res) => ({
-      openIdToken: res.data,
-      expiresAt: Date.now() + res.data.expires_in * 1000,
-    }))
+    .then((res) => {
+      // Only store a token the consumers can actually use: `/nob` base64-encodes
+      // `openIdToken` and the renewal logic relies on `expires_in` for `expiresAt`.
+      // A 2xx response that is empty or missing `expires_in` would otherwise be
+      // stored as `{ openIdToken: undefined }`, which later crashes the `/nob`
+      // proxy. Treat such a response as a failure instead (returns undefined).
+      if (!res.data || typeof res.data.expires_in !== "number") {
+        logger.error("Matrix OpenID token response is empty or malformed");
+        logger.debug(res.data);
+        return undefined;
+      }
+      return {
+        openIdToken: res.data,
+        expiresAt: Date.now() + res.data.expires_in * 1000,
+      };
+    })
     .catch((err) => {
       logger.error("Error fetching Matrix token");
       logger.debug(err);
