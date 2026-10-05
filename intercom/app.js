@@ -71,6 +71,9 @@ app.use(
     clientID: intercom.clientId,
     clientSecret: intercom.clientSecret,
     authRequired: false,
+    // Answer unauthenticated requests to the API routes (`requiresAuth()`) with a 401 instead of
+    // redirecting them to a login. Logins are started by `/silent` and `/login` only.
+    errorOnRequiredAuth: true,
     secret: intercom.secret,
     idpLogout: true,
     authorizationParams: {
