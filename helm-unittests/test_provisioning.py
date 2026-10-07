@@ -50,6 +50,33 @@ def test_provisioning_uses_custom_ics_claims(chart: HelmChart) -> None:
     assert '--ics-unique-claim "opendesk_useruuid"' in command
 
 
+def test_provisioning_adds_exchange_audiences(chart: HelmChart) -> None:
+    values = {
+        "ics": {
+            "nextcloud": {"enabled": True, "audience": "nc"},
+            "xwiki": {"enabled": True, "audience": "wiki"},
+        }
+    }
+
+    command = provisioning_command(chart, values)
+
+    assert '--client-access-token-audience "nc"' in command
+    assert '--client-access-token-audience "wiki"' in command
+
+
+def test_provisioning_skips_audiences_of_disabled_services(chart: HelmChart) -> None:
+    values = {
+        "ics": {
+            "nextcloud": {"enabled": False, "audience": "nc"},
+            "xwiki": {"enabled": False, "audience": "wiki"},
+        }
+    }
+
+    command = provisioning_command(chart, values)
+
+    assert "--client-access-token-audience" not in command
+
+
 def realms(chart: HelmChart, values: dict) -> tuple[str, str]:
     """Render the chart and return the realms of ICS and of the provisioning.
 

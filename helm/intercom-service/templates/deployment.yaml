@@ -119,6 +119,12 @@ spec:
             --add-ics-mappers \
             --ics-username-claim {{ .Values.ics.usernameClaim | quote }} \
             --ics-unique-claim {{ .Values.ics.userUniqueMapper | quote }} \
+            {{- if .Values.ics.nextcloud.enabled }}
+            --client-access-token-audience {{ .Values.ics.nextcloud.audience | quote }} \
+            {{- end }}
+            {{- if .Values.ics.xwiki.enabled }}
+            --client-access-token-audience {{ .Values.ics.xwiki.audience | quote }} \
+            {{- end }}
             --backchannel-logout-revoke-session \
             --backchannel-logout-session-required \
             --token-exchange-enabled \
