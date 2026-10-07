@@ -26,7 +26,7 @@ data:
     (required "keycloak.connection.protocol is required" (tpl .Values.provisioning.config.keycloak.connection.protocol .))
     (required "keycloak.connection.host is required"  (tpl .Values.provisioning.config.keycloak.connection.host .))
     (required "keycloak.connection.port is required"  (tpl .Values.provisioning.config.keycloak.connection.port .))
-    (required "keycloak.realm is required"            (tpl .Values.provisioning.config.keycloak.realm .)) }}
+    (required "keycloak.realm is required"            (tpl (.Values.provisioning.config.keycloak.realm | default .Values.ics.keycloak.realm | default "") .)) }}
 
 ...
 ---
@@ -55,7 +55,7 @@ data:
     (required "provisioning.config.keycloak.connection.host is required" (tpl .Values.provisioning.config.keycloak.connection.host .))
     (required "provisioning.config.keycloak.connection.port is required" (tpl .Values.provisioning.config.keycloak.connection.port .)) }}
   KEYCLOAK_HOST: {{ required ".Values.provisioning.config.keycloak.connection.host must be defined." (tpl .Values.provisioning.config.keycloak.connection.host .) }}
-  KEYCLOAK_REALM: {{ required "A Keycloak realm must be specified to provision the intercom-service client" .Values.provisioning.config.keycloak.realm  }}
+  KEYCLOAK_REALM: {{ required "A Keycloak realm must be specified to provision the intercom-service client" (.Values.provisioning.config.keycloak.realm | default .Values.ics.keycloak.realm | default "") | quote }}
   UNIVENTION_KEYCLOAK_BOOTSTRAP_TEMP_DIR: "/tmp"
   UNIVENTION_KEYCLOAK_BOOTSTRAP_DEBUG_PAUSE_BEFORE_SCRIPT_START: {{ .Values.provisioning.config.debug.pauseBeforeScriptStart  | quote }}
   CLIENT_NAME: {{ required ".Values.ics.oidc.id is required" .Values.ics.oidc.id }}

@@ -25,3 +25,52 @@ def test_provisioning_creates_ics_client(chart: HelmChart) -> None:
 
     assert "oidc/rp create" in command
     assert "--add-ics-mappers" in command
+
+
+def realms(chart: HelmChart, values: dict) -> tuple[str, str]:
+    """Render the chart and return the realms of ICS and of the provisioning.
+
+    Args:
+        chart: The Helm chart under test.
+        values: Values that override the linter values.
+
+    Returns:
+        The realm that ICS uses and the realm in which the provisioning
+        creates the client.
+    """
+    result = chart.helm_template(values=values)
+    secret = next(
+        s
+        for s in result.get_resources(kind="Secret")
+        if "REALM_NAME" in s.get("stringData", {})
+    )
+    env = next(
+        c
+        for c in result.get_resources(kind="ConfigMap")
+        if c["metadata"]["name"].endswith("-provisioning-env")
+    )
+    return secret["stringData"]["REALM_NAME"], env["data"]["KEYCLOAK_REALM"]
+
+
+def test_provisioning_uses_ics_realm_by_default(chart: HelmChart) -> None:
+    values = {"provisioning": {"config": {"keycloak": {"realm": ""}}}}
+
+    assert realms(chart, values) == ("nubus", "nubus")
+
+
+def test_provisioning_follows_custom_ics_realm(chart: HelmChart) -> None:
+    values = {
+        "ics": {"keycloak": {"realm": "custom"}},
+        "provisioning": {"config": {"keycloak": {"realm": ""}}},
+    }
+
+    assert realms(chart, values) == ("custom", "custom")
+
+
+def test_provisioning_realm_can_be_set_separately(chart: HelmChart) -> None:
+    values = {
+        "ics": {"keycloak": {"realm": "custom"}},
+        "provisioning": {"config": {"keycloak": {"realm": "other"}}},
+    }
+
+    assert realms(chart, values) == ("custom", "other")

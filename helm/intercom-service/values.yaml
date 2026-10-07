@@ -216,8 +216,9 @@ ics:
     # Mutual exclusive with "subdomain".
     url: ""
 
-    # -- Configured Realm for authentication.
-    realm: "souvap"
+    # -- Configured Realm for authentication. The Keycloak provisioning creates
+    # the client in this realm, unless "provisioning.config.keycloak.realm" is set.
+    realm: "nubus"
 
   # -- Matrix connection settings.
   matrix:
@@ -665,8 +666,9 @@ provisioning:
     clientBaseUrl: ""
     # -- Keycloak specific settings.
     keycloak:
-      # -- Keycloak realm.
-      realm: "nubus"
+      # -- Keycloak realm in which the provisioning creates the client.
+      # Defaults to "ics.keycloak.realm".
+      realm: ""
       # -- Connection parameters.
       connection:
         # -- Keycloak protocol.
