@@ -161,7 +161,7 @@ app.use(
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
   csrfProtection.validate,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
   refreshMatrixTokenIfNeeded,
   requireMatrixToken,
   nob,
@@ -179,7 +179,7 @@ app.use(
   "/fs",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
   refreshOIDCTokenIfNeeded(nextcloud),
   fs,
 );
@@ -195,6 +195,7 @@ app.use(
   "/wiki",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
+  oidcVerifyDecodeAccessToken,
   refreshOIDCTokenIfNeeded(xwiki),
   wiki,
 );
@@ -209,8 +210,8 @@ app.use(
   "/navigation.json",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
+  oidcVerifyDecodeIdentityToken,
   navigation,
 );
 
@@ -222,12 +223,7 @@ app.use(
  *
  * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
  */
-app.use(
-  "/silent",
-  attemptSilentLogin(),
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  silent,
-);
+app.use("/silent", attemptSilentLogin(), silent);
 
 /**
  * @name /uuid
@@ -237,7 +233,7 @@ app.use(
   "/uuid",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  oidcVerifyDecodeIdentityToken,
   uuid,
 );
 
