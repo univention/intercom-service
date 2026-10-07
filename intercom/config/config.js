@@ -4,8 +4,8 @@
  */
 
 const issuerBaseUrl =
-  process.env.ISSUER_BASE_URL ??
-  `${process.env.KEYCLOAK_URL}/auth/realms/${process.env.REALM_NAME}`;
+  process.env.ISSUER_BASE_URL ||
+  `${process.env.KEYCLOAK_URL}/realms/${process.env.REALM_NAME}`;
 
 const config = {
   corsOptions: {
