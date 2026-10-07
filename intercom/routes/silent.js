@@ -14,13 +14,16 @@ const router = express.Router();
  * @name /silent
  * @desc
  * Performs a "silent login", eg logs the user into the intercom service without interaction
- * if the user is already logged in to keycloak.
+ * if the user is already logged in to keycloak. An expiring access token is refreshed first;
+ * if keycloak rejects the refresh token, a silent login replaces the session.
  *
- * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
+ * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true}),
+ * true while the session holds an access token that hasn't expired
  */
 router.get("/", (req, res) => {
   // TODO: Do proper postMessage reporting
-  const sessionStatus = "access_token" in req.appSession;
+  const accessToken = req.oidc.accessToken;
+  const sessionStatus = !!accessToken && !accessToken.isExpired();
   logger.info(`Silent login, logged in ${sessionStatus}`);
   if (!sessionStatus) {
     // `attemptSilentLogin()` sets the `skipSilentLogin` cookie before every attempt and only a

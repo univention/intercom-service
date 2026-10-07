@@ -15,19 +15,34 @@ const {
 const { describeError } = require("../utils/errors");
 const { issuerBaseUrl, userUniqueMapper, matrix } = require("../config");
 
+// Refresh shortly before expiry, so that the token can't expire on its way to
+// the token check, which needn't agree with this one to the second.
+const ACCESS_TOKEN_EXPIRY_MARGIN_S = 10;
+
 const refreshIntercomTokenIfNeeded = async (req, _, next) => {
-  try {
-    let { access_token, isExpired, refresh } = req.oidc.accessToken;
-    if (isExpired()) {
-      ({ access_token } = await refresh());
-      req.appSession.access_token = access_token;
-      logger.debug("Refreshing ICS expired access_token");
-    }
-  } catch (err) {
-    logger.error("Refreshing ICS expired access_token failed");
-  } finally {
+  const accessToken = req.oidc.accessToken;
+  if (!accessToken || accessToken.expires_in > ACCESS_TOKEN_EXPIRY_MARGIN_S) {
     next();
+    return;
   }
+  try {
+    await accessToken.refresh();
+    logger.debug("Refreshed ICS access_token");
+  } catch (err) {
+    if (err.error === "invalid_grant") {
+      // The IdP no longer accepts the refresh token, for example because it
+      // ended or revoked the session. Drop the session, so that the user is
+      // logged out and /silent can log in again.
+      logger.warn(
+        "ICS refresh_token was rejected, dropping the session: %s",
+        err.message,
+      );
+      req.appSession = undefined;
+    } else {
+      logger.error("Refreshing ICS access_token failed: %s", err.message);
+    }
+  }
+  next();
 };
 
 const refreshOIDCTokenIfNeeded = (config) => {
