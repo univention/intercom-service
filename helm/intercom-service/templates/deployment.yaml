@@ -118,7 +118,6 @@ spec:
             --redirect-uri $KEYCLOAK_APP_BASE_URL/callback \
             --add-ics-mappers \
             --backchannel-logout-revoke-session \
-            --use-refresh-tokens \
             --backchannel-logout-session-required \
             --token-exchange-enabled \
             --token-exchange-refresh-token-type SAME_SESSION \
