@@ -4,16 +4,18 @@
 from pytest_helm.helm import HelmChart
 
 
-def provisioning_command(chart: HelmChart) -> str:
+def provisioning_command(chart: HelmChart, values: dict | None = None) -> str:
     """Render the chart and return the script of the Keycloak provisioning container.
 
     Args:
         chart: The Helm chart under test.
+        values: Values that override the linter values.
 
     Returns:
         The shell script that the "keycloak-provisioning" init container runs.
     """
-    result = chart.helm_template(values={"provisioning": {"enabled": True}})
+    values = {**(values or {}), "provisioning": {"enabled": True}}
+    result = chart.helm_template(values=values)
     deployment = result.get_resource(kind="Deployment")
     init_containers = deployment["spec"]["template"]["spec"]["initContainers"]
     container = next(c for c in init_containers if c["name"] == "keycloak-provisioning")
@@ -25,6 +27,27 @@ def test_provisioning_creates_ics_client(chart: HelmChart) -> None:
 
     assert "oidc/rp create" in command
     assert "--add-ics-mappers" in command
+
+
+def test_provisioning_uses_default_ics_claims(chart: HelmChart) -> None:
+    command = provisioning_command(chart)
+
+    assert '--ics-username-claim "phoenixusername"' in command
+    assert '--ics-unique-claim "entryuuid"' in command
+
+
+def test_provisioning_uses_custom_ics_claims(chart: HelmChart) -> None:
+    values = {
+        "ics": {
+            "usernameClaim": "opendesk_username",
+            "userUniqueMapper": "opendesk_useruuid",
+        }
+    }
+
+    command = provisioning_command(chart, values)
+
+    assert '--ics-username-claim "opendesk_username"' in command
+    assert '--ics-unique-claim "opendesk_useruuid"' in command
 
 
 def realms(chart: HelmChart, values: dict) -> tuple[str, str]:
