@@ -6,47 +6,31 @@
 const { verifyJWT, JWKS, logger } = require("../utils");
 const { issuerBaseUrl } = require("../config");
 
-const oidcVerifyDecodeAccessToken = (callback) => {
-  return async (req, res, next) => {
-    try {
-      req.decodedAccessToken = await verifyJWT(
-        req.appSession.access_token,
-        issuerBaseUrl,
-        JWKS,
-      );
-    } catch (error) {
-      logger.warn("Error verifying ICS OIDC access_token");
-      logger.debug(error);
-      logger.info(
-        "Handling the error above: attempting silent login to replace expired token",
-      );
-      callback(req, res, next);
-    } finally {
-      next();
-    }
-  };
+// These middlewares guard the API routes, which clients call with XHR from
+// other origins: a redirect to the IdP can't work there, so they answer 401,
+// as requiresAuth() does for requests without a session.
+
+// Verifies the session's token `name` and stores its payload as req[key].
+const oidcVerifyDecode = (name, key) => async (req, res, next) => {
+  try {
+    req[key] = await verifyJWT(req.appSession?.[name], issuerBaseUrl, JWKS);
+  } catch (error) {
+    logger.warn("Error verifying ICS OIDC %s", name);
+    logger.debug(error);
+    res.status(401).send();
+    return;
+  }
+  next();
 };
 
-const oidcVerifyDecodeIdentityToken = (callback) => {
-  return async (req, res, next) => {
-    try {
-      req.decodedIdToken = await verifyJWT(
-        req.appSession.id_token,
-        issuerBaseUrl,
-        JWKS,
-      );
-    } catch (error) {
-      logger.warn("Error verifying ICS OIDC id_token");
-      logger.debug(error);
-      logger.info(
-        "Handling the error above: attempting silent login to replace expired token",
-      );
-      callback(req, res, next);
-    } finally {
-      next();
-    }
-  };
-};
+const oidcVerifyDecodeAccessToken = oidcVerifyDecode(
+  "access_token",
+  "decodedAccessToken",
+);
+const oidcVerifyDecodeIdentityToken = oidcVerifyDecode(
+  "id_token",
+  "decodedIdToken",
+);
 
 module.exports = {
   oidcVerifyDecodeAccessToken,

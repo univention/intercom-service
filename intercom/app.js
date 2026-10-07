@@ -10,11 +10,7 @@ require("dotenv").config({ path: "./.env.prod" });
 const express = require("express");
 var app = express();
 app.set("view engine", "ejs");
-const {
-  auth,
-  requiresAuth,
-  attemptSilentLogin,
-} = require("express-openid-connect");
+const { auth, requiresAuth } = require("express-openid-connect");
 const csrfDSC = require("express-csrf-double-submit-cookie");
 const cookieParser = require("cookie-parser");
 const jose = require("jose");
@@ -161,7 +157,7 @@ app.use(
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
   csrfProtection.validate,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
   refreshMatrixTokenIfNeeded,
   requireMatrixToken,
   nob,
@@ -179,7 +175,7 @@ app.use(
   "/fs",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
   refreshOIDCTokenIfNeeded(nextcloud),
   fs,
 );
@@ -195,6 +191,7 @@ app.use(
   "/wiki",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
+  oidcVerifyDecodeAccessToken,
   refreshOIDCTokenIfNeeded(xwiki),
   wiki,
 );
@@ -209,8 +206,8 @@ app.use(
   "/navigation.json",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  oidcVerifyDecodeAccessToken,
+  oidcVerifyDecodeIdentityToken,
   navigation,
 );
 
@@ -218,16 +215,14 @@ app.use(
  * @name /silent
  * @desc
  * Performs a "silent login", eg logs the user into the intercom service without interaction
- * if the user is already logged in to keycloak.
+ * if the user is already logged in to keycloak. An expiring access token is refreshed first;
+ * if keycloak rejects the refresh token, a silent login replaces the session. A load while
+ * another silent login is in progress reports the current state instead of trying again.
  *
- * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true})
+ * Reports the Session Status via window.postmessage (JSON: {"loggedIn": true}),
+ * true while the session holds an access token that hasn't expired
  */
-app.use(
-  "/silent",
-  attemptSilentLogin(),
-  oidcVerifyDecodeAccessToken(attemptSilentLogin),
-  silent,
-);
+app.use("/silent", refreshIntercomTokenIfNeeded, silent);
 
 /**
  * @name /uuid
@@ -237,7 +232,7 @@ app.use(
   "/uuid",
   requiresAuth(),
   refreshIntercomTokenIfNeeded,
-  oidcVerifyDecodeIdentityToken(attemptSilentLogin),
+  oidcVerifyDecodeIdentityToken,
   uuid,
 );
 
