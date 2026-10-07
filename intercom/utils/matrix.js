@@ -3,7 +3,6 @@
  * SPDX-FileCopyrightText: 2024-2026 Univention GmbH
  */
 
-const https = require("https");
 const axios = require("axios");
 
 const { logger } = require("./logger");
@@ -33,7 +32,6 @@ const fetchMatrixToken = async (user_id) => {
       params: { user_id: mxId },
       data: {},
       proxy: intercom.proxy,
-      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     })
     .then((res) => {
       // Only store a token the consumers can actually use: `/nob` base64-encodes
