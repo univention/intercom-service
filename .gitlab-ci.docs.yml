@@ -44,6 +44,6 @@ docs-create-production-merge-request:
   needs:
     - job: "docs-merge-to-one-artifact"
   rules:
-    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+    - if: '$PUBLIC_RELEASE == "true"'
 
 ...

@@ -108,18 +108,6 @@ It is important to test that functionality is still there. Thus, please start yo
 
 > If you want to install a fixed version other than the last one, use `univention-app install intercom-service=version`.
 
-### Version bump
-
-Before releasing, make sure you change the version number in the following files:
-
-1. `appcenter/ini` and bump `Version`.
-2. `update-appcenter-test.sh` to bump `APP_VERSION`.
-3. `appcenter/compose` for the docker image you are using, even though it will be taken care of on the release process.
-4. `intercom/package.json` to specify the nodejs app `version`.
-5. `.gitlab-ci` to bump the variable `DOC_TARGET_VERSION: "X.X"`.
-
-> You do not need to change `docs/conf.py`, since it will be overwritten from a `.gitlab-ci` variable
-
 ### Startup checks
 
 All steps above can be successfully tested, but the app might still malfunction in some cases. This entry is for those.
@@ -144,19 +132,44 @@ Please pay attention during both processes. The following questions may help:
 
 ## Release
 
-You will need to request an account at the [Univention Provider Portal](https://provider-portal.software-univention.de/).
+Releases are cut from a protected `vX.Y.Z` git tag. The tag is the version of
+the container image, the Helm chart and the App Center app. Pipelines on any
+other ref publish a development build `<last release>-post-<ref slug>` to the
+`nubus-dev` registry project only.
 
-### Upgradeability
+### Testing an App Center version from a merge request
 
-`intercom-service` should be upgradeable from previous versions. As bare minimum we should be able to go from the previous released version to the current one. Please use the following steps:
+1. On the merge request pipeline, run the manual `create_app_version` job. It
+   creates the version `0.0.0-<branch slug>` in the Test App Center, and
+   `update_appcenter` uploads the rendered files from `appcenter/`.
+   The compose file points at the `nubus-dev` image built for the branch.
+2. Test that version on a UCS system as described in [Upgradeability](#upgradeability).
+3. The version is deleted when the merge request is closed or merged, or after 3 days.
 
-1. `univention-app remove intercom-service` and make sure there is no intercom-service version installed.
-2. `univention-app dev-use-test-appcenter --revert` to make sure we are on the normal AppCenter.
-3. `univention-app update` to get the latest version from the normal AppCenter.
-4. `univention-app install intercom-service` will install the latest published release.
-5. `univention-install univention-appcenter-dev` to install the test AppCenter.
-6. `univention-app dev-use-test-appcenter` to start using the test AppCenter.
-7. `univention-app update` to get all the versions from the test AppCenter.
-8. `univention-app upgrade intercom-service` to upgrade the app to the pre-release version on the AppCenter.
+Pipelines on `main` keep the version `999.0.0-staging` in the Test App Center up to date.
 
-> If you want to install a fixed version other than the last one, use `univention-app install intercom-service=version`.
+### Performing a release
+
+1. Add the release notes for the new version to `docs/changelog.rst`.
+2. Make sure that `main` is at the commit to release and that the pipeline is green.
+3. Create and push a tag on that commit:
+   - `git tag -a v2.25.0 -m "Intercom Service 2.25.0"`
+   - `git push origin v2.25.0`
+4. The tag pipeline publishes the image and the Helm chart, creates the App
+   Center version from the tag and uploads the rendered app files. The compose
+   file pins the public `nubus` image by its digest.
+5. The tag pipeline also builds the documentation for the tag version and opens
+   a merge request in `docs.univention.de` that adds
+   `intercom-service/<version>/`. Point the `intercom-service/latest` symlink
+   to the new version in that merge request and merge it. The changelog link
+   in the GitLab release and the announcement mail points to
+   `https://docs.software-univention.de/intercom-service/<version>/changelog.html`.
+   Only tag pipelines publish the documentation, builds on `main` and other
+   branches are only available as review environments.
+6. Verify the version in the [Provider Portal](https://provider-portal.software-univention.de/)
+   and the [Test App Center](https://appcenter-test.software-univention.de/meta-inf/5.0/intercom-service/).
+7. Run the manual `do_release` job. It copies the version from the Test App
+   Center to the production App Center.
+8. Confirm the manual `check_release` job. It verifies that the version is in
+   the production App Center. The pipeline then creates the GitLab release and
+   sends the announcement mail.

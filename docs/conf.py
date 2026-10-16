@@ -14,6 +14,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 # included
 from datetime import date
 import os
+import subprocess
 import sys
 
 # 3rd-party
@@ -67,7 +68,27 @@ def get_doc_variable(name: str, default: str) -> str:
         return read_gitlab_config(name, default)
 
 
-release = get_doc_variable("DOC_TARGET_VERSION", None)
+def get_doc_version() -> str:
+    try:
+        tag = subprocess.run(
+            [
+                "git",
+                "describe",
+                "--tags",
+                "--abbrev=0",
+                "--match",
+                "v[0-9]*.[0-9]*.[0-9]*",
+            ],
+            capture_output=True,
+            check=True,
+            text=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return "dev"
+    return tag.removeprefix("v")
+
+
+release = os.environ.get("DOC_TARGET_VERSION") or get_doc_version()
 version = release
 
 project = f"UCS Intercom Service app {release}"

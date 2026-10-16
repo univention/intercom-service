@@ -3,6 +3,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2025 Univention GmbH
 
+variables:
+  TAGGED_RELEASE: "true"
+
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
     ref: "v1.68.2"
@@ -13,24 +16,50 @@ include:
       - "jobs/container-build-external-buildkit.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit-legacy.yaml"
-      - "jobs/semantic-release-env.yaml"
+      - "templates/tagged-release.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
       - "templates/sonarqube.yaml"
   - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.68.2"
     inputs:
       helm_chart_name: "intercom-service"
       helm_values: "--helm-values ${CI_PROJECT_DIR}/helm/intercom-service/linter_values.yaml"
+  - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/app-release@2.20.2"
+    inputs:
+      app_id: "intercom-service"
+      ucs_base_version: "5.0"
+      changelog_link: "https://docs.software-univention.de/intercom-service/${APP_VERSION}/changelog.html"
+      mail_recipient: "app-announcement@univention.de"
+      mail_sender: "nubus-core@univention.de"
+      author_alias: "Nubus Core Team"
+      appcenter_file_dir: "appcenter/"
+      release_tag_prefix: "v"
+      app_version_from_branch_name: true
+      build_stage: "package"
+      release_stage: "publish"
+      cleanup_stage: ".post"
+      additional_update_appcenter_needs:
+        - job: "container-build"
+          parallel:
+            matrix:
+              - IMAGE_NAME: "intercom-service"
+                BUILD_CONTEXT: "$CI_PROJECT_DIR/intercom"
+                DOCKERFILE_PATH: "docker/intercom-service/Dockerfile"
+        - "pre-semantic-release"
+
+pre-semantic-release:
+  extends: ".tagged-release"
 
 trigger-docs:
   stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
     DOCS_DIR: "docs"
     LANG: "C.UTF-8"
     DEBIAN_FRONTEND: "noninteractive"
     UNIVENTION_BASECONF: "/dev/null"
     DOC_TARGET_NAME: "intercom-service"
-    DOC_TARGET_VERSION: "1.12"
+    DOC_TARGET_VERSION: "${RELEASE_VERSION}"
     DOC_TARGET_PATH: "$DOC_TARGET_NAME/$DOC_TARGET_VERSION"
   trigger:
     include:
@@ -86,5 +115,35 @@ chart-tests:
 sonarqube:
   extends: .sonarqube
   needs: []
+
+create_app_version:
+  environment:
+    auto_stop_in: "3 days"
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+      variables:
+        ENVIRONMENT_NAME: "release-app/${APP_ID}_$CI_COMMIT_TAG"
+    - if: '$CI_MERGE_REQUEST_ID'
+      when: "manual"
+      allow_failure: true
+      variables:
+        ENVIRONMENT_NAME: "branch-app/${APP_ID}_$CI_COMMIT_REF_SLUG"
+    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
+      variables:
+        ENVIRONMENT_NAME: "staging-app/${APP_ID}_999.0.0-staging"
+
+update_appcenter:
+  before_script:
+    - |
+      INTERCOM_SERVICE_IMAGE_DIGEST=""
+      if [ -f "${CI_PROJECT_DIR}/digests/intercom-service" ]; then
+        INTERCOM_SERVICE_IMAGE_DIGEST="$(cat "${CI_PROJECT_DIR}/digests/intercom-service")"
+      fi
+      echo "intercom-service image digest: ${INTERCOM_SERVICE_IMAGE_DIGEST:-<none, tag only>}"
+      export INTERCOM_SERVICE_IMAGE_DIGEST
+
+send_chat_message:
+  rules:
+    - when: never
 
 ...
