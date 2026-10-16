@@ -12,6 +12,77 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+v2.25.0
+=======
+
+Released: 16. October 2026
+
+Changed
+-------
+
+* The app version now follows the version of the |ICS| container image and Helm
+  chart. The version after 1.12 is 2.25.0. You can upgrade from 1.12 as usual.
+
+* |ICS| now gets the *Matrix* token for a user from the *Matrix* OpenID
+  ``request_token`` endpoint and no longer uses the deprecated
+  ``m.login.application_service`` login. It forwards the token to the Meetings
+  bot, so that the meeting creation in the *OX App Suite* calendar works with
+  the *Matrix* Authentication Service.
+
+* |ICS| answers unauthenticated requests to its API routes with ``401`` instead
+  of a redirect to the identity provider. Only ``/silent`` and ``/login`` start
+  a login.
+
+* |ICS| logs to the console only and no longer writes the file
+  ``intercom-service.log`` in the container, which grew without limit.
+
+Security
+--------
+
+* The back-channel logout now checks the audience and the ``jti``, ``events``
+  and ``nonce`` claims of the logout token. Before, any token that the realm
+  signed in the last 10 seconds ended the session of the user, for example an
+  ID token for another client in the same single sign-on session.
+
+* |ICS| no longer logs the request data of failed requests to *Matrix* and
+  *Keycloak*. On the debug log level, the log contained the application service
+  secret, the client secret and the token of the user.
+
+* |ICS| runs in production mode. Error responses no longer contain stack
+  traces, the ``X-Powered-By`` header is gone, and |ICS| sets the
+  ``X-Content-Type-Options`` and ``Referrer-Policy`` headers.
+
+* |CORS| no longer exposes the ``Authorization`` header to other origins.
+
+* Update the base image and dependencies to fix CVEs.
+
+Fix
+---
+
+* An invalid back-channel logout request no longer terminates |ICS|. It answers
+  missing, invalid or expired logout tokens with ``400``.
+
+* Requests to ``/nob`` no longer terminate |ICS| when the session has no
+  *Matrix* token, for example a session from before the upgrade.
+
+* The renewal of the *Matrix* token takes the *Matrix* user ID from the ID token,
+  the same as the login. Before, the renewal failed if the claim was only in the
+  ID token, and |ICS| forwarded the request with the old token. Requests to
+  ``/nob`` without a *Matrix* token now get ``502``.
+
+* |ICS| tries the silent login again after a failed attempt. Before, one failed
+  attempt turned off the silent login for the rest of the browser session.
+
+* A *Redis* password with the characters ``@``, ``:``, ``/``, ``#`` or ``%`` no
+  longer makes |ICS| crash at startup.
+
+* The mapping of the session state for the back-channel logout now expires in
+  *Redis*. Before, the keys of all sessions that didn't end with a back-channel
+  logout stayed in *Redis* forever.
+
+* |ICS| forwards URL-encoded request bodies to the backends. Before, the
+  backends got no body and waited until they timed out.
+
 v1.12
 =====
 
