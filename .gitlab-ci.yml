@@ -8,7 +8,7 @@ variables:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.68.2"
+    ref: "v1.69.1"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -19,7 +19,7 @@ include:
       - "templates/tagged-release.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
       - "templates/sonarqube.yaml"
-  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.68.2"
+  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.69.1"
     inputs:
       helm_chart_name: "intercom-service"
       helm_values: "--helm-values ${CI_PROJECT_DIR}/helm/intercom-service/linter_values.yaml"
@@ -123,36 +123,32 @@ sbom-scan-and-upload:
         HELM_REPOSITORY_URL: "oci://artifacts.software-univention.de/nubus/charts"
     - when: "never"
 
-sbom-scan-and-upload-mr:
-  rules:
-    - if: '$CI_COMMIT_TAG'
-      when: "never"
-    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
-      variables:
-        HELM_REPOSITORY_URL: "oci://artifacts.software-univention.de/nubus-dev/charts"
-    - when: "never"
-
-clean-up-dt-tag:
-  rules:
-    - if: '$CI_COMMIT_TAG'
-      when: "never"
-    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
-      when: "manual"
-      allow_failure: true
-    - when: "never"
-
 validate-vulnerabilities:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+      needs:
+        - job: "pre-semantic-release"
+          optional: true
+        - job: "sbom-scan-and-upload"
+      allow_failure: true
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^renovate\//'
+      when: "never"
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      needs:
+        - job: "pre-semantic-release"
+          optional: true
+        - job: "sbom-scan-and-upload-mr"
+      allow_failure: true
     - when: "never"
 
 sbom-vex-attest:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: "manual"
-      allow_failure: true
+      needs:
+        - job: "pre-semantic-release"
+          optional: true
+        - job: "sbom-scan-and-upload"
+        - job: "validate-vulnerabilities"
     - when: "never"
 
 create_app_version:
