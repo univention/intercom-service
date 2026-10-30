@@ -23,7 +23,7 @@ include:
     inputs:
       helm_chart_name: "intercom-service"
       helm_values: "--helm-values ${CI_PROJECT_DIR}/helm/intercom-service/linter_values.yaml"
-  - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/app-release@2.20.2"
+  - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/app-release@2.25.0"
     inputs:
       app_id: "intercom-service"
       ucs_base_version: "5.0"
