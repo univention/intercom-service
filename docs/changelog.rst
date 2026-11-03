@@ -12,6 +12,24 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+v2.25.1
+=======
+
+Released: 3. November 2026
+
+Security
+--------
+
+* |ICS| verifies the TLS certificates of *Matrix* and the *Nordeck* bot. Before,
+  anyone who could intercept these connections could read the application
+  service secret and act as any *Matrix* user. If *Matrix* or the *Nordeck* bot
+  use a certificate of a private certificate authority, set
+  :envvar:`intercom-service/certificates/external/root-ca-pem` to its root
+  certificate.
+
+* Update the base image and dependencies to fix CVEs, among them
+  CVE-2026-111497 in *Brotli*.
+
 v2.25.0
 =======
 
