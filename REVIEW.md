@@ -16,14 +16,21 @@ Feel free to add steps if needed, ensuring a better QA as a result.
    intercom:
        registry: "artifacts.software-univention.de"
        repository: "nubus-dev/images/intercom-service"
-       tag: "see-semantic-release-job-version"
+       tag: "<tag>@sha256:<digest>"
    ```
+   The `push-image-external` job of the ICS pipeline prints the tag in the `Target:` line and the digest in the source image line.
+   Pin the digest, because every push to the branch overwrites the tag.
 1. Open the file `helmfile/apps/nubus/values-intercom-service.yaml.gotmpl`
 1. Find the entry `image.registry` and set it to `{{ .Values.images.intercom.registry | quote }}`
+1. Other deployments on the dev cluster may already use the Element SFU node ports `30000` and `30001`.
+   Node ports are unique cluster-wide, so the Element deployment fails with `provided port is already allocated`.
+   To avoid this, set `technical.matrix.sfu.rtcTCP.port` and `technical.matrix.sfu.rtcMuxedUDP.port` in `helmfile/environments/default/technical.yaml.gotmpl` to free ports.
+   List the ports in use with `kubectl get svc -A -o jsonpath='{..nodePort}'`.
 1. Commit your changes and push the branch.
 1. Go to [Pipelines](https://gitlab.opencode.de/bmi/opendesk/deployment/opendesk/-/pipelines/new)
     1. Select the branch you just pushed.
     1. Set `NAMESPACE` to `uv-username`
+    1. Set `DEPLOY_MIGRATIONS` to `yes`. It creates the Kubernetes secrets the other components need. Without it, MariaDB fails with `secret "mariadb-root-password" not found`.
     1. Set `DEPLOY_SERVICES` to `yes`
     1. Set `DEBUG_ENABLED` to `yes`
     1. Set `DEPLOY_UMS` to `yes`
@@ -32,10 +39,24 @@ Feel free to add steps if needed, ensuring a better QA as a result.
     1. Set `DEPLOY_ELEMENT` to `yes`
     1. Set `DEPLOY_XWIKI` to `yes`
     1. Run the pipeline and wait for it to finish
-    > This will deploy a partial openDesk environment to the [dev cluster](https://gitlab.opencode.de/bmi/opendesk-internal/platform-development/opendesk-env/-/wikis/Cluster-Dev)
-    > You can get the `dev` cluster kubeconfig from [here](https://gitlab.opencode.de/bmi/opendesk-internal/platform-development/opendesk-env/-/wikis/Keycloak)
-    > You can also set `uv-gaia` as `CLUSTER` variable to deploy to the Gaia cluster.
-1. Login as administrator in `portal.uv-username.opendesk.site` with the credentials in https://gitlab.opencode.de/bmi/opendesk-internal/platform-development/opendesk-env#get-your-own-environment
+
+   Or you could start the same pipeline with `glab`:
+   ```sh
+   glab ci run -R gitlab.opencode.de/bmi/opendesk/deployment/opendesk -b username/branch-name \
+     --variables-env NAMESPACE:uv-username \
+     --variables-env DEPLOY_MIGRATIONS:yes \
+     --variables-env DEPLOY_SERVICES:yes \
+     --variables-env DEBUG_ENABLED:yes \
+     --variables-env DEPLOY_UMS:yes \
+     --variables-env DEPLOY_OX:yes \
+     --variables-env DEPLOY_NEXTCLOUD:yes \
+     --variables-env DEPLOY_ELEMENT:yes \
+     --variables-env DEPLOY_XWIKI:yes
+   ```
+   > This deploys a partial openDesk environment to the dev cluster.
+   > To access the cluster, follow the [Keycloak wiki page](https://gitlab.opencode.de/bmi/opendesk-internal/platform-development/opendesk-env/-/wikis/Keycloak).
+   > It requires a Keycloak account and the `kubectl` `oidc-login` plugin.
+1. Login as administrator in `portal.uv-username.ihp.dev.zendis.net` with the credentials in https://gitlab.opencode.de/bmi/opendesk-internal/platform-development/opendesk-env#get-your-own-environment
 1. Create a test user with email and password.
 1. Log in with it.
 
