@@ -145,8 +145,9 @@ The following references show the available settings within the app
 .. envvar:: intercom-service/settings/enable-session-cookie
 
     Enable session cookie (transient cookie). If enabled, the session cookie
-    will be deleted at the end of the browser session. Otherwise, the session
-    will be a rolling session (reset every time the user is active).
+    will be deleted at the end of the browser session. Otherwise, the cookie
+    expires with the session. Either way, the session is a rolling session, see
+    :envvar:`intercom-service/settings/session-rolling-duration`.
 
     .. list-table::
         :header-rows: 1
@@ -164,8 +165,8 @@ The following references show the available settings within the app
 
     Rolling session duration in seconds. The session will be reset if the user
     is active within the duration. Otherwise, the user will be logged out,
-    requiring a silent login. If :envvar:`intercom-service/settings/enable-session-cookie` is set to true, this
-    setting will be ignored.
+    requiring a silent login. This also applies if
+    :envvar:`intercom-service/settings/enable-session-cookie` is set to true.
 
     .. list-table::
         :header-rows: 1
