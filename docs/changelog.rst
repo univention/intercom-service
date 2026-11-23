@@ -12,6 +12,26 @@ This changelog documents all notable changes to the |ICS| app. `Keep a
 Changelog <https://keepachangelog.com/en/1.0.0/>`_ is the format and this
 project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+v2.25.2
+=======
+
+Released: 24. November 2026
+
+Security
+--------
+
+* |ICS| protects ``/fs`` and ``/wiki`` against cross-site request forgery.
+  Requests that change data need a valid |CSRF| token, or must come from |ICS|
+  itself or from an origin that matches
+  :envvar:`intercom-service/settings/origin-regex`. |ICS| rejects other
+  requests with ``403``.
+
+* |ICS| no longer forwards its own cookies to the backends. Before, the proxy
+  only removed the ``appSession`` cookie, but still forwarded the split session
+  cookies, the |CSRF| token and the login helper cookies.
+
+* Update the base image and dependencies.
+
 v2.25.1
 =======
 
